@@ -1,14 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import { store, StoreContext } from './app/stores/store';
+import ScrollToTop from './app/layout/ScrollToTop';
+// import 'semantic-ui-css/semantic.min.css';
+
+export const history = createBrowserHistory();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <StoreContext.Provider value={store}>
+    <Router history={history}>
+        <ScrollToTop />
+        <App />
+    </Router>
+    </StoreContext.Provider>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

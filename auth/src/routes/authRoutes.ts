@@ -57,7 +57,7 @@ router.post(
     }
 );
 
-router.post('/api/users/signout', (req, res) => {
+router.get('/api/users/signout', (req, res) => {
     req.session = null;
 
     res.send({});
