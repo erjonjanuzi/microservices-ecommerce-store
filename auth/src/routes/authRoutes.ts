@@ -10,12 +10,12 @@ import { natsWrapper } from '../natsWrapper';
 
 const router = express.Router();
 
-router.get('/api/users/currentuser', currentUser, (req, res) => {
+router.get('/api/auth/currentuser', currentUser, (req, res) => {
     res.send({ currentUser: req.currentUser || null });
 });
 
 router.post(
-    '/api/users/signin',
+    '/api/auth/signin',
     [
         body('email').isEmail().withMessage('Email must be valid'),
         body('password')
@@ -59,14 +59,14 @@ router.post(
     }
 );
 
-router.get('/api/users/signout', (req, res) => {
+router.get('/api/auth/signout', (req, res) => {
     req.session = null;
 
     res.send({});
 });
 
 router.post(
-    '/api/users/signup',
+    '/api/auth/signup',
     [
         body('firstName').isString().withMessage('First name is required'),
         body('lastName').isString().withMessage('Last name is required'),

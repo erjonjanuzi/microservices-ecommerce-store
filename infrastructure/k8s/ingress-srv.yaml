@@ -10,11 +10,18 @@ spec:
     - host: labcourseapp.xyz
       http:
         paths:     
-          - path: /api/users/?(.*)
+          - path: /api/auth/?(.*)
             pathType: Prefix
             backend:
               service:
                 name: auth-srv
+                port:
+                  number: 3000
+          - path: /api/users/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: users-srv
                 port:
                   number: 3000
           - path: /?(.*)
