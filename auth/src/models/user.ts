@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Password } from '../services/Password';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 // An interface that describes the properties that are required
 // to create a new user
@@ -8,17 +9,18 @@ interface UserAttrs {
     password: string;
 }
 
-// An interface that describes the properties
-// that a User Model has
-interface UserModel extends mongoose.Model<UserDoc> {
-    build(attrs: UserAttrs): UserDoc;
-}
-
 // An interface that describes the props
 // that a User Document has
 interface UserDoc extends mongoose.Document {
     email: string;
     password: string;
+    version: number;
+}
+
+// An interface that describes the properties
+// that a User Model has
+interface UserModel extends mongoose.Model<UserDoc> {
+    build(attrs: UserAttrs): UserDoc;
 }
 
 const userSchema = new mongoose.Schema(
@@ -43,6 +45,9 @@ const userSchema = new mongoose.Schema(
         },
     }
 );
+
+userSchema.set('versionKey', 'version');
+userSchema.plugin(updateIfCurrentPlugin);
 
 userSchema.pre('save', async function (done) {
     if (this.isModified('password')) {
