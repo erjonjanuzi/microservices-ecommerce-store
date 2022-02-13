@@ -4,13 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --poll src/index.ts"
+    "start": "ts-node-dev --poll src/index.ts",
+    "test": "jest --watchAll --no-cache"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@labcourseapp/common": "^1.0.3",
+    "@labcourseapp/common": "^1.0.4",
     "@types/cookie-session": "^2.0.44",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.8",
@@ -23,5 +31,13 @@
     "mongoose-update-if-current": "^1.4.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@types/supertest": "^2.0.11",
+    "jest": "^27.4.7",
+    "mongodb-memory-server": "^8.1.0",
+    "supertest": "^6.2.1",
+    "ts-jest": "^27.1.3"
   }
 }
