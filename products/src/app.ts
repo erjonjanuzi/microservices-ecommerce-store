@@ -5,6 +5,7 @@ import cookieSession from 'cookie-session';
 import { currentUser, errorHandler, NotFoundError } from '@labcourseapp/common';
 import { createProductRoute } from './routes/createProduct';
 import { editProductRoute } from './routes/editProduct';
+import { getProductRoute } from './routes/getProduct';
 
 const app = express();
 app.set('trust proxy', true);
@@ -20,6 +21,7 @@ app.use(currentUser);
 
 app.use(createProductRoute);
 app.use(editProductRoute);
+app.use(getProductRoute);
 
 app.all('*', async (req, res) => {
     throw new NotFoundError();

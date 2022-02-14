@@ -1,7 +1,9 @@
 import { BadRequestError, requireAuth, validateRequest } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
+import { ProductCreatedPublisher } from '../events/publishers/ProductCreatedPublisher';
 import { Product } from '../models/product';
+import { natsWrapper } from '../natsWrapper';
 
 const router = express.Router();
 
@@ -44,6 +46,19 @@ router.post(
             images,
         });
         await product.save();
+
+        await new ProductCreatedPublisher(natsWrapper.client).publish({
+            id: product.id,
+            version: product.version,
+            title: product.title,
+            price: product.price,
+            quantity: product.quantity,
+            description: product.description,
+            category: product.category,
+            rating: product.rating,
+            sale: product.sale,
+            images: product.images
+        })
 
         res.status(201).send(product);
     }

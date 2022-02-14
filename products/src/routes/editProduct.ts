@@ -5,7 +5,9 @@ import {
 } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
+import { ProductUpdatedPublisher } from '../events/publishers/ProductUpdatedPublisher';
 import { Product } from '../models/product';
+import { natsWrapper } from '../natsWrapper';
 
 const router = express.Router();
 
@@ -48,6 +50,17 @@ router.put(
             images,
         });
         await product.save();
+
+        new ProductUpdatedPublisher(natsWrapper.client).publish({
+            id: product.id,
+            version: product.version,
+            title: product.title,
+            price: product.price,
+            quantity: product.quantity,
+            description: product.description,
+            category: product.category,
+            images: product.images
+        });
 
         res.send(product);
     }

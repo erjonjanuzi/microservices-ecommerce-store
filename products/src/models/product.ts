@@ -1,27 +1,23 @@
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
-interface Review {
-    firstName: string;
-    lastName: string;
-    comment: string;
-}
-
-interface Image {
-    url: string;
-    isMain?: boolean;
-}
-
 interface ProductAttrs {
     title: string;
     price: number;
     quantity: number;
     description: string;
     category: string;
-    images: Image[];
+    images: [{
+        url: string;
+        isMain?: boolean | undefined;
+    }];
     rating?: number;
     sale?: number;
-    reviews?: Review[];
+    reviews?: [{
+        firstName: string;
+        lastName: string;
+        comment: string;
+    }];
 }
 
 interface ProductDoc extends mongoose.Document {
@@ -30,10 +26,17 @@ interface ProductDoc extends mongoose.Document {
     quantity: number;
     description: string;
     category: string;
-    images: Image[];
+    images: [{
+        url: string;
+        isMain?: boolean | undefined;
+    }];
     rating?: number;
     sale?: number;
-    reviews?: Review[];
+    reviews?: [{
+        firstName: string;
+        lastName: string;
+        comment: string;
+    }];
     version: number;
 }
 
