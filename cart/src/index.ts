@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
+import { ProductCreatedListener } from './events/listeners/ProductCreatedListener';
 import { natsWrapper } from './natsWrapper';
 
 const start = async () => {
@@ -32,7 +33,9 @@ const start = async () => {
         });
         process.on('SIGINT', () => natsWrapper.client.close());
         process.on('SIGTERM', () => natsWrapper.client.close());
-        
+
+        new ProductCreatedListener(natsWrapper.client).listen();
+
         await mongoose.connect(process.env.MONGO_URI);
         console.log('Connected to MongoDb');
     } catch (err) {

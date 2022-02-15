@@ -6,7 +6,6 @@ import {
 } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { param } from 'express-validator';
-import mongoose from 'mongoose';
 import { Product } from '../models/product';
 
 const router = express.Router();

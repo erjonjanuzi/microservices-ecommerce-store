@@ -6,14 +6,14 @@ interface ProductAttrs {
     title: string;
     price: number;
     quantity: number;
-    sale?: number;
+    sale: number;
 }
 
-interface ProductDoc extends mongoose.Document {
+export interface ProductDoc extends mongoose.Document {
     title: string;
     price: number;
     quantity: number;
-    sale?: number;
+    sale: number;
     version: number;
 }
 
@@ -37,17 +37,9 @@ const productSchema = new mongoose.Schema({
     },
     sale: {
         type: Number,
-        default: 0
     },
-},{
-    toJSON: {
-        transform(doc, ret){
-            ret.id = ret._id;
-            delete ret._id;
-        }
-    },
-    timestamps: true
-});
+}
+);
 
 productSchema.set('versionKey', 'version');
 productSchema.plugin(updateIfCurrentPlugin);
