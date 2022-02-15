@@ -6,6 +6,8 @@ import { currentUser, errorHandler, NotFoundError } from '@labcourseapp/common';
 import { createProductRoute } from './routes/createProduct';
 import { editProductRoute } from './routes/editProduct';
 import { getProductRoute } from './routes/getProduct';
+import { getAllProductsRoute } from './routes/getAllProducts';
+import { deleteProductRoute } from './routes/deleteProduct';
 
 const app = express();
 app.set('trust proxy', true);
@@ -22,6 +24,8 @@ app.use(currentUser);
 app.use(createProductRoute);
 app.use(editProductRoute);
 app.use(getProductRoute);
+app.use(getAllProductsRoute);
+app.use(deleteProductRoute);
 
 app.all('*', async (req, res) => {
     throw new NotFoundError();
