@@ -9,42 +9,40 @@ import { observer } from 'mobx-react-lite';
 import ServerError from '../../pages/errors/ServerError';
 import NotFound from '../../pages/errors/NotFoundError';
 import HomePage from '../../pages/HomePage';
-import Test from '../../pages/Test';
 import LoadingComponent from './LoadingComponent';
+import NavBar from './NavBar';
+import { Container } from 'semantic-ui-react';
+import CartPage from '../../pages/cart/CartPage';
+import WishlistPage from '../../pages/wishlist/WishlistPage';
+import Products from '../../pages/products/Products';
+import LoginPage from '../../pages/login/LoginPage';
 
 function App() {
     const location = useLocation();
     const { commonStore, userStore } = useStore();
 
-    useEffect(() => {
-        userStore.getUser().finally(() => commonStore.setAppLoaded());
-    }, [commonStore, userStore]);
+    // useEffect(() => {
+    //     userStore.getUser().finally(() => commonStore.setAppLoaded());
+    // }, [commonStore, userStore]);
 
-    if (!commonStore.appLoaded) return <LoadingComponent content='Loading app...' />
+    // if (!commonStore.appLoaded)
+    //     return <LoadingComponent content="Loading app..." />;
 
     return (
         <>
             <ToastContainer position="top-right" hideProgressBar />
-            <Route exact path="/" component={HomePage} />
-            <Route
-                path={'/(.+)'}
-                render={() => (
-                    <>
-                        <Switch>
-                            <PrivateRoute
-                                exact
-                                path="/testafterlogin"
-                                component={Test}
-                            />
-                            <Route
-                                path="/server-error"
-                                component={ServerError}
-                            />
-                            <Route component={NotFound} />
-                        </Switch>
-                    </>
-                )}
-            />
+            <NavBar />
+            <Container>
+                <Switch>
+                    <Route exact path="/" component={HomePage} />
+                    <Route exact path="/products" component={Products} />
+                    <Route exact path='/cart' component={CartPage}/>
+                    <Route exact path='/wishlist' component={WishlistPage}/>
+                    <Route exact path='/login' component={LoginPage}/>
+                    <Route exact path="/server-error" component={ServerError} />
+                    <Route component={NotFound} />
+                </Switch>
+            </Container>
         </>
     );
 }

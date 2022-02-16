@@ -3,48 +3,48 @@ kind: Config
 deploy:
   kubectl:
     manifests:
-      - ./infrastructure/k8s/*
+      - ./infrastructure/k8s/client-depl.yaml
 build:
   local:
     push: false
   artifacts:
-    - image: erjonjanuzi/auth
-      context: auth
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
-    - image: erjonjanuzi/users
-      context: users
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
-    - image: erjonjanuzi/products
-      context: products
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
-    - image: erjonjanuzi/cart
-      context: cart
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
-    # - image: erjonjanuzi/client
-    #   context: client
+    # - image: erjonjanuzi/auth
+    #   context: auth
     #   docker:
     #     dockerfile: Dockerfile
     #   sync:
     #     manual:
-    #       - src: '**/*.ts'
-    #         dest: . 
+    #       - src: 'src/**/*.ts'
+    #         dest: .
+    # - image: erjonjanuzi/users
+    #   context: users
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: 'src/**/*.ts'
+    #         dest: .
+    # - image: erjonjanuzi/products
+    #   context: products
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: 'src/**/*.ts'
+    #         dest: .
+    # - image: erjonjanuzi/cart
+    #   context: cart
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: 'src/**/*.ts'
+    #         dest: .
+    - image: erjonjanuzi/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.ts'
+            dest: . 

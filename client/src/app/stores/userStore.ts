@@ -34,7 +34,6 @@ export default class UserStore {
     getUser = async () => {
         try {
             const user: any = await agent.Account.current();
-            console.log('User at getUser userStore', user);
             store.commonStore.setToken(user.token);
             runInAction(() => this.user = user);
         } catch (error) {
