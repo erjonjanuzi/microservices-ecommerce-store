@@ -38,14 +38,26 @@ const productSchema = new mongoose.Schema({
     sale: {
         type: Number,
     },
-}
-);
+}, {
+    toJSON: {
+        transform(doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+        }
+    }
+});
 
 productSchema.set('versionKey', 'version');
 productSchema.plugin(updateIfCurrentPlugin);
 
 productSchema.statics.build = (attrs: ProductAttrs) => {
-    return new Product(attrs);
+    return new Product({
+        _id: attrs.id,
+        title: attrs.title,
+        price: attrs.price,
+        quantity: attrs.quantity,
+        sale: attrs.sale
+    });
 }
 
 const Product = mongoose.model<ProductDoc, ProductModel>('Product', productSchema);

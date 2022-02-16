@@ -11,7 +11,10 @@ interface CartAttrs {
 }
 
 interface CartDoc extends mongoose.Document {
-    products: ProductDoc[];
+    products: {
+        product: ProductDoc;
+        quantity: number;
+    }[];
     userId: string;
     version: number;
 }
@@ -22,9 +25,24 @@ interface CartModel extends mongoose.Model<CartDoc>{
 
 const cartSchema = new mongoose.Schema({
     products: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product'
+        product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product'
+        },
+        quantity: {
+            type: Number,
+            required: true
+        }
     }],
+    // products: [new mongoose.Schema({
+    //     product: {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'Product'
+    //     },
+    //     quantity: {
+    //         type: Number
+    //     }
+    // })],
     userId: {
         type: String,
         required: true

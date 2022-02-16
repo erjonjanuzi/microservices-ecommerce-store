@@ -6,6 +6,7 @@ import { currentUser, errorHandler, NotFoundError } from '@labcourseapp/common';
 import { addToCartRoute } from './routes/addToCart';
 import { getCartRoute } from './routes/getCart';
 import { productsTestRoute } from './routes/productsOnCartDb';
+import { removeFromCartRoute } from './routes/removeFromCart';
 
 const app = express();
 app.set('trust proxy', true);
@@ -22,6 +23,7 @@ app.use(currentUser);
 app.use(productsTestRoute);
 app.use(addToCartRoute);
 app.use(getCartRoute);
+app.use(removeFromCartRoute);
 
 app.all('*', async (req, res) => {
     throw new NotFoundError();
