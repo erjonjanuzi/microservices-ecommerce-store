@@ -9,7 +9,8 @@
   height: 40px;
 }
 
-input {
+input,
+.ui.selection.dropdown  {
   border-radius: 0 !important;
   height: 40px !important;
 }

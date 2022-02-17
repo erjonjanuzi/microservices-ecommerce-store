@@ -21,7 +21,7 @@ export default observer(function NavBar() {
                         <Menu.Item as={NavLink} to='/wishlist'>
                             <Icon name='heart' />
                         </Menu.Item>
-                        <Menu.Item as={NavLink} to='/login' name='Log in' /> 
+                        <Menu.Item as={NavLink} to='/login#tab=login' name='Log in' /> 
                     </>
                 </Container>
             </Menu>

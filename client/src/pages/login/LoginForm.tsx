@@ -5,7 +5,6 @@ import { Button, Header, Label } from 'semantic-ui-react';
 import MyTextInput from '../../app/common/form/MyTextInput';
 import { useStore } from '../../app/stores/store';
 import * as Yup from 'yup';
-import { NavLink } from 'react-router-dom';
 
 export default observer(function LoginForm() {
     const { userStore } = useStore();
@@ -36,12 +35,14 @@ export default observer(function LoginForm() {
                         placeholder="john@applesed.com"
                         label="Email"
                         type="email"
+                        required
                     />
                     <MyTextInput
                         name="password"
                         placeholder="*********"
                         type="password"
                         label="Password"
+                        required
                     />
                     <a>Forgot password? Implement later</a>
                     <Button
