@@ -7,7 +7,6 @@ import MyTextInput from '../../app/common/form/MyTextInput';
 import { Button, Icon } from 'semantic-ui-react';
 import RegisterSteps from './RegisterSteps';
 import { Form as SemanticForm } from 'semantic-ui-react';
-import MySelectInput from '../../app/common/form/MySelectInput';
 
 export default observer(function RegisterForm() {
     const { userStore } = useStore();
