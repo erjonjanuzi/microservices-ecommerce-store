@@ -4,6 +4,7 @@ import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import { errorHandler, NotFoundError } from '@labcourseapp/common';
 import { authRoutes } from './routes/authRoutes';
+import { checkUserRoute } from './routes/checkUser';
 
 const app = express();
 app.set('trust proxy', true);
@@ -17,6 +18,7 @@ app.use(
 );
 
 app.use(authRoutes);
+app.use(checkUserRoute);
 
 app.all('*', async (req, res) => {
     throw new NotFoundError();

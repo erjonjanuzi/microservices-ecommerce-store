@@ -1,12 +1,15 @@
-import { Form, Formik } from 'formik';
+import { ErrorMessage, Form, Formik } from 'formik';
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '../../app/stores/store';
 import * as Yup from 'yup';
 import MyTextInput from '../../app/common/form/MyTextInput';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Label, Message } from 'semantic-ui-react';
 import RegisterSteps from './RegisterSteps';
 import { Form as SemanticForm } from 'semantic-ui-react';
+import MySelectInput from '../../app/common/form/MySelectInput';
+import { countryOptions } from '../../app/common/options/countryOptions';
+import ValidationErrors from './ValidationErrors';
 
 export default observer(function RegisterForm() {
     const { userStore } = useStore();
@@ -31,109 +34,223 @@ export default observer(function RegisterForm() {
         ),
     });
 
+    const addressValidationSchema = Yup.object({
+        country: Yup.string().required('Please fill out this field'),
+        street: Yup.string().required('Please fill out this field'),
+        postalCode: Yup.string().required('Please fill out this field'),
+        city: Yup.string().required('Please fill out this field'),
+    });
+
     return (
         <>
             <RegisterSteps step={step} />
-            <Formik
-                initialValues={{
-                    firstName: '',
-                    lastName: '',
-                    gender: value,
-                    phoneNumber: '',
-                    email: '',
-                    password: '',
-                    error: null,
-                }}
-                onSubmit={(values, { setErrors }) =>
-                    // userStore
-                    //     .login(values)
-                    //     .catch((error) =>
-                    //         setErrors({ error: error.response.data })
-                    //     )
-                    setRegisterObject(values)
-                }
-                validationSchema={personalDetailsValidationSchema}
-            >
-                {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
-                    <>
-                        <Form
-                            className="ui form"
-                            onSubmit={handleSubmit}
-                            autoComplete="off"
-                        >
-                            <MyTextInput
-                                name="firstName"
-                                placeholder="e.g. Erjon"
-                                label="First name"
-                                type="text"
-                                required
-                            />
-                            <MyTextInput
-                                name="lastName"
-                                placeholder="e.g. Januzi"
-                                label="Last name"
-                                type="text"
-                                required
-                            />
-                            <SemanticForm.Group inline>
-                                <SemanticForm.Radio
-                                    label="Male"
-                                    value="male"
-                                    checked={value === 'male'}
-                                    onChange={() => setValue('male')}
-                                />
-                                <SemanticForm.Radio
-                                    label="Female"
-                                    value="female"
-                                    checked={value === 'female'}
-                                    onChange={() => setValue('female')}
-                                />
-                            </SemanticForm.Group>
-                            <MyTextInput
-                                name="phoneNumber"
-                                placeholder="e.g. 043922777"
-                                type="text"
-                                label="Phone number"
-                                required
-                                width={8}
-                            />
-                            <MyTextInput
-                                name="email"
-                                placeholder="e.g. john@applesed.com"
-                                label="Email"
-                                type="email"
-                                required
-                            />
-                            <MyTextInput
-                                name="password"
-                                placeholder="*********"
-                                type="password"
-                                label="Password"
-                                required
-                            />
-                            <MyTextInput
-                                name="confirmPassword"
-                                placeholder="*********"
-                                type="password"
-                                label="Confirm password"
-                                required
-                            />
-                            <Button
-                                loading={isSubmitting}
-                                secondary
-                                type="submit"
-                                fluid
-                                animated
+            {step === 1 ? (
+                <Formik
+                    initialValues={{
+                        firstName: '',
+                        lastName: '',
+                        gender: value,
+                        phoneNumber: '',
+                        email: '',
+                        password: '',
+                        error: null,
+                    }}
+                    onSubmit={(values, { setErrors }) =>
+                        userStore
+                            .checkPersonalDetails(values)
+                            .then(() => {
+                                setRegisterObject(values);
+                                setStep(2);
+                            })
+                            .catch((error) => {
+                                setErrors({ error });
+                            })
+                    }
+                    validationSchema={personalDetailsValidationSchema}
+                >
+                    {({
+                        handleSubmit,
+                        isSubmitting,
+                        errors,
+                        isValid,
+                        dirty,
+                    }) => (
+                        <>
+                            <Form
+                                className="ui form"
+                                onSubmit={handleSubmit}
+                                autoComplete="off"
                             >
-                                <Button.Content visible>Next</Button.Content>
-                                <Button.Content hidden>
-                                    <Icon name="arrow right" />
-                                </Button.Content>
-                            </Button>
-                        </Form>
-                    </>
-                )}
-            </Formik>
+                                <MyTextInput
+                                    name="firstName"
+                                    placeholder="e.g. Erjon"
+                                    label="First name"
+                                    type="text"
+                                    required
+                                />
+                                <MyTextInput
+                                    name="lastName"
+                                    placeholder="e.g. Januzi"
+                                    label="Last name"
+                                    type="text"
+                                    required
+                                />
+                                <SemanticForm.Group inline>
+                                    <SemanticForm.Radio
+                                        label="Male"
+                                        value="male"
+                                        checked={value === 'male'}
+                                        onChange={() => setValue('male')}
+                                    />
+                                    <SemanticForm.Radio
+                                        label="Female"
+                                        value="female"
+                                        checked={value === 'female'}
+                                        onChange={() => setValue('female')}
+                                    />
+                                </SemanticForm.Group>
+                                <MyTextInput
+                                    name="phoneNumber"
+                                    placeholder="e.g. 043922777"
+                                    type="text"
+                                    label="Phone number"
+                                    required
+                                    width={8}
+                                />
+                                <MyTextInput
+                                    name="email"
+                                    placeholder="e.g. john@applesed.com"
+                                    label="Email"
+                                    type="email"
+                                    required
+                                />
+                                <MyTextInput
+                                    name="password"
+                                    placeholder="*********"
+                                    type="password"
+                                    label="Password"
+                                    required
+                                />
+                                <MyTextInput
+                                    name="confirmPassword"
+                                    placeholder="*********"
+                                    type="password"
+                                    label="Confirm password"
+                                    required
+                                />
+                                <ErrorMessage
+                                    name="error"
+                                    render={() => (
+                                        <ValidationErrors
+                                            errors={errors.error}
+                                        />
+                                    )}
+                                />
+                                <Button
+                                    loading={isSubmitting}
+                                    secondary
+                                    type="submit"
+                                    fluid
+                                    animated
+                                    disabled={!dirty || !isValid}
+                                >
+                                    <Button.Content visible>
+                                        Next
+                                    </Button.Content>
+                                    <Button.Content hidden>
+                                        <Icon name="arrow right" />
+                                    </Button.Content>
+                                </Button>
+                            </Form>
+                        </>
+                    )}
+                </Formik>
+            ) : (
+                <Formik
+                    initialValues={{
+                        country: '',
+                        street: '',
+                        postalCode: '',
+                        city: '',
+                        error: null,
+                    }}
+                    onSubmit={(values, { setErrors }) =>
+                        userStore
+                            .register(registerObject, values)
+                            .catch((error) =>
+                                setErrors({ error: error.response.data })
+                            )
+                    }
+                    validationSchema={addressValidationSchema}
+                >
+                    {({
+                        handleSubmit,
+                        isSubmitting,
+                        errors,
+                        isValid,
+                        dirty,
+                    }) => (
+                        <>
+                            <Form
+                                className="ui form"
+                                onSubmit={handleSubmit}
+                                autoComplete="off"
+                            >
+                                <MySelectInput
+                                    placeholder="Country"
+                                    label="Country"
+                                    name="country"
+                                    options={countryOptions}
+                                />
+                                <MyTextInput
+                                    name="street"
+                                    placeholder="Address (Number & Street name)"
+                                    label="Address"
+                                    type="text"
+                                    required
+                                />
+                                <MyTextInput
+                                    name="postalCode"
+                                    placeholder="Postcode"
+                                    label="Postcode"
+                                    type="text"
+                                    required
+                                    width={8}
+                                />
+                                <MySelectInput
+                                    placeholder="City"
+                                    label="City"
+                                    name="city"
+                                    options={countryOptions[0].cities}
+                                />
+                                <ErrorMessage
+                                    name="error"
+                                    render={() => (
+                                        <ValidationErrors
+                                            errors={errors.error}
+                                        />
+                                    )}
+                                />
+                                <Button
+                                    loading={isSubmitting}
+                                    secondary
+                                    type="submit"
+                                    fluid
+                                    animated
+                                    disabled={!dirty || !isValid}
+                                >
+                                    <Button.Content visible>
+                                        Register
+                                    </Button.Content>
+                                    <Button.Content hidden>
+                                        <Icon name="arrow right" />
+                                    </Button.Content>
+                                </Button>
+                            </Form>
+                        </>
+                    )}
+                </Formik>
+            )}
         </>
     );
 });

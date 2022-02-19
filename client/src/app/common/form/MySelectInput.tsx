@@ -1,6 +1,12 @@
 import { useField } from 'formik';
 import React from 'react';
-import { Form, Label, Select, SemanticWIDTHSNUMBER } from 'semantic-ui-react';
+import {
+    DropdownProps,
+    Form,
+    Label,
+    Select,
+    SemanticWIDTHSNUMBER,
+} from 'semantic-ui-react';
 
 interface Props {
     placeholder: string;
@@ -28,11 +34,7 @@ export default function MySelectInput(props: Props) {
                 onBlur={() => helpers.setTouched(true)}
                 placeholder={props.placeholder}
             />
-            {meta.touched && meta.error ? (
-                <Label basic color="red">
-                    {meta.error}
-                </Label>
-            ) : null}
+            {meta.touched && meta.error ? <label>{meta.error}</label> : null}
         </Form.Field>
     );
 }

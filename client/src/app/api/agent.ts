@@ -77,14 +77,15 @@ const requests = {
     del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
-const Account = {
-    current: () => requests.get('/api/users/currentuser'),
-    login: (user: any) => requests.post('/api/users/signin', user),
-    register: (user: any) => requests.post('/api/users/signup', user),
+const Auth = {
+    current: () => requests.get('/api/auth/currentuser'),
+    login: (user: any) => requests.post('/api/auth/signin', user),
+    register: (user: any) => requests.post('/api/auth/signup', user),
+    checkPersonalDetails: (personalDetails: any) => requests.post('/api/auth/checkuser', personalDetails)
 };
 
 const agent = {
-    Account,
+    Auth,
 };
 
 export default agent;
