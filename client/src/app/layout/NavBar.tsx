@@ -4,7 +4,7 @@ import { Button, Container, Icon, Menu, Segment } from 'semantic-ui-react';
 
 export default observer(function NavBar() {
     return (
-            <Menu stackable secondary pointing>
+            <Menu stackable secondary style={{margin: '0px', padding: '30px 0'}}>
                 <Container>
                     <Menu.Header as={NavLink} exact to="/">
                         Store Logo

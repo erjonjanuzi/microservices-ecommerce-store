@@ -16,6 +16,7 @@
     "mobx-react-lite": "^3.2.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-responsive-carousel": "^3.2.22",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.0",
     "react-toastify": "^8.1.1",

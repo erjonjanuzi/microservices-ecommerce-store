@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './style.css';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import 'react-toastify/dist/ReactToastify.css';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import { useStore } from '../stores/store';
 import { ToastContainer } from 'react-toastify';
@@ -8,7 +10,7 @@ import PrivateRoute from './PrivateRoute';
 import { observer } from 'mobx-react-lite';
 import ServerError from '../../pages/errors/ServerError';
 import NotFound from '../../pages/errors/NotFoundError';
-import HomePage from '../../pages/HomePage';
+import HomePage from '../../pages/home/HomePage';
 import LoadingComponent from './LoadingComponent';
 import NavBar from './NavBar';
 import { Container } from 'semantic-ui-react';
