@@ -9,11 +9,11 @@ const sleep = (delay: number) => {
     });
 };
 
-axios.interceptors.request.use((config: any) => {
-    const token = store.commonStore.token;
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-    return config;
-});
+// axios.interceptors.request.use((config: any) => {
+//     const token = store.commonStore.token;
+//     if (token) config.headers.Authorization = `Bearer ${token}`;
+//     return config;
+// });
 
 axios.interceptors.response.use(
     async (response) => {
@@ -80,12 +80,34 @@ const requests = {
 const Auth = {
     current: () => requests.get('/api/auth/currentuser'),
     login: (user: any) => requests.post('/api/auth/signin', user),
+    logout: () => requests.get('/api/auth/signout'),
     register: (user: any) => requests.post('/api/auth/signup', user),
-    checkPersonalDetails: (personalDetails: any) => requests.post('/api/auth/checkuser', personalDetails)
+    checkPersonalDetails: (personalDetails: any) =>
+        requests.post('/api/auth/checkuser', personalDetails),
+};
+
+const Users = {
+    details: (id: string) => requests.get(`/api/users/${id}`),
+};
+
+const Products = {
+    all: () => requests.get('/api/products'),
+    details: (id: string) => requests.get(`/api/products/${id}`),
+};
+
+const Cart = {
+    addToCart: (body: { productId: string; quantity: number }) =>
+        requests.post('/api/cart', body),
+    getCart: () => requests.get('/api/cart'),
+    removeFromCart: (body: { productId: string }) =>
+        requests.put('/api/cart', body),
 };
 
 const agent = {
     Auth,
+    Users,
+    Products,
+    Cart,
 };
 
 export default agent;

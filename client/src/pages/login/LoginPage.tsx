@@ -1,13 +1,20 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Divider, Grid, Header, Segment } from 'semantic-ui-react';
+import { Button, Divider, Grid, Header, Image, Segment } from 'semantic-ui-react';
 import { history } from '../..';
 import { useStore } from '../../app/stores/store';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
 export default observer(function LoginPage() {
+    const {
+        userStore: { isLoggedIn },
+    } = useStore();
+
+    if (isLoggedIn) {
+        history.push('/');
+    }
     const location = useLocation();
 
     const [loginTab, setLoginTab] = useState(
@@ -20,7 +27,9 @@ export default observer(function LoginPage() {
 
     return (
         <Grid>
-            <Grid.Column width={9}>something here</Grid.Column>
+            <Grid.Column width={9}>
+                <Image src='/assets/undraw_secure_login.svg' />
+            </Grid.Column>
             <Grid.Column width={7}>
                 <h3
                     style={{

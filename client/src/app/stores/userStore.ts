@@ -4,7 +4,7 @@ import agent from '../api/agent';
 import { store } from './store';
 
 export default class UserStore {
-    user: any = null;
+    user: any = undefined;
 
     constructor() {
         makeAutoObservable(this);
@@ -16,25 +16,34 @@ export default class UserStore {
 
     login = async (creds: any) => {
         try {
-            const user: any = await agent.Auth.login(creds);
-            console.log('user at login userStore', user);
-            store.commonStore.setToken(user.token);
+            const result = (await agent.Auth.login(creds)) as {
+                email: string;
+                id: string;
+            };
+            const user = await agent.Users.details(result.id)
+            // store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));
-            history.push('/testafterlogin');
+            history.push('/');
         } catch (error) {
             throw error;
         }
     };
 
-    logout = () => {
-        this.user = null;
-        history.push('/');
+    logout = async () => {
+        try {
+            await agent.Auth.logout();
+            this.user = null;
+            history.push('/');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     getUser = async () => {
         try {
-            const user: any = await agent.Auth.current();
-            store.commonStore.setToken(user.token);
+            const result = await agent.Auth.current() as { currentUser: { id: string, email: string}};
+            const user = await agent.Users.details(result.currentUser.id);
+            // store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));
         } catch (error) {
             console.log(error);

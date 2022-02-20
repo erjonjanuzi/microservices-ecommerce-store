@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
     Button,
@@ -10,18 +11,23 @@ import {
     Label,
     Rating,
 } from 'semantic-ui-react';
+import { Product } from '../../app/models/product';
 
-export default observer(function ProductCard() {
+interface Props {
+    product: Product;
+}
+
+export default observer(function ProductCard({ product }: Props) {
     return (
-        <Card link>
+        <Card link as={Link} to={`/products/${product.id}`}>
             <Image
                 src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-13-pro-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1631220221000"
                 wrapped
                 ui={false}
             />
             <Card.Content>
-                <Card.Header>iPhone 13 Pro Max 256GB</Card.Header>
-                <Card.Meta>Phones</Card.Meta>
+                <Card.Header>{product.title}</Card.Header>
+                <Card.Meta>{product.category}</Card.Meta>
                 <Card.Description>
                     <Rating defaultRating={4} maxRating={5} disabled />
                     <div
@@ -38,7 +44,7 @@ export default observer(function ProductCard() {
                             </h5>
                         </div>
                         <div style={{ margin: '0 5px 0 5px' }}>
-                            <h2>750$</h2>
+                            <h2>{`${product.price}€`}</h2>
                         </div>
                         <label
                             style={{
@@ -54,7 +60,11 @@ export default observer(function ProductCard() {
                             style={{ marginLeft: 'auto' }}
                             name="heart outline"
                             size="large"
-                            onClick={() => toast.success('The product has been added to your wishlist')}
+                            onClick={() =>
+                                toast.success(
+                                    'The product has been added to your wishlist'
+                                )
+                            }
                         />
                         {/* </Button> */}
                     </div>

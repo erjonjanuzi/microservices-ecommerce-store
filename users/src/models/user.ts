@@ -90,7 +90,19 @@ userSchema.set('versionKey', 'version');
 userSchema.plugin(updateIfCurrentPlugin);
 
 userSchema.statics.build = (attrs: UserAttrs) => {
-    return new User(attrs);
+    return new User({
+        _id: attrs.id,
+        firstName: attrs.firstName,
+        lastName: attrs.lastName,
+        email: attrs.email,
+        gender: attrs.gender,
+        password: attrs.password,
+        phoneNumber: attrs.phoneNumber,
+        country: attrs.country,
+        city: attrs.city,
+        postalCode: attrs.postalCode,
+        street: attrs.street
+    });
 };
 
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);

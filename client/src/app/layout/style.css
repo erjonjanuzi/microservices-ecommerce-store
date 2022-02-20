@@ -19,6 +19,10 @@ input,
   border-radius: 0;
 }
 
+.menu {
+  border-radius: 0 !important;
+}
+
 .slider {
   position: absolute; 
   left: 0; 

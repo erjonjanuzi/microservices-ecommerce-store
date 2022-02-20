@@ -5,6 +5,7 @@ import cookieSession from 'cookie-session';
 import { currentUser, errorHandler, NotFoundError } from '@labcourseapp/common';
 
 import { allUsersRoute } from './routes/allUsers';
+import { getUserByIdRoute } from './routes/getUserById';
 
 const app = express();
 app.set('trust proxy', true);
@@ -18,7 +19,9 @@ app.use(
 );
 app.use(currentUser);
 
+
 app.use(allUsersRoute);
+app.use(getUserByIdRoute);
 
 app.all('*', async (req, res) => {
     throw new NotFoundError();
