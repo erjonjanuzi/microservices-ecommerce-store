@@ -5,22 +5,25 @@ import { Button, Header, Label } from 'semantic-ui-react';
 import MyTextInput from '../../app/common/form/MyTextInput';
 import { useStore } from '../../app/stores/store';
 import * as Yup from 'yup';
+import ValidationErrors from './ValidationErrors';
 
 export default observer(function LoginForm() {
     const { userStore } = useStore();
 
     const loginValidationSchema = Yup.object({
-        email: Yup.string().email('Email must be valid').required('Please fill out this field'),
-        password: Yup.string().required('Please fill out this field')
-    })
+        email: Yup.string()
+            .email('Email must be valid')
+            .required('Please fill out this field'),
+        password: Yup.string().required('Please fill out this field'),
+    });
 
     return (
         <Formik
             initialValues={{ email: '', password: '', error: null }}
             onSubmit={(values, { setErrors }) =>
-                userStore
-                    .login(values)
-                    .catch((error) => setErrors({ error: error.response.data }))
+                userStore.login(values).catch((error) => {
+                    setErrors({ error });
+                })
             }
             validationSchema={loginValidationSchema}
         >
@@ -45,12 +48,19 @@ export default observer(function LoginForm() {
                         required
                     />
                     <a>Forgot password? Implement later</a>
+                    <ErrorMessage
+                        name="error"
+                        render={() => (
+                            <ValidationErrors errors={errors.error} />
+                        )}
+                    />
                     <Button
                         loading={isSubmitting}
                         secondary
                         content="Login"
                         type="submit"
                         fluid
+                        disabled={!dirty || !isValid}
                     />
                 </Form>
             )}

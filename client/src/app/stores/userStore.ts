@@ -20,7 +20,7 @@ export default class UserStore {
                 email: string;
                 id: string;
             };
-            const user = await agent.Users.details(result.id)
+            const user = await agent.Users.details(result.id);
             // store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));
             history.push('/');
@@ -41,10 +41,14 @@ export default class UserStore {
 
     getUser = async () => {
         try {
-            const result = await agent.Auth.current() as { currentUser: { id: string, email: string}};
-            const user = await agent.Users.details(result.currentUser.id);
-            // store.commonStore.setToken(user.token);
-            runInAction(() => (this.user = user));
+            const result = (await agent.Auth.current()) as {
+                currentUser: { id: string; email: string };
+            };
+            if (result.currentUser) {
+                const user = await agent.Users.details(result.currentUser.id);
+                // store.commonStore.setToken(user.token);
+                runInAction(() => (this.user = user));
+            }
         } catch (error) {
             console.log(error);
         }
