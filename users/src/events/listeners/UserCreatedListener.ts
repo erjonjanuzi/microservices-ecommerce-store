@@ -19,7 +19,8 @@ export class UserCreatedListener extends Listener<UserCreatedEvent>{
             country,
             city,
             postalCode,
-            street
+            street,
+            role
         } = data;
 
         const user = User.build({
@@ -33,7 +34,8 @@ export class UserCreatedListener extends Listener<UserCreatedEvent>{
             country,
             city,
             postalCode,
-            street
+            street,
+            role
         });
         await user.save();
 

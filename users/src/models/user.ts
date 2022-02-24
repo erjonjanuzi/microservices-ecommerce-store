@@ -12,6 +12,7 @@ interface UserAttrs {
     country: string;
     city: string;
     postalCode: string;
+    role: string;
     street: string;
 }
 
@@ -26,6 +27,7 @@ interface UserDoc extends mongoose.Document {
     city: string;
     postalCode: string;
     street: string;
+    role: string;
     version: number;
 }
 
@@ -75,6 +77,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        role: {
+            type: String,
+            required: true
+        }
     },
     {
         toJSON: {
@@ -101,7 +107,8 @@ userSchema.statics.build = (attrs: UserAttrs) => {
         country: attrs.country,
         city: attrs.city,
         postalCode: attrs.postalCode,
-        street: attrs.street
+        street: attrs.street,
+        role: attrs.role
     });
 };
 

@@ -7,6 +7,7 @@ import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 interface UserAttrs {
     email: string;
     password: string;
+    role: string;
 }
 
 // An interface that describes the props
@@ -14,6 +15,7 @@ interface UserAttrs {
 interface UserDoc extends mongoose.Document {
     email: string;
     password: string;
+    role: string;
     version: number;
 }
 
@@ -33,6 +35,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        role: {
+            type: String,
+            required: true
+        }
     },
     {
         toJSON: {
