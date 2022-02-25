@@ -1,7 +1,7 @@
 import { NotFoundError, requireAuth } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { User } from '../models/user';
-
+console.log('test');
 const router = express.Router();
 
 router.get(
