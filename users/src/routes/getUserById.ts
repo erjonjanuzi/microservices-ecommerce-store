@@ -12,7 +12,7 @@ router.get(
 
         const user = await User.findById(userId).select('-version -password');
 
-        if (!user){
+        if (!user) {
             throw new NotFoundError();
         }
 
@@ -20,4 +20,4 @@ router.get(
     }
 );
 
-export {router as getUserByIdRoute}
+export { router as getUserByIdRoute };
