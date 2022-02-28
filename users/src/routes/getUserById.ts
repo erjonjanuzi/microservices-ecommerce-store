@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import { User } from '../models/user';
 
 const router = express.Router();
-
+console.log('test');
 router.get(
     '/api/users/:userId',
     requireAuth,
@@ -15,7 +15,7 @@ router.get(
         if (!user) {
             throw new NotFoundError();
         }
-
+        
         res.send(user);
     }
 );
