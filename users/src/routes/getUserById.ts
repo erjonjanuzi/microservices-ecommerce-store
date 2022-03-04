@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import { User } from '../models/user';
 
 const router = express.Router();
-
+console.log("")
 router.get(
     '/api/users/:userId',
     requireAuth,
