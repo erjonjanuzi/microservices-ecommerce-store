@@ -4,7 +4,7 @@ import { User } from '../models/user';
 
 const router = express.Router();
 
-router.get('/api/users/all', requireAuth, async (req, res) => {
+router.get('/api/users', requireAuth, async (req, res) => {
     const users = await User.find({});
 
     res.send(users);
