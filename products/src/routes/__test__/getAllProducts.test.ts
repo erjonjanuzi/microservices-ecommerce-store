@@ -1,10 +1,11 @@
+import { Roles } from '@labcourseapp/common';
 import request from 'supertest';
 import { app } from '../../app';
 
 const createProduct = () => {
     return request(app)
         .post('/api/products')
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(Roles.ADMIN))
         .send({
             title: 'title',
             price: 30,

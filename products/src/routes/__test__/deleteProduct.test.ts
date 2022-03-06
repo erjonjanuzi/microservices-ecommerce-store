@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import mongoose from 'mongoose';
 import { Product } from '../../models/product';
+import { Roles } from '@labcourseapp/common';
 
 it('returns 401 if user is not authenticated', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -9,12 +10,20 @@ it('returns 401 if user is not authenticated', async () => {
     await request(app).delete(`/api/products/${id}`).send().expect(401);
 });
 
-it.todo('returns 401 if user role is not admin');
+it('returns 401 if user role is not admin', async () => {
+    const id = new mongoose.Types.ObjectId().toHexString();
+
+    await request(app)
+        .delete(`/api/products/${id}`)
+        .set('Cookie', global.signin())
+        .send()
+        .expect(401)
+})
 
 it('returns 400 if product id is not a valid mongoId', async () => {
     await request(app)
         .delete('/api/products/asd')
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(Roles.ADMIN))
         .send()
         .expect(400);
 });
@@ -24,13 +33,13 @@ it('returns 404 if product is not found', async () => {
 
     await request(app)
         .delete(`/api/products/${id}`)
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(Roles.ADMIN))
         .send()
         .expect(404);
 });
 
 it('deletes a product and returns 200', async () => {
-    const cookie = global.signin();
+    const cookie = global.signin(Roles.ADMIN);
 
     const { body: product } = await request(app)
         .post('/api/products')

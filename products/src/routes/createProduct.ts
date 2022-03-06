@@ -1,4 +1,4 @@
-import { BadRequestError, requireAuth, validateRequest } from '@labcourseapp/common';
+import { BadRequestError, currentUser, NotAuthorizedError, requireAuth, Roles, validateRequest, adminRoute } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { ProductCreatedPublisher } from '../events/publishers/ProductCreatedPublisher';
@@ -10,6 +10,7 @@ const router = express.Router();
 router.post(
     '/api/products',
     requireAuth,
+    adminRoute,
     [
         body('title').not().isEmpty().withMessage('Title is required'),
         body('price')

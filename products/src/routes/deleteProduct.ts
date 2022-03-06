@@ -1,7 +1,10 @@
 import {
+    adminRoute,
     BadRequestError,
+    NotAuthorizedError,
     NotFoundError,
     requireAuth,
+    Roles,
     validateRequest,
 } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
@@ -13,6 +16,7 @@ const router = express.Router();
 router.delete(
     '/api/products/:productId',
     requireAuth,
+    adminRoute,
     [
         param('productId')
             .isMongoId()

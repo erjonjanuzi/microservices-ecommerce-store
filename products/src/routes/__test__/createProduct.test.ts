@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import { Product } from '../../models/product';
 import { natsWrapper } from '../../natsWrapper';
+import { Roles } from '@labcourseapp/common'
 
 it('has a route handler listening to /api/products for post requests', async () => {
     const response = await request(app).post('/api/products').send({});
@@ -13,10 +14,18 @@ it('returns status 401 if user is not authenticated', async () => {
     await request(app).post('/api/products').send({}).expect(401);
 });
 
+it('returns 401 if user role is not admin', async () => {
+    await request(app)
+        .post('/api/products')
+        .set('Cookie', global.signin())
+        .send({})
+        .expect(401)
+});
+
 it('returns 400 if no valid title, price, quantity, description, category or images is provided', async () => {
     await request(app)
         .post('/api/products')
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(Roles.ADMIN))
         .send({
             price: 20,
             quantity: 30,
@@ -28,7 +37,7 @@ it('returns 400 if no valid title, price, quantity, description, category or ima
 
     await request(app)
         .post('/api/products')
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(Roles.ADMIN))
         .send({
             title: 'asdav',
             quantity: 30,
@@ -40,7 +49,7 @@ it('returns 400 if no valid title, price, quantity, description, category or ima
 
     await request(app)
         .post('/api/products')
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(Roles.ADMIN))
         .send({
             title: 'asdav',
             price: 20,
@@ -52,7 +61,7 @@ it('returns 400 if no valid title, price, quantity, description, category or ima
 
     await request(app)
         .post('/api/products')
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(Roles.ADMIN))
         .send({
             title: 'asdav',
             price: 20,
@@ -64,7 +73,7 @@ it('returns 400 if no valid title, price, quantity, description, category or ima
 
     await request(app)
         .post('/api/products')
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(Roles.ADMIN))
         .send({
             title: 'asdav',
             price: 20,
@@ -76,7 +85,7 @@ it('returns 400 if no valid title, price, quantity, description, category or ima
 
     await request(app)
         .post('/api/products')
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(Roles.ADMIN))
         .send({
             title: 'asdav',
             price: 20,
@@ -88,7 +97,7 @@ it('returns 400 if no valid title, price, quantity, description, category or ima
 });
 
 it('creates a product if provided with valid inputs', async () => {
-    const cookie = global.signin();
+    const cookie = global.signin(Roles.ADMIN);
 
     const title = 'title';
     const price = 50;
@@ -115,7 +124,7 @@ it('creates a product if provided with valid inputs', async () => {
 it('publishes an event', async () => {
     await request(app)
         .post('/api/products')
-        .set('Cookie', global.signin())
+        .set('Cookie', global.signin(Roles.ADMIN))
         .send({
             title: 'asda',
             price: 50,
@@ -129,4 +138,3 @@ it('publishes an event', async () => {
     expect(natsWrapper.client.publish).toHaveBeenCalled();
 })
 
-it.todo('returns 401 if user role is not admin');

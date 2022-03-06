@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 // This is to define global variable for typescript support
 declare global {
-    var signin: () => string[];
+    var signin: (role?: string) => string[];
 }
 
 jest.mock('../natsWrapper');
@@ -37,11 +37,12 @@ afterAll(async () => {
     await mongo.stop();
 });
 
-global.signin = () => {
-    // Build a JWT payload. { id, email }
+global.signin = (role?: string) => {
+    // Build a JWT payload. { id, email, role }
     const payload = {
         id: new mongoose.Types.ObjectId().toHexString(),
-        email: 'test@test.com'
+        email: 'test@test.com',
+        role: role ?? 'user'
     }
 
     // Create the JWT!

@@ -1,6 +1,9 @@
 import {
+    adminRoute,
+    NotAuthorizedError,
     NotFoundError,
     requireAuth,
+    Roles,
     validateRequest,
 } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
@@ -14,6 +17,7 @@ const router = express.Router();
 router.put(
     '/api/products/:productId',
     requireAuth,
+    adminRoute,
     [
         body('title').not().isEmpty().withMessage('Title is required'),
         body('price')
