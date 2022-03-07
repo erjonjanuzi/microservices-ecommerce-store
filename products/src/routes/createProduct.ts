@@ -1,12 +1,20 @@
-import { BadRequestError, currentUser, NotAuthorizedError, requireAuth, Roles, validateRequest, adminRoute } from '@labcourseapp/common';
+import {
+    BadRequestError,
+    currentUser,
+    NotAuthorizedError,
+    requireAuth,
+    Roles,
+    validateRequest,
+    adminRoute,
+} from '@labcourseapp/common';
 import express, { Request, Response, Express } from 'express';
 import { body } from 'express-validator';
 import { ProductCreatedPublisher } from '../events/publishers/ProductCreatedPublisher';
 import { Product } from '../models/product';
 import { natsWrapper } from '../natsWrapper';
-import cloudinary from 'cloudinary'
-import { upload } from '../multer';
-import { Multer } from 'multer';
+import cloudinary from 'cloudinary';
+import { upload } from '../utils/multer';
+import { cloudinaryUploader } from '../utils/cloudinaryUploader';
 
 const router = express.Router();
 
@@ -32,11 +40,8 @@ router.post(
     upload.array('images'),
     validateRequest,
     async (req: Request, res: Response) => {
-
-        const images = req.files
-
-        const { title, price, quantity, description, category } =
-            req.body;
+        const images = req.files;
+        const { title, price, quantity, description, category } = req.body;
 
         // let count = 0;
         // images.forEach((image: {url: string, isMain?: boolean}) => {
@@ -46,10 +51,10 @@ router.post(
 
         const urls = [];
         // @ts-ignore
-        for (const image of images){
-            const {path} = image
-            const newPath = await cloudinary.v2.uploader.upload(path)
-            urls.push(newPath)
+        for (const image of images) {
+            const { path } = image;
+            const newPath = await cloudinaryUploader(path, {use_filename: true, folder: 'products'});
+            urls.push(newPath);
         }
 
         // const product = Product.build({
