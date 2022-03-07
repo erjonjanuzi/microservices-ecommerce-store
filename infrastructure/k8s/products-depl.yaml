@@ -24,6 +24,15 @@ spec:
               value: 'http://nats-srv:4222'
             - name: NATS_CLUSTER_ID
               value: labcourseapp
+            - name: CLOUDINARY_CLOUD_NAME
+              value: dcfzd0pgt
+            - name: CLOUDINARY_API_KEY
+              value: '353682679843748'
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-api-secret
+                  key: CLOUDINARY_API_SECRET
             - name: MONGO_URI
               value: 'mongodb://products-mongo-srv:27017/products'
             - name: JWT_KEY
