@@ -29,7 +29,7 @@ router.post(
     validateRequest,
     async (req: Request, res: Response) => {
         const { email, password } = req.body;
-        const role = Roles.USER;
+        const role = Roles.ADMIN; // temporary, change it back to Roles.USER later
 
         const existingUser = await User.findOne({ email });
 
