@@ -1,5 +1,5 @@
-import cloudinary from 'cloudinary'
+import cloudinary from 'cloudinary';
 
-const cloudinaryUploader = cloudinary.v2.uploader.upload
+const cloudinaryUploader = cloudinary.v2.uploader.upload;
 
-export {cloudinaryUploader}
+export { cloudinaryUploader };

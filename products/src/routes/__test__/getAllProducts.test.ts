@@ -6,14 +6,15 @@ const createProduct = () => {
     return request(app)
         .post('/api/products')
         .set('Cookie', global.signin(Roles.ADMIN))
-        .send({
+        .attach('images', global.getMockImage())
+        .field({
             title: 'title',
-            price: 30,
+            price: 100,
             quantity: 30,
-            description: 'asdasdd',
+            description: 'This is a descr',
             category: 'other',
-            images: [{ url: 'image.png', isMain: true }],
         })
+        .expect(201);
 };
 
 it('returns list of products', async () => {
@@ -21,10 +22,7 @@ it('returns list of products', async () => {
     await createProduct();
     await createProduct();
 
-    const { body } = await request(app)
-        .get('/api/products')
-        .send()
-        .expect(200)
+    const { body } = await request(app).get('/api/products').send().expect(200);
 
     expect(body.length).toEqual(3);
 });

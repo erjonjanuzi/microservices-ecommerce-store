@@ -3,17 +3,21 @@ import mongoose from 'mongoose';
 import { app } from '../app';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
+import path from 'path'
 
 // This is to define global variable for typescript support
 declare global {
     var signin: (role?: string) => string[];
+    var getMockImage: () => string
 }
 
 jest.mock('../natsWrapper');
+jest.mock('../utils/cloudinaryUploader')
 
 let mongo: any;
 
 beforeAll(async () => {
+
     process.env.JWT_KEY = 'asdfasdf';
 
     mongo = await MongoMemoryServer.create();
@@ -59,4 +63,8 @@ global.signin = (role?: string) => {
 
     // return a string thats the cookie with the encoded data
     return [`session=${base64}`];
+}
+
+global.getMockImage = () => {
+    return path.join(__dirname, '..', '__mocks__', 'mockImg.jpg')
 }

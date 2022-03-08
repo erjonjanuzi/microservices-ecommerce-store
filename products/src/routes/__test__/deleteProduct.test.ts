@@ -17,8 +17,8 @@ it('returns 401 if user role is not admin', async () => {
         .delete(`/api/products/${id}`)
         .set('Cookie', global.signin())
         .send()
-        .expect(401)
-})
+        .expect(401);
+});
 
 it('returns 400 if product id is not a valid mongoId', async () => {
     await request(app)
@@ -44,16 +44,16 @@ it('deletes a product and returns 200', async () => {
     const { body: product } = await request(app)
         .post('/api/products')
         .set('Cookie', cookie)
-        .send({
+        .attach('images', global.getMockImage())
+        .field({
             title: 'title',
-            price: 30,
+            price: 150,
             quantity: 30,
-            description: 'asdasdd',
+            description: 'This is a descr',
             category: 'other',
-            images: [{ url: 'image.png', isMain: true }],
         })
         .expect(201);
-    
+
     let products = await Product.find({});
     expect(products.length).toEqual(1);
 
@@ -62,7 +62,7 @@ it('deletes a product and returns 200', async () => {
         .set('Cookie', cookie)
         .send()
         .expect(200);
-    
+
     products = await Product.find({});
     expect(products.length).toEqual(0);
 });

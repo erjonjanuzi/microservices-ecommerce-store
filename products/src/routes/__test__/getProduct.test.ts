@@ -6,10 +6,7 @@ import { Roles } from '@labcourseapp/common';
 it('returns 404 if no product is found', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
 
-    await request(app)
-        .get(`/api/products/${id}`)
-        .send()
-        .expect(404);
+    await request(app).get(`/api/products/${id}`).send().expect(404);
 });
 
 it('returns the product if it found', async () => {
@@ -18,24 +15,24 @@ it('returns the product if it found', async () => {
     const price = 20;
 
     const response = await request(app)
-        .post(`/api/products`)
+        .post('/api/products')
         .set('Cookie', global.signin(Roles.ADMIN))
-        .send({
+        .attach('images', global.getMockImage())
+        .field({
             title,
             price,
             quantity: 30,
-            description: 'asda',
+            description: 'This is a descr',
             category: 'other',
-            images: [{ url: 'img.png', isMain: true }],
         })
         .expect(201);
-    
+
     // act
     const productResponse = await request(app)
         .get(`/api/products/${response.body.id}`)
         .send()
-        .expect(200)
-    
+        .expect(200);
+
     // assert
     expect(productResponse.body.title).toEqual(title);
     expect(productResponse.body.price).toEqual(price);
