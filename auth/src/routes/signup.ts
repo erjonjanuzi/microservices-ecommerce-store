@@ -1,11 +1,16 @@
-import { BadRequestError, UserPayload, validateRequest } from '@labcourseapp/common';
+import {
+    BadRequestError,
+    UserPayload,
+    validateRequest,
+} from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { UserCreatedPublisher } from '../events/publishers/UserCreatedPublisher';
 import { User } from '../models/user';
 import { natsWrapper } from '../natsWrapper';
 import jwt from 'jsonwebtoken';
-import { Roles } from './roles';
+import { Roles } from '@labcourseapp/common';
+import { TokenService } from '../services/TokenService';
 
 const router = express.Router();
 
@@ -67,16 +72,12 @@ router.post(
             role: user.role,
         });
 
-        const payload: UserPayload = {
+        const userJwt = TokenService.create({
             id: user.id,
             email: user.email,
             role: user.role,
-        };
+        });
 
-        // Generate JWT
-        const userJwt = jwt.sign(payload, process.env.JWT_KEY!);
-
-        // Store it on session object
         req.session = {
             jwt: userJwt,
         };

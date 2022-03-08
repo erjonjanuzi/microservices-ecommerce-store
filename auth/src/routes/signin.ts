@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { User } from '../models/user';
 import { Password } from '../services/Password';
-import jwt from 'jsonwebtoken';
+import { TokenService } from '../services/TokenService';
 
 const router = express.Router();
 
@@ -35,14 +35,11 @@ router.post(
         }
 
         // Generate JWT
-        const userJwt = jwt.sign(
-            {
-                id: existingUser.id,
-                email: existingUser.email,
-                role: existingUser.role
-            },
-            process.env.JWT_KEY!
-        );
+        const userJwt = TokenService.create({
+            id: existingUser.id,
+            email: existingUser.email,
+            role: existingUser.role
+        })
 
         // Store it on session object
         req.session = {
