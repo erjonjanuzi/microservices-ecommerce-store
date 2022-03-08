@@ -55,16 +55,16 @@ router.put(
         });
         await product.save();
 
-        new ProductUpdatedPublisher(natsWrapper.client).publish({
-            id: product.id,
-            version: product.version,
-            title: product.title,
-            price: product.price,
-            quantity: product.quantity,
-            description: product.description,
-            category: product.category,
-            images: product.images
-        });
+        // new ProductUpdatedPublisher(natsWrapper.client).publish({
+        //     id: product.id,
+        //     version: product.version,
+        //     title: product.title,
+        //     price: product.price,
+        //     quantity: product.quantity,
+        //     description: product.description,
+        //     category: product.category,
+        //     images: product.images
+        // });
 
         res.send(product);
     }

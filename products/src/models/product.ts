@@ -1,16 +1,17 @@
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
+export interface Image {
+    url: string
+}
+
 interface ProductAttrs {
     title: string;
     price: number;
     quantity: number;
     description: string;
     category: string;
-    images: [{
-        url: string;
-        isMain?: boolean | undefined;
-    }];
+    images: Image[];
     rating?: number;
     sale?: number;
     reviews?: [{
@@ -26,10 +27,7 @@ interface ProductDoc extends mongoose.Document {
     quantity: number;
     description: string;
     category: string;
-    images: [{
-        url: string;
-        isMain?: boolean | undefined;
-    }];
+    images: Image[];
     rating?: number;
     sale?: number;
     reviews?: [{
