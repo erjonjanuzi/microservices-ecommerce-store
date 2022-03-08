@@ -1,4 +1,4 @@
-import { BadRequestError, validateRequest } from '@labcourseapp/common';
+import { BadRequestError, UserPayload, validateRequest } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { UserCreatedPublisher } from '../events/publishers/UserCreatedPublisher';
@@ -37,8 +37,7 @@ router.post(
             throw new BadRequestError('Email in use');
         }
 
-
-        const user = User.build({ email, password, role});
+        const user = User.build({ email, password, role });
         await user.save();
 
         const {
@@ -65,18 +64,17 @@ router.post(
             city,
             postalCode,
             street,
-            role: user.role
+            role: user.role,
         });
 
+        const payload: UserPayload = {
+            id: user.id,
+            email: user.email,
+            role: user.role,
+        };
+
         // Generate JWT
-        const userJwt = jwt.sign(
-            {
-                id: user.id,
-                email: user.email,
-                role: user.role,
-            },
-            process.env.JWT_KEY!
-        );
+        const userJwt = jwt.sign(payload, process.env.JWT_KEY!);
 
         // Store it on session object
         req.session = {
