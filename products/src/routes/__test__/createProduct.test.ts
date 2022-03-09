@@ -122,19 +122,19 @@ it('creates a product if provided with valid inputs', async () => {
     expect(products[0].price).toEqual(price);
 });
 
-// it('publishes an event', async () => {
-//     await request(app)
-//         .post('/api/products')
-//         .set('Cookie', global.signin(Roles.ADMIN))
-//         .attach('images', global.getMockImage())
-//         .field({
-//             title: 'title',
-//             price: 178,
-//             quantity: 30,
-//             description: 'This is a descr',
-//             category: 'other',
-//         })
-//         .expect(201);
+it('publishes an event', async () => {
+    await request(app)
+        .post('/api/products')
+        .set('Cookie', global.signin(Roles.ADMIN))
+        .attach('images', global.getMockImage())
+        .field({
+            title: 'title',
+            price: 178,
+            quantity: 30,
+            description: 'This is a descr',
+            category: 'other',
+        })
+        .expect(201);
 
-//     expect(natsWrapper.client.publish).toHaveBeenCalled();
-// });
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
