@@ -8,14 +8,14 @@ build:
   local:
     push: false
   artifacts:
-    # - image: erjonjanuzi/client
-    #   context: client
-    #   docker:
-    #     dockerfile: Dockerfile
-    #   sync:
-    #     manual:
-    #       - src: '**/*.ts'
-    #         dest: . 
+    - image: erjonjanuzi/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.ts'
+            dest: . 
     - image: erjonjanuzi/auth
       context: auth
       docker:
