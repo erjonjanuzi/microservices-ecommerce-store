@@ -1,9 +1,17 @@
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { CartDoc } from './cart';
 
-interface OrderAttrs {}
+interface OrderAttrs {
+    cart: CartDoc;
+    status: string;
+}
 
-interface OrderDoc extends mongoose.Document {}
+interface OrderDoc extends mongoose.Document {
+    cart: CartDoc;
+    status: string;
+    version: number;
+}
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
     build(attrs: OrderAttrs): OrderDoc;

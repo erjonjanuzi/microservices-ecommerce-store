@@ -6,8 +6,10 @@ import {
 } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
+import { CartCreatedPublisher } from '../events/publishers/CartCreatedPublisher';
 import { Cart } from '../models/cart';
 import { Product } from '../models/product';
+import { natsWrapper } from '../natsWrapper';
 
 const router = express.Router();
 
