@@ -12,7 +12,7 @@ import { Product } from '../models/product';
 import { natsWrapper } from '../natsWrapper';
 
 const router = express.Router();
-
+// add to cart
 router.post(
     '/api/cart',
     requireAuth,
