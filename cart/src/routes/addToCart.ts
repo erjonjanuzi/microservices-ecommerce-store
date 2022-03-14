@@ -47,7 +47,7 @@ router.post(
             );
         }
 
-        // If item already exists in cart, do not allow to be added again
+        
         let cart = await Cart.findOne({ userId: req.currentUser!.id });
         cart?.products.forEach((cartItem) => {
             if (cartItem.product.toString() === productId) {
