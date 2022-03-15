@@ -5,19 +5,20 @@ import { Cart } from '../models/cart';
 const router = express.Router();
 
 router.get('/api/cart', requireAuth, async (req: Request, res: Response) => {
-    const cart = await Cart.findOne({ userId: req.currentUser!.id })
+    const userCart = await Cart.findOne({ userId: req.currentUser!.id })
         .populate('products.product')
         .select('-products._id');
 
-    if (!cart) {
-        return res.status(200).send([]);
+    if (!userCart) {
+        const cart = Cart.build({userId: req.currentUser!.id})
+        return res.send(cart)
     }
 
-    if (cart.userId !== req.currentUser!.id){
+    if (userCart.userId !== req.currentUser!.id){
         throw new NotAuthorizedError();
     }
 
-    res.send(cart);
+    res.send(userCart);
 });
 
 export { router as getCartRoute };

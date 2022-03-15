@@ -3,10 +3,6 @@ import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 import { ProductDoc } from './product';
 
 interface CartAttrs {
-    // products: {
-    //     productId: string;
-    //     quantity: number
-    // }[];
     userId: string;
 }
 
@@ -17,6 +13,7 @@ interface CartDoc extends mongoose.Document {
     }[];
     userId: string;
     version: number;
+    calculateTotalPrice(): number
 }
 
 interface CartModel extends mongoose.Model<CartDoc>{
@@ -61,6 +58,13 @@ cartSchema.plugin(updateIfCurrentPlugin);
 
 cartSchema.statics.build = (attrs: CartAttrs) => {
     return new Cart(attrs);
+}
+
+cartSchema.methods.calculateTotalPrice = function () {
+    const totalPrice: number = this.products.forEach((product: ProductDoc) => {
+        return product.price * product.sale * product.quantity
+    })
+    return totalPrice;
 }
 
 const Cart = mongoose.model<CartDoc, CartModel>('Cart', cartSchema);

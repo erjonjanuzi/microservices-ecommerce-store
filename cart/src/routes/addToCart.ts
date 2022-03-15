@@ -6,7 +6,7 @@ import {
 } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { CartCreatedPublisher } from '../events/publishers/CartCreatedPublisher';
+import { CartUpdatedPublisher } from '../events/publishers/CartUpdatedPublisher';
 import { Cart } from '../models/cart';
 import { Product } from '../models/product';
 import { natsWrapper } from '../natsWrapper';
@@ -47,19 +47,43 @@ router.post(
             );
         }
 
-        
-        let cart = await Cart.findOne({ userId: req.currentUser!.id });
+        let cart = await Cart.findOne({ userId: req.currentUser!.id }).populate('products');
         cart?.products.forEach((cartItem) => {
             if (cartItem.product.toString() === productId) {
                 throw new BadRequestError('Product is already in cart');
             }
         });
 
+        console.log("Cart", cart)
         cart = await Cart.findOneAndUpdate(
             { userId: req.currentUser?.id },
             { $push: { products: { product: productId, quantity: quantity } } },
             { upsert: true, new: true }
         );
+        
+        if (!cart){
+            throw new BadRequestError("Something went wrong")
+        }
+        
+        const products = [] as {id: string, title: string}[]
+        cart.products.forEach(cartItem => {
+            const product = {
+                id: cartItem.product.id,
+                title: cartItem.product.title
+            }
+            products.push(product)
+            // console.log("cartItem", cartItem)
+        })
+
+        console.log(products)
+        
+        await new CartUpdatedPublisher(natsWrapper.client).publish({
+            id: cart.id,
+            userId: cart.userId,
+            products: products,
+            version: cart.version,
+            totalPrice: cart.calculateTotalPrice()
+        })
 
         res.send(cart);
     }
