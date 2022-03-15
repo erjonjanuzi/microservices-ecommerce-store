@@ -12,7 +12,6 @@ import { body } from 'express-validator';
 import { ProductCreatedPublisher } from '../events/publishers/ProductCreatedPublisher';
 import { Image, Product } from '../models/product';
 import { natsWrapper } from '../natsWrapper';
-import cloudinary from 'cloudinary';
 import { upload } from '../utils/multer';
 import { cloudinaryUploader } from '../utils/cloudinaryUploader';
 
