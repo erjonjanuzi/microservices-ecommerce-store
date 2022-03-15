@@ -6,21 +6,20 @@ interface CartAttrs {
     products: {
         id: string;
         title: string;
-        price: number;
-        quantity: number;
     }[],
     userId: string;
+    totalPrice: number;
+    version: number;
 }
 
 export interface CartDoc extends mongoose.Document {
     products: {
         id: string;
         title: string;
-        price: number;
-        quantity: number;
     }[];
     userId: string;
     version: number;
+    totalPrice: number;
 }
 
 interface CartModel extends mongoose.Model<CartDoc>{
@@ -53,6 +52,8 @@ CartSchema.statics.build = (attrs: CartAttrs) => {
         _id: attrs.id,
         products: attrs.products,
         userId: attrs.userId,
+        version: attrs.version,
+        totalPrice: attrs.totalPrice
     });
 }
 
