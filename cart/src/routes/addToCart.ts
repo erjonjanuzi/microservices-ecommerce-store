@@ -54,7 +54,7 @@ router.post(
             }
         });
 
-        console.log("Cart", cart)
+
         cart = await Cart.findOneAndUpdate(
             { userId: req.currentUser?.id },
             { $push: { products: { product: productId, quantity: quantity } } },
