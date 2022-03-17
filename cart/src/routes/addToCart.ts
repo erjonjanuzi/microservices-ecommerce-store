@@ -47,13 +47,12 @@ router.post(
             );
         }
 
-        let cart = await Cart.findOne({ userId: req.currentUser!.id }).populate('products');
+        let cart = await Cart.findOne({ userId: req.currentUser!.id });
         cart?.products.forEach((cartItem) => {
             if (cartItem.product.toString() === productId) {
                 throw new BadRequestError('Product is already in cart');
             }
         });
-
 
         cart = await Cart.findOneAndUpdate(
             { userId: req.currentUser?.id },
@@ -61,6 +60,8 @@ router.post(
             { upsert: true, new: true }
         );
         
+        console.log("cart", cart)
+
         if (!cart){
             throw new BadRequestError("Something went wrong")
         }
