@@ -58,9 +58,8 @@ router.post(
             { userId: req.currentUser?.id },
             { $push: { products: { product: productId, quantity: quantity } } },
             { upsert: true, new: true }
-        );
+        ).populate('products.product');
         
-        console.log("cart", cart)
 
         if (!cart){
             throw new BadRequestError("Something went wrong")
@@ -73,11 +72,8 @@ router.post(
                 title: cartItem.product.title
             }
             products.push(product)
-            // console.log("cartItem", cartItem)
         })
 
-        console.log(products)
-        
         await new CartUpdatedPublisher(natsWrapper.client).publish({
             id: cart.id,
             userId: cart.userId,
