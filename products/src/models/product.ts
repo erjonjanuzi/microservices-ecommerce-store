@@ -13,7 +13,6 @@ interface ProductAttrs {
     category: string;
     images: Image[];
     rating?: number;
-    sale?: number;
     reviews?: [{
         firstName: string;
         lastName: string;
@@ -29,7 +28,7 @@ interface ProductDoc extends mongoose.Document {
     category: string;
     images: Image[];
     rating?: number;
-    sale?: number;
+    sale: number;
     reviews?: [{
         firstName: string;
         lastName: string;
@@ -75,7 +74,8 @@ const productSchema = new mongoose.Schema({
     },
     sale: {
         type: Number,
-        default: 0
+        default: 0,
+        required: true
     },
     reviews: {
         type: Array,

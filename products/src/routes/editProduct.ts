@@ -42,7 +42,7 @@ router.put(
             throw new NotFoundError();
         }
 
-        const { title, price, quantity, description, category, images } =
+        const { title, price, quantity, description, category, images, sale } =
             req.body;
 
         product.set({
@@ -52,18 +52,17 @@ router.put(
             description,
             category,
             images,
+            sale,
         });
         await product.save();
 
         new ProductUpdatedPublisher(natsWrapper.client).publish({
             id: product.id,
-            version: product.version,
             title: product.title,
             price: product.price,
             quantity: product.quantity,
-            description: product.description,
-            category: product.category,
-            images: product.images
+            sale: product.sale,
+            version: product.version,
         });
 
         res.send(product);
