@@ -37,6 +37,7 @@ const productSchema = new mongoose.Schema({
     },
     sale: {
         type: Number,
+        required: true
     },
 }, {
     toJSON: {

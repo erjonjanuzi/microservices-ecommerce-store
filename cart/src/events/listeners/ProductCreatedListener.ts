@@ -15,7 +15,6 @@ export class ProductCreatedListener extends Listener<ProductCreatedEvent> {
             title,
             price,
             quantity,
-            // @ts-ignore
             sale,
         });
         await product.save();
