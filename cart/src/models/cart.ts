@@ -31,15 +31,6 @@ const cartSchema = new mongoose.Schema({
             required: true
         }
     }],
-    // products: [new mongoose.Schema({
-    //     product: {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'Product'
-    //     },
-    //     quantity: {
-    //         type: Number
-    //     }
-    // })],
     userId: {
         type: String,
         required: true
@@ -61,9 +52,13 @@ cartSchema.statics.build = (attrs: CartAttrs) => {
 }
 
 cartSchema.methods.calculateTotalPrice = function () {
-    const totalPrice: number = this.products.forEach((product: ProductDoc) => {
-        return product.price * product.sale * product.quantity
+    let totalPrice = 0
+
+    this.products.forEach((item: {product: ProductDoc, quantity: number}) => {
+        totalPrice += item.product.price * item.quantity
     })
+
+    console.log(totalPrice)
     return totalPrice;
 }
 

@@ -17,7 +17,7 @@ router.get('/api/cart', requireAuth, async (req: Request, res: Response) => {
     if (userCart.userId !== req.currentUser!.id){
         throw new NotAuthorizedError();
     }
-
+    
     res.send(userCart);
 });
 
