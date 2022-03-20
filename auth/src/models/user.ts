@@ -1,26 +1,21 @@
 import mongoose from 'mongoose';
 import { Password } from '../services/Password';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { Roles } from '@labcourseapp/common';
 
-// An interface that describes the properties that are required
-// to create a new user
 interface UserAttrs {
     email: string;
     password: string;
-    role: string;
+    role: Roles;
 }
 
-// An interface that describes the props
-// that a User Document has
 interface UserDoc extends mongoose.Document {
     email: string;
     password: string;
-    role: string;
+    role: Roles;
     version: number;
 }
 
-// An interface that describes the properties
-// that a User Model has
 interface UserModel extends mongoose.Model<UserDoc> {
     build(attrs: UserAttrs): UserDoc;
 }
@@ -30,6 +25,9 @@ const userSchema = new mongoose.Schema(
         email: {
             type: String,
             required: true,
+            unique: true,
+            lowercase: true,
+            trim: true,
         },
         password: {
             type: String,
@@ -37,12 +35,13 @@ const userSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            required: true
-        }
+            required: true,
+            enum: Object.values(Roles)
+        },
     },
     {
         toJSON: {
-            transform(doc, ret) {
+            transform(_, ret) {
                 ret.id = ret._id;
                 delete ret._id;
                 delete ret.password;

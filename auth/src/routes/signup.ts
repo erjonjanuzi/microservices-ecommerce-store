@@ -1,6 +1,5 @@
 import {
     BadRequestError,
-    UserPayload,
     validateRequest,
 } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
@@ -8,7 +7,6 @@ import { body } from 'express-validator';
 import { UserCreatedPublisher } from '../events/publishers/UserCreatedPublisher';
 import { User } from '../models/user';
 import { natsWrapper } from '../natsWrapper';
-import jwt from 'jsonwebtoken';
 import { Roles } from '@labcourseapp/common';
 import { TokenService } from '../services/TokenService';
 
@@ -25,7 +23,7 @@ router.post(
         body('password')
             .trim()
             .isLength({ min: 8 })
-            .withMessage('Password must be between at least 8 characters'),
+            .withMessage('Password must be at least 8 characters'),
         body('country').isString().withMessage('Country is required'),
         body('city').isString().withMessage('City is required'),
         body('postalCode').isString().withMessage('Postal code is required'),
@@ -34,7 +32,6 @@ router.post(
     validateRequest,
     async (req: Request, res: Response) => {
         const { email, password } = req.body;
-        const role = Roles.ADMIN; // temporary, change it back to Roles.USER later
 
         const existingUser = await User.findOne({ email });
 
@@ -42,7 +39,7 @@ router.post(
             throw new BadRequestError('Email in use');
         }
 
-        const user = User.build({ email, password, role });
+        const user = User.build({ email, password, role: Roles.USER });
         await user.save();
 
         const {
