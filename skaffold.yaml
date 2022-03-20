@@ -16,14 +16,14 @@ build:
     #     manual:
     #       - src: '**/*.ts'
     #         dest: . 
-    - image: erjonjanuzi/auth
-      context: auth
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
+    # - image: erjonjanuzi/auth
+    #   context: auth
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: 'src/**/*.ts'
+    #         dest: .
     - image: erjonjanuzi/users
       context: users
       docker:
