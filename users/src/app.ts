@@ -11,6 +11,7 @@ import { signInRoute } from './routes/signin';
 import { signOutRoute } from './routes/signout';
 import { signUpRoute } from './routes/register';
 import { createAdminRoute } from './routes/createAdmin';
+import { verifyEmail } from './routes/verifyEmail';
 
 const app = express();
 app.set('trust proxy', true);
@@ -26,11 +27,12 @@ app.use(currentUser);
 
 app.use(currentUserRoute);
 app.use(signInRoute);
+app.use(verifyEmail)
 app.use(signOutRoute);
 app.use(signUpRoute);
 app.use(createAdminRoute)
-app.use(allUsersRoute);
-app.use(getUserByIdRoute);
+// app.use(allUsersRoute);
+// app.use(getUserByIdRoute);
 
 app.all('*', async (req, res) => {
     throw new NotFoundError();
