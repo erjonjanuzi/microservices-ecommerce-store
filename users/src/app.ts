@@ -31,8 +31,8 @@ app.use(verifyEmail)
 app.use(signOutRoute);
 app.use(signUpRoute);
 app.use(createAdminRoute)
-// app.use(allUsersRoute);
-// app.use(getUserByIdRoute);
+app.use(allUsersRoute);
+app.use(getUserByIdRoute);
 
 app.all('*', async (req, res) => {
     throw new NotFoundError();
