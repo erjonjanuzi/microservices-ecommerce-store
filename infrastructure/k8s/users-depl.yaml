@@ -26,6 +26,8 @@ spec:
               value: labcourseapp
             - name: MONGO_URI
               value: 'mongodb://users-mongo-srv:27017/users'
+            - name: REDIS_HOST
+              value: users-redis-srv
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
