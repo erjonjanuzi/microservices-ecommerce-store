@@ -5,12 +5,14 @@ import { User } from '../models/user';
 import { Roles } from '@labcourseapp/common';
 import { TokenService } from '../services/TokenService';
 import nodemailer from 'nodemailer';
+import randomstring from 'randomstring'
+import { redisClient } from '../index';
 
 const MAIL_SETTINGS = {
     service: 'gmail',
     auth: {
         user: 'erjonjanuzi2018@gmail.com',
-        pass: '',
+        pass: 'faorhzpdsqnybjzw',
     },
 };
 const transporter = nodemailer.createTransport(MAIL_SETTINGS);
@@ -66,8 +68,13 @@ router.post(
         });
         await user.save();
 
-        const origin = req.headers.origin
-        const token = 'abcfaskdnf123'
+        const origin = req.headers.host
+        console.log("origin", origin)
+        const token = randomstring.generate(20)
+        await redisClient.set(user.email, token, {
+            EX: 10
+        })
+
         const verifyUrl = `${origin}/users/verifyemail?token=${token}&email=${user.email}`;
 
         await transporter.sendMail({

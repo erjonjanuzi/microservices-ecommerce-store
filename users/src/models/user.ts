@@ -30,7 +30,7 @@ interface UserDoc extends mongoose.Document {
         street: string;
     };
     role: Roles;
-    isVerified: boolean;
+    emailConfirmed: boolean;
     version: number;
 }
 
@@ -84,7 +84,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: Roles.USER,
         },
-        isVerified: {
+        emailConfirmed: {
             type: Boolean,
             default: false
         }
