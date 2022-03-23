@@ -30,6 +30,7 @@ interface UserDoc extends mongoose.Document {
         street: string;
     };
     role: Roles;
+    isVerified: boolean;
     version: number;
 }
 
@@ -83,6 +84,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: Roles.USER,
         },
+        isVerified: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         toJSON: {
