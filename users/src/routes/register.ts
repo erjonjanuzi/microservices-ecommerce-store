@@ -69,13 +69,12 @@ router.post(
         await user.save();
 
         const origin = req.headers.host
-        console.log("origin", origin)
         const token = randomstring.generate(20)
         await redisClient.set(user.email, token, {
             EX: 10
         })
 
-        const verifyUrl = `${origin}/users/verifyemail?token=${token}&email=${user.email}`;
+        const verifyUrl = `${origin}/api/users/verifyemail?token=${token}&email=${user.email}`;
 
         await transporter.sendMail({
             from: MAIL_SETTINGS.auth.user,
