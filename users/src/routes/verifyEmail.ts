@@ -6,8 +6,12 @@ import { User } from '../models/user';
 const router = express.Router()
 
 router.get('/api/users/verifyemail', async (req: Request, res: Response) => {
-    let token = req.query.token
-    let email = req.query.email
+    let token = req.query.token as string
+    let email = req.query.email as string
+
+    if (!token || !email){
+        throw new BadRequestError('Something went wrong')
+    }
 
     const user = await User.findOne({email})
 
@@ -21,6 +25,7 @@ router.get('/api/users/verifyemail', async (req: Request, res: Response) => {
         throw new BadRequestError('Token has expired')
     }
 
+    token = Buffer.from(token, 'base64').toString('ascii')
     if (token !== userToken){
         throw new BadRequestError('Could not verify email address')
     }

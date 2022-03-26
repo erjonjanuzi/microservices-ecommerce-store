@@ -12,6 +12,7 @@ import { signOutRoute } from './routes/signout';
 import { signUpRoute } from './routes/register';
 import { createAdminRoute } from './routes/createAdmin';
 import { verifyEmail } from './routes/verifyEmail';
+import { changePasswordRoute } from './routes/changePassword';
 
 const app = express();
 app.set('trust proxy', true);
@@ -28,6 +29,7 @@ app.use(currentUser);
 app.use(currentUserRoute);
 app.use(signInRoute);
 app.use(verifyEmail)
+app.use(changePasswordRoute)
 app.use(signOutRoute);
 app.use(signUpRoute);
 app.use(createAdminRoute)
