@@ -8,14 +8,14 @@ import nodemailer from 'nodemailer';
 import randomstring from 'randomstring'
 import { redisClient } from '../index';
 
-const MAIL_SETTINGS = {
-    service: 'gmail',
-    auth: {
-        user: '',
-        pass: '',
-    },
-};
-const transporter = nodemailer.createTransport(MAIL_SETTINGS);
+// const MAIL_SETTINGS = {
+//     service: 'gmail',
+//     auth: {
+//         user: '',
+//         pass: '',
+//     },
+// };
+// const transporter = nodemailer.createTransport(MAIL_SETTINGS);
 
 const router = express.Router();
 
