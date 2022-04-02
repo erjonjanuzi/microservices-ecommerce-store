@@ -1,8 +1,7 @@
-import { BadRequestError, validateRequest } from '@labcourseapp/common';
+import { BadRequestError, validateRequest, Roles } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { User } from '../models/user';
-import { Roles } from '@labcourseapp/common';
 import { TokenService } from '../services/TokenService';
 import nodemailer from 'nodemailer';
 import randomstring from 'randomstring'
