@@ -1,0 +1,94 @@
+Product Backlog
+
+Account information and user management
+
+As a customer, I want to be able to create an account so that I can use the functionalities of a logged in user
+
+As a customer, I want to be able to login into my account using my email and password so that I can see my account details and past orders
+As a customer, I want to be able to securely reset my password in case I forget it.
+As a customer, I want to be able to delete my account permanently in case I no longer use it.
+
+As a customer, I want to be able to update my account address information in case I want to receive orders in a different address
+
+As an administrator, I want to be able to log into the store dashboard so that I can manage the store.
+
+As an administrator, I want to be able to create new accounts for new administrators so that they can login into the store dashboard.
+
+As an administrator, I want to be able to reset my password so that nobody has access to my account.
+
+As an administrator, I want to be able to delete user accounts so that they can no longer log into the store.
+
+
+Product catalog
+
+As a customer, I want to be able to view a list of recommended products in the store so that I can find something I need to buy
+
+As a customer, I want to be able to view products by category so that I can easily find what I want
+
+As a customer, I want to be able to sort products by name and price so that I see products more relevant to me
+
+As a customer, I want to be able to search products by name so that I can quickly find what I want.
+
+As a customer, I want to be able to see image, name, price, sale and rating in the product card so that I can learn more about products and identify products that I want
+
+As a customer, I want to be able to see similar products when viewing a particular product so that I can get recommendations on other choices.
+
+As an administrator, I want to be able to add new products to the store so that customers can buy them in the store
+
+As an administrator, I want to be able to upload multiple images for a product.
+
+As an administrator, I want to be able to edit existing products so that they stay updated.
+
+As an administrator, I want to be able to remove products from the store so that they no longer appear to customers
+
+As an administrator, I want to be able to manage categories so that I can use them for product classification.
+
+
+Product reviews
+
+As a customer, I want to be able to see the rating and reviews of a product so that I can see the feedback of other buyers.
+
+As a customer, I want to be able to leave a review for a product so that I can give my opinion and feedback for interested parties.
+
+As an administrator, I want to be able to delete reviews from a product so that I can avoid spams
+
+
+Promos and offers
+
+As a customer, I want to be able to use coupon codes on purchases so that I can save money.
+
+As an administrator, I want to be able to add storefront promo images so that customers can see the latest offers.
+
+As an administrator, I want to be able to generate coupon codes so that customers can use them on purchases
+
+As an administrator, I want to select products to promote on storefront so that customers can see the latest and best products.
+
+
+Cart and wishlist
+
+As a customer, I want to be able to add products to cart so that I can later purchase them at once.
+
+As a customer, I want to be able to view my cart from anywhere so that I can quickly make a purchase
+
+As a customer, I want to be able to remove products from cart in case I am no longer interested in a product
+
+As a customer, I want to be able to add products to the wishlist so that I can keep track of products I am interested in.
+
+As a customer, I want to be able to remove products from the wishlist that I am no longer interested in.
+
+
+Orders and payments
+
+As a customer, I want to be able to complete an order so that I can purchase products that I want.
+
+As a customer, I want to be able to pay for an order using my credit card so that it is more convenient for me.
+
+As a customer, I want to be able to view past orders so that I know what I have purchased
+
+As a customer, I want to be able to see the progress of my current order so that I know the status of it.
+
+As an administrator, I want to be able to view customer orders in the store so that I can accommodate them.
+
+As an administrator, I want to be able to change the status of an order so that the customer is notified of the progress.
+
+As an administrator, I want to be able to filter orders so that I can quickly find what I am looking for.
