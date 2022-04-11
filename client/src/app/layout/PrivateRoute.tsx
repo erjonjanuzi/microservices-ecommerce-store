@@ -14,13 +14,13 @@ interface Props extends RouteProps {
 
 export default function PrivateRoute({ component: Component, ...rest }: Props) {
     const {
-        userStore: { isLoggedIn },
+        userStore: { isLoggedIn, user },
     } = useStore();
     return (
         <Route
             {...rest}
             render={(props) =>
-                isLoggedIn ? <Component {...props} /> : <Redirect to="/" />
+                isLoggedIn && user.role === 'admin' ? <Component {...props} /> : <Redirect to="/" />
             }
         />
     );

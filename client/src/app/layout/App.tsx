@@ -19,6 +19,7 @@ import WishlistPage from '../../pages/wishlist/WishlistPage';
 import Products from '../../pages/products/Products';
 import LoginPage from '../../pages/login/LoginPage';
 import ProductPage from '../../pages/products/ProductPage';
+import Dashboard from '../../pages/dashboard/layout/Dashboard';
 
 function App() {
     const location = useLocation();
@@ -28,25 +29,33 @@ function App() {
         userStore.getUser().finally(() => commonStore.setAppLoaded());
     }, [commonStore, userStore]);
 
-    if (!commonStore.appLoaded)
-        return <LoadingComponent content="Loading app..." />;
+    if (!commonStore.appLoaded) return <LoadingComponent content="Loading app..." />;
 
     return (
         <>
             <ToastContainer position="top-right" hideProgressBar />
-            <NavBar />
-            <Container>
+            {userStore.user.role === 'admin' ? (
                 <Switch>
-                    <Route exact path="/" component={HomePage} />
-                    <Route exact path="/products" component={Products} />
-                    <Route exact path="/products/:id" component={ProductPage} />
-                    <Route exact path="/cart" component={CartPage} />
-                    <Route exact path="/wishlist" component={WishlistPage} />
-                    <Route exact path="/login" component={LoginPage} />
-                    <Route exact path="/server-error" component={ServerError} />
-                    <Route component={NotFound} />
+                    <PrivateRoute path="/dashboard" component={Dashboard} />
                 </Switch>
-            </Container>
+            ) : (
+                <>
+                    <NavBar />
+                    <Container>
+                        <Switch>
+                            <Route exact path="/" component={HomePage} />
+                            <Route exact path="/products" component={Products} />
+                            <Route exact path="/products/:id" component={ProductPage} />
+                            <Route exact path="/cart" component={CartPage} />
+                            <Route exact path="/wishlist" component={WishlistPage} />
+                            <Route exact path="/login" component={LoginPage} />
+
+                            <Route exact path="/server-error" component={ServerError} />
+                            <Route component={NotFound} />
+                        </Switch>
+                    </Container>
+                </>
+            )}
         </>
     );
 }

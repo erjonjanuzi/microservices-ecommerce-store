@@ -78,10 +78,10 @@ const requests = {
 };
 
 const Auth = {
-    current: () => requests.get('/api/auth/currentuser'),
-    login: (user: any) => requests.post('/api/auth/signin', user),
-    logout: () => requests.get('/api/auth/signout'),
-    register: (user: any) => requests.post('/api/auth/signup', user),
+    current: () => requests.get('/api/users/currentuser'),
+    login: (user: any) => requests.post('/api/users/signin', user),
+    logout: () => requests.get('/api/users/signout'),
+    register: (user: any) => requests.post('/api/users/signup', user),
     checkPersonalDetails: (personalDetails: any) =>
         requests.post('/api/auth/checkuser', personalDetails),
 };

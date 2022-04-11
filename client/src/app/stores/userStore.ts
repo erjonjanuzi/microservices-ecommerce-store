@@ -20,10 +20,10 @@ export default class UserStore {
                 email: string;
                 id: string;
             };
-            const user = await agent.Users.details(result.id);
-            // store.commonStore.setToken(user.token);
+            const user = (await agent.Users.details(result.id)) as any;
             runInAction(() => (this.user = user));
-            history.push('/');
+
+            user.role === 'admin' ? history.push('/dashboard') : history.push('/');
         } catch (error) {
             throw error;
         }
@@ -54,13 +54,7 @@ export default class UserStore {
         }
     };
 
-    checkPersonalDetails = async ({
-        email,
-        password,
-    }: {
-        email: string;
-        password: string;
-    }) => {
+    checkPersonalDetails = async ({ email, password }: { email: string; password: string }) => {
         try {
             await agent.Auth.checkPersonalDetails({ email, password });
         } catch (error) {
