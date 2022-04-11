@@ -13,7 +13,7 @@ const router = express.Router();
 router.post(
     '/api/users/createadmin',
     requireAuth,
-    // adminRoute,
+    adminRoute,
     [
         body('firstName').isString().withMessage('First name is required'),
         body('lastName').isString().withMessage('Last name is required'),
