@@ -33,6 +33,8 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+            - name: SENDER_EMAIL
+              value: 'erjonjanuzi2018@gmail.com'
 ---
 apiVersion: v1
 kind: Service
