@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
 import { app } from './app';
 import { natsWrapper } from './natsWrapper';
-import {createClient} from 'redis'
-import { RedisClientType, RedisClusterType } from '@node-redis/client';
+import { redisWrapper } from './redisWrapper';
+import { Seed } from './seed';
 
-export let redisClient: (RedisClientType | RedisClusterType)
 
 const start = async () => {
     if (!process.env.JWT_KEY) {
@@ -22,8 +21,8 @@ const start = async () => {
     if (!process.env.NATS_CLUSTER_ID) {
         throw new Error('NATS_CLUSTER_ID must be defined');
     }
-    if (!process.env.REDIS_HOST){
-        throw new Error('REDIS_HOST must be defined')
+    if (!process.env.REDIS_URI) {
+        throw new Error('REDIS_URI must be defined');
     }
 
     try {
@@ -43,16 +42,13 @@ const start = async () => {
         await mongoose.connect(process.env.MONGO_URI);
         console.log('Connected to MongoDb');
 
-        redisClient = createClient({
-            url: `redis://${process.env.REDIS_HOST}:6379`
-        });
+        await redisWrapper.connect(process.env.REDIS_URI)
 
-        redisClient.on('error', (err: any) => console.log('Redis Client Error', err));
-
-        await redisClient.connect();
     } catch (err) {
         console.error(err);
     }
+
+    await Seed.init()
 
     app.listen(3000, () => {
         console.log('Listening on port 3000!');

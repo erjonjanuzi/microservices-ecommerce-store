@@ -1,7 +1,7 @@
 import { BadRequestError, NotFoundError } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
-import { redisClient } from '../index';
 import { User } from '../models/user';
+import { redisWrapper } from '../redisWrapper';
 
 const router = express.Router()
 
@@ -19,7 +19,7 @@ router.get('/api/users/verifyemail', async (req: Request, res: Response) => {
         throw new NotFoundError()
     }
 
-    const userToken = await redisClient.get(user.email)
+    const userToken = await redisWrapper.client.get(user.email)
 
     if (!userToken) {
         throw new BadRequestError('Token has expired')
@@ -29,6 +29,11 @@ router.get('/api/users/verifyemail', async (req: Request, res: Response) => {
     if (token !== userToken){
         throw new BadRequestError('Could not verify email address')
     }
+
+    user.set({
+        emailConfirmed: true
+    });
+    await user.save();
 
     res.send('Email verified')
 })

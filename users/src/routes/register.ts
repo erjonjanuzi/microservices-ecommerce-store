@@ -1,20 +1,9 @@
-import { BadRequestError, validateRequest, Roles } from '@labcourseapp/common';
+import { BadRequestError, validateRequest } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { User } from '../models/user';
 import { TokenService } from '../services/TokenService';
-import nodemailer from 'nodemailer';
-import randomstring from 'randomstring'
-import { redisClient } from '../index';
-
-const MAIL_SETTINGS = {
-    service: 'gmail',
-    auth: {
-        user: '',
-        pass: '',
-    },
-};
-const transporter = nodemailer.createTransport(MAIL_SETTINGS);
+import { sendConfirmationEmail } from '../controllers/sendConfirmationEmail';
 
 const router = express.Router();
 
@@ -67,33 +56,7 @@ router.post(
         });
         await user.save();
 
-        // const origin = req.headers.host
-        // let token = randomstring.generate()
-
-        // await redisClient.set(user.email, token, {
-        //     EX: 60
-        // })
-
-        // token = Buffer.from(token).toString('base64')
-
-        // const verifyUrl = `${origin}/api/users/verifyemail?token=${token}&email=${user.email}`;
-
-        // await transporter.sendMail({
-        //     from: MAIL_SETTINGS.auth.user,
-        //     to: email,
-        //     subject: 'Welcome! Please verify your email',
-        //     html: `
-        //     <div
-        //       class="container"
-        //       style="max-width: 90%; margin: auto; padding-top: 20px"
-        //     >
-        //       <h2>Welcome to the club.</h2>
-        //       <h4>You are officially In ✔</h4>
-        //       <p style="margin-bottom: 30px;">Pleas enter the sign up OTP to get started</p>
-        //       <p>Please click the below link to verify your email address:</p><p><a href='${verifyUrl}'>Click to verify email</a></p>
-        //  </div>
-        //   `,
-        // });
+        await sendConfirmationEmail(req.headers.host!, email);
 
         const userJwt = TokenService.create({
             id: user.id,
