@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
+import { useEffect } from 'react';
 import './style.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import 'react-toastify/dist/ReactToastify.css';
