@@ -4,7 +4,7 @@ import { Menu } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 
 export default observer(function Sidebar() {
-    const { userStore: { user, logout } } = useStore();
+    const { userStore: { logout } } = useStore();
 
     return (
         <Menu vertical fluid secondary>
