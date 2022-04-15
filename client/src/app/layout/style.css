@@ -31,3 +31,25 @@ input,
   margin-right: auto; 
   width: 100%;
 }
+
+.navbar{
+  height: 60px; /* notice this value */
+  width: 100%;
+  background: #1a1c23;
+  color: white;
+}
+
+.myScrollableDiv {
+   position: fixed;
+   top: 60px; /* same height as navbar */
+   left: 20vw;
+   right: 0;
+   bottom: 0;
+   overflow-y: scroll;
+   background: #121317;
+   color: #fff;
+}
+
+.ui.borderless.fluid.vertical.left.fixed.menu {
+  background-color: #1a1c23;
+}

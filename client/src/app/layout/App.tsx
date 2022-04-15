@@ -24,16 +24,16 @@ function App() {
     const location = useLocation();
     const { commonStore, userStore } = useStore();
 
-    useEffect(() => {
-        userStore.getUser().finally(() => commonStore.setAppLoaded());
-    }, [commonStore, userStore]);
+    // useEffect(() => {
+    //     userStore.getUser().finally(() => commonStore.setAppLoaded());
+    // }, [commonStore, userStore]);
 
-    if (!commonStore.appLoaded) return <LoadingComponent content="Loading app..." />;
+    // if (!commonStore.appLoaded) return <LoadingComponent content="Loading app..." />;
 
     return (
         <>
             <ToastContainer position="top-right" hideProgressBar />
-            {userStore.user.role === 'admin' ? (
+            {/* {userStore.user?.role === 'admin' ? (
                 <Switch>
                     <PrivateRoute path="/dashboard" component={Dashboard} />
                 </Switch>
@@ -54,7 +54,11 @@ function App() {
                         </Switch>
                     </Container>
                 </>
-            )}
+            )} */}
+
+            <Switch>
+                    <Route exact path="/dashboard" component={Dashboard} />
+            </Switch>
         </>
     );
 }
