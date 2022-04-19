@@ -3,7 +3,8 @@ kind: Config
 deploy:
   kubectl:
     manifests:
-      - ./infrastructure/k8s/*
+      # - ./infrastructure/k8s/*
+      - ./infrastructure/k8s-dev/*
 build:
   local:
     push: false
@@ -32,27 +33,27 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: erjonjanuzi/products
-      context: products
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
-    - image: erjonjanuzi/cart
-      context: cart
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
-    - image: erjonjanuzi/orders
-      context: orders
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
+    # - image: erjonjanuzi/products
+    #   context: products
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: 'src/**/*.ts'
+    #         dest: .
+    # - image: erjonjanuzi/cart
+    #   context: cart
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: 'src/**/*.ts'
+    #         dest: .
+    # - image: erjonjanuzi/orders
+    #   context: orders
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: 'src/**/*.ts'
+    #         dest: .

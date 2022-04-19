@@ -53,3 +53,7 @@ input,
 .ui.borderless.fluid.vertical.left.fixed.menu {
   background-color: #1a1c23;
 }
+
+.rs-drawer-content {
+  background: #1a1c23;
+}

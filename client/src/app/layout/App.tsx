@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import 'rsuite/dist/rsuite.min.css';
 import './style.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,7 +19,10 @@ import WishlistPage from '../../pages/wishlist/WishlistPage';
 import Products from '../../pages/products/Products';
 import LoginPage from '../../pages/login/LoginPage';
 import ProductPage from '../../pages/products/ProductPage';
-import Dashboard from '../../pages/dashboard/layout/Dashboard';
+import Dashboard from '../../pages/dashboard/dashboardoverview/Dashboard';
+import Sidebar from '../../pages/dashboard/layout/Sidebar';
+import Main from '../../pages/dashboard/layout/Main';
+import { Drawer } from 'rsuite';
 
 function App() {
     const location = useLocation();
@@ -33,6 +37,7 @@ function App() {
     return (
         <>
             <ToastContainer position="top-right" hideProgressBar />
+            <Main />
             {/* {userStore.user?.role === 'admin' ? (
                 <Switch>
                     <PrivateRoute path="/dashboard" component={Dashboard} />
@@ -55,10 +60,6 @@ function App() {
                     </Container>
                 </>
             )} */}
-
-            <Switch>
-                    <Route exact path="/dashboard" component={Dashboard} />
-            </Switch>
         </>
     );
 }

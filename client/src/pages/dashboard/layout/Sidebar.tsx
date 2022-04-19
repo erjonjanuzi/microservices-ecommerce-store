@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { observer } from 'mobx-react-lite';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
@@ -8,7 +9,7 @@ export default observer(function Sidebar() {
 
     return (
         <Menu vertical fluid fixed='left' style={{maxWidth: '20vw', marginTop: '60px'}} borderless>
-            <Menu.Item as={NavLink} to={'/dashboard'} content={'Dashboard'} exact activeClassName='active'/>
+            <Menu.Item as={NavLink} to={'/dashboard/overview'} content={'Dashboard'} exact activeClassName='active'/>
             <Menu.Item as={NavLink} to={'/dashboard/products'} content={'Products'} exact activeClassName='active' />
             <Menu.Item as={NavLink} to={'/dashboard/categories'} content={'Category'} exact activeClassName='active' />
             <Menu.Item as={NavLink} to={'/dashboard/customers'} content={'Customers'} exact activeClassName='active' />
