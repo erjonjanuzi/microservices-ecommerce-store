@@ -50,10 +50,23 @@ input,
    color: #fff;
 }
 
+.scrollable {
+  overflow-y: scroll;
+}
+
 .ui.borderless.fluid.vertical.left.fixed.menu {
   background-color: #1a1c23;
 }
 
-.rs-drawer-content {
-  background: #1a1c23;
+.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+  background-color: #1a1c23 !important;
+  min-width: 40vw !important;
+  padding: 30px;
+  color: white !important;
+}
+
+.row-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

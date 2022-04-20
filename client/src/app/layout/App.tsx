@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import 'rsuite/dist/rsuite.min.css';
+// import 'rsuite/dist/rsuite.min.css';
 import './style.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import 'react-toastify/dist/ReactToastify.css';
