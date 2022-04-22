@@ -1,7 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import { Button, Icon, Menu, Table } from 'semantic-ui-react';
+import { Staff } from '../../../app/models/staff';
 
-export default observer(function StaffTable() {
+interface Props {
+    staff: Staff[];
+}
+
+export default observer(function StaffTable({ staff }: Props) {
     return (
         <Table style={{ backgroundColor: '#1a1c23' }} inverted singleLine>
             <Table.Header>
@@ -10,17 +15,31 @@ export default observer(function StaffTable() {
                     <Table.HeaderCell>Email</Table.HeaderCell>
                     <Table.HeaderCell>Joining date</Table.HeaderCell>
                     <Table.HeaderCell>Role</Table.HeaderCell>
-                    <Table.HeaderCell textAlign="right">Actions</Table.HeaderCell>
+                    <Table.HeaderCell textAlign="center">Actions</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
             <Table.Body>
+                {staff.forEach((staff) => {
+                    <Table.Row key={staff.id}>
+                        <Table.Cell>{staff.firstName + ' ' + staff.lastName}</Table.Cell>
+                        <Table.Cell>{staff.email}</Table.Cell>
+                        <Table.Cell>{staff.createdAt}</Table.Cell>
+                        <Table.Cell>Admin</Table.Cell>
+                        <Table.Cell textAlign="center">
+                            <Button.Group>
+                                <Button icon="edit outline" />
+                                <Button icon="trash alternate outline" color="red" />
+                            </Button.Group>
+                        </Table.Cell>
+                    </Table.Row>;
+                })}
                 <Table.Row>
                     <Table.Cell>Erjon Januzi</Table.Cell>
                     <Table.Cell>erjonjanuzi@gmail.com</Table.Cell>
                     <Table.Cell>04/10/2022</Table.Cell>
                     <Table.Cell>Admin</Table.Cell>
-                    <Table.Cell textAlign="right">
+                    <Table.Cell textAlign="center">
                         <Button.Group>
                             <Button icon="edit outline" />
                             <Button icon="trash alternate outline" color="red" />
@@ -28,18 +47,28 @@ export default observer(function StaffTable() {
                     </Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
+                    <Table.Cell>Erjon Januzi</Table.Cell>
+                    <Table.Cell>erjonjanuzi@gmail.com</Table.Cell>
+                    <Table.Cell>04/10/2022</Table.Cell>
+                    <Table.Cell>Admin</Table.Cell>
+                    <Table.Cell textAlign="center">
+                        <Button.Group>
+                            <Button icon="edit outline" />
+                            <Button icon="trash alternate outline" color="red" />
+                        </Button.Group>
+                    </Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
+                    <Table.Cell>Erjon Januzi</Table.Cell>
+                    <Table.Cell>erjonjanuzi@gmail.com</Table.Cell>
+                    <Table.Cell>04/10/2022</Table.Cell>
+                    <Table.Cell>Admin</Table.Cell>
+                    <Table.Cell textAlign="center">
+                        <Button.Group>
+                            <Button icon="edit outline" />
+                            <Button icon="trash alternate outline" color="red" />
+                        </Button.Group>
+                    </Table.Cell>
                 </Table.Row>
             </Table.Body>
 

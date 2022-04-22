@@ -37,11 +37,9 @@ function App() {
     return (
         <>
             <ToastContainer position="top-right" hideProgressBar />
-            <Main />
-            {/* {userStore.user?.role === 'admin' ? (
-                <Switch>
-                    <PrivateRoute path="/dashboard" component={Dashboard} />
-                </Switch>
+            
+            {userStore.user?.role === 'admin' ? (
+                <Main />
             ) : (
                 <>
                     <NavBar />
@@ -59,7 +57,7 @@ function App() {
                         </Switch>
                     </Container>
                 </>
-            )} */}
+            )}
         </>
     );
 }

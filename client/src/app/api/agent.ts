@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { history } from '../..';
+import { Staff as StaffModel, StaffFormValues } from '../models/staff';
 import { store } from '../stores/store';
 
 const sleep = (delay: number) => {
@@ -90,6 +91,12 @@ const Users = {
     details: (id: string) => requests.get(`/api/users/${id}`),
 };
 
+const Staff = {
+    all: () => requests.get('/api/users/allstaff'),
+    details: (id: string) => requests.get(`/api/users/staff/${id}`),
+    create: (staff: StaffFormValues) => requests.post<StaffModel>('/api/users/createadmin', staff)
+}
+
 const Products = {
     all: () => requests.get('/api/products'),
     details: (id: string) => requests.get(`/api/products/${id}`),
@@ -108,6 +115,7 @@ const agent = {
     Users,
     Products,
     Cart,
+    Staff
 };
 
 export default agent;

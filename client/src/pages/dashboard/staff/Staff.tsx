@@ -1,11 +1,18 @@
 import { observer } from 'mobx-react-lite';
 import { Button, Divider, Search, Segment } from 'semantic-ui-react';
 import StaffTable from './StaffTable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Drawer } from '@mui/material';
+import AddStaffForm from './AddStaffForm';
+import { useStore } from '../../../app/stores/store';
 
 export default observer(function Staff() {
     const [openDrawer, setOpenDrawer] = useState(false);
+    const {staffStore: {staffRegistry, loadAllStaff, staff}} = useStore()
+
+    useEffect(() => {
+        if (staffRegistry.size <= 1) loadAllStaff();
+    }, [staffRegistry.size, loadAllStaff])
 
     return (
         <>
@@ -19,7 +26,7 @@ export default observer(function Staff() {
                     onClick={() => setOpenDrawer(true)}
                 />
             </Segment>
-            <StaffTable />
+            <StaffTable staff={staff} />
             <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)} anchor="right">
                 <div className="row-flex">
                     <h1>Add staff</h1>
@@ -32,39 +39,8 @@ export default observer(function Staff() {
                 </div>
                 <Divider />
                 <div className="scrollable">
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                    <p>Test</p>
-                </div>
-                <Divider />
-                <div className='row-flex'>
-                    <Button content='Confirm' fluid positive/>
-                    <Button content='Cancel' fluid basic/>
-                </div>
+                    <AddStaffForm />
+                </div>           
             </Drawer>
             {/* <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
                 <Drawer.Header>
