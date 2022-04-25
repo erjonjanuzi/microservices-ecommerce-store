@@ -7,12 +7,11 @@ import AddStaffForm from './AddStaffForm';
 import { useStore } from '../../../app/stores/store';
 
 export default observer(function Staff() {
-    const [openDrawer, setOpenDrawer] = useState(false);
-    const {staffStore: {staffRegistry, loadAllStaff, staff}} = useStore()
+    const {staffStore: {staffRegistry, loadAllStaff, staff}, drawerStore} = useStore()
 
     useEffect(() => {
-        if (staffRegistry.size <= 1) loadAllStaff();
-    }, [staffRegistry.size, loadAllStaff])
+        loadAllStaff();
+    }, [staffRegistry])
 
     return (
         <>
@@ -23,11 +22,11 @@ export default observer(function Staff() {
                     positive
                     icon="plus"
                     content="Add new staff"
-                    onClick={() => setOpenDrawer(true)}
+                    onClick={() => drawerStore.openDrawer(<AddStaffForm />)}
                 />
             </Segment>
             <StaffTable staff={staff} />
-            <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)} anchor="right">
+            {/* <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)} anchor="right">
                 <div className="row-flex">
                     <h1>Add staff</h1>
                     <Button
@@ -41,20 +40,6 @@ export default observer(function Staff() {
                 <div className="scrollable">
                     <AddStaffForm />
                 </div>           
-            </Drawer>
-            {/* <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
-                <Drawer.Header>
-                    <Drawer.Title>Drawer Title</Drawer.Title>
-                    <Drawer.Actions>
-                        <Button onClick={() => setOpenDrawer(false)}>Cancel</Button>
-                        <Button appearance="primary">
-                            Confirm
-                        </Button>
-                    </Drawer.Actions>
-                </Drawer.Header>
-                <Drawer.Body>
-                    <h1>test</h1>
-                </Drawer.Body>
             </Drawer> */}
         </>
     );

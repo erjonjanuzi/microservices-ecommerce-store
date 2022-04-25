@@ -4,11 +4,12 @@ export interface Staff {
     lastName: string;
     email: string;
     createdAt: Date
+    role: string;
 }
 
 export interface StaffFormValues {
     firstName: string;
     lastName: string;
     email: string;
-    password: string
+    password?: string
 }

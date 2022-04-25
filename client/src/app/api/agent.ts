@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { request } from 'http';
 import { toast } from 'react-toastify';
 import { history } from '../..';
 import { Staff as StaffModel, StaffFormValues } from '../models/staff';
@@ -89,12 +90,14 @@ const Auth = {
 
 const Users = {
     details: (id: string) => requests.get(`/api/users/${id}`),
+    delete: (id: string) => requests.del(`/api/users/${id}`)
 };
 
 const Staff = {
     all: () => requests.get('/api/users/allstaff'),
     details: (id: string) => requests.get(`/api/users/staff/${id}`),
-    create: (staff: StaffFormValues) => requests.post<StaffModel>('/api/users/createadmin', staff)
+    create: (staff: StaffFormValues) => requests.post<StaffModel>('/api/users/createadmin', staff),
+    update: (id: string, staff: StaffFormValues) => requests.put<StaffModel>(`/api/users/updateadmin/${id}`, staff)
 }
 
 const Products = {

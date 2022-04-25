@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
 import CartStore from "./cartStore";
 import CommonStore from "./commonStore";
+import DrawerStore from "./drawerStore";
 import ProductStore from "./productStore";
 import StaffStore from "./staffStore";
 import UserStore from "./userStore";
@@ -11,6 +12,7 @@ interface Store {
     productStore: ProductStore;
     cartStore: CartStore;
     staffStore: StaffStore;
+    drawerStore: DrawerStore
 }
 
 export const store: Store = {
@@ -18,7 +20,8 @@ export const store: Store = {
     commonStore: new CommonStore(),
     productStore: new ProductStore(),
     cartStore: new CartStore(),
-    staffStore: new StaffStore()
+    staffStore: new StaffStore(),
+    drawerStore: new DrawerStore()
 }
 
 export const StoreContext = createContext(store);

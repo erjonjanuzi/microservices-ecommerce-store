@@ -23,20 +23,22 @@ import Dashboard from '../../pages/dashboard/dashboardoverview/Dashboard';
 import Sidebar from '../../pages/dashboard/layout/Sidebar';
 import Main from '../../pages/dashboard/layout/Main';
 import { Drawer } from 'rsuite';
+import DrawerContainer from '../common/drawer/DrawerContainer';
 
 function App() {
     const location = useLocation();
     const { commonStore, userStore } = useStore();
 
-    // useEffect(() => {
-    //     userStore.getUser().finally(() => commonStore.setAppLoaded());
-    // }, [commonStore, userStore]);
+    useEffect(() => {
+        userStore.getUser().finally(() => commonStore.setAppLoaded());
+    }, [commonStore, userStore]);
 
-    // if (!commonStore.appLoaded) return <LoadingComponent content="Loading app..." />;
+    if (!commonStore.appLoaded) return <LoadingComponent content="Loading app..." />;
 
     return (
         <>
             <ToastContainer position="top-right" hideProgressBar />
+            <DrawerContainer />
             
             {userStore.user?.role === 'admin' ? (
                 <Main />

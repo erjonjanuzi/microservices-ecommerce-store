@@ -14,6 +14,8 @@ import { createAdminRoute } from './routes/createAdmin';
 import { verifyEmail } from './routes/verifyEmail';
 import { changePasswordRoute } from './routes/changePassword';
 import { allStaffRoute } from './routes/getAllStaff';
+import { updateAdminRoute } from './routes/updateAdmin';
+import { deleteUserRoute } from './routes/deleteUser';
 
 const app = express();
 app.set('trust proxy', true);
@@ -27,6 +29,7 @@ app.use(
 );
 app.use(currentUser);
 
+app.use(updateAdminRoute)
 app.use(currentUserRoute);
 app.use(allStaffRoute)
 app.use(signInRoute);
@@ -37,6 +40,7 @@ app.use(signUpRoute);
 app.use(createAdminRoute)
 app.use(allUsersRoute);
 app.use(getUserByIdRoute);
+app.use(deleteUserRoute);
 
 app.all('*', async (req, res) => {
     throw new NotFoundError();

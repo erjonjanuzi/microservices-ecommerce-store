@@ -1,12 +1,17 @@
 import { observer } from 'mobx-react-lite';
+import { useEffect, useState } from 'react';
 import { Button, Icon, Menu, Table } from 'semantic-ui-react';
 import { Staff } from '../../../app/models/staff';
+import { useStore } from '../../../app/stores/store';
+import EditStaffForm from './EditStaffForm';
 
 interface Props {
     staff: Staff[];
 }
 
 export default observer(function StaffTable({ staff }: Props) {
+    const {drawerStore, staffStore: {deleteStaff}} = useStore();
+
     return (
         <Table style={{ backgroundColor: '#1a1c23' }} inverted singleLine>
             <Table.Header>
@@ -20,56 +25,20 @@ export default observer(function StaffTable({ staff }: Props) {
             </Table.Header>
 
             <Table.Body>
-                {staff.forEach((staff) => {
+                {staff.map((staff) => (
                     <Table.Row key={staff.id}>
                         <Table.Cell>{staff.firstName + ' ' + staff.lastName}</Table.Cell>
                         <Table.Cell>{staff.email}</Table.Cell>
                         <Table.Cell>{staff.createdAt}</Table.Cell>
-                        <Table.Cell>Admin</Table.Cell>
+                        <Table.Cell>{staff.role}</Table.Cell>
                         <Table.Cell textAlign="center">
                             <Button.Group>
-                                <Button icon="edit outline" />
-                                <Button icon="trash alternate outline" color="red" />
+                                <Button icon="edit outline" onClick={() => drawerStore.openDrawer(<EditStaffForm id={staff.id}/>)}/>
+                                <Button icon="trash alternate outline" color="red" onClick={() => deleteStaff(staff.id)}/>
                             </Button.Group>
                         </Table.Cell>
-                    </Table.Row>;
-                })}
-                <Table.Row>
-                    <Table.Cell>Erjon Januzi</Table.Cell>
-                    <Table.Cell>erjonjanuzi@gmail.com</Table.Cell>
-                    <Table.Cell>04/10/2022</Table.Cell>
-                    <Table.Cell>Admin</Table.Cell>
-                    <Table.Cell textAlign="center">
-                        <Button.Group>
-                            <Button icon="edit outline" />
-                            <Button icon="trash alternate outline" color="red" />
-                        </Button.Group>
-                    </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                    <Table.Cell>Erjon Januzi</Table.Cell>
-                    <Table.Cell>erjonjanuzi@gmail.com</Table.Cell>
-                    <Table.Cell>04/10/2022</Table.Cell>
-                    <Table.Cell>Admin</Table.Cell>
-                    <Table.Cell textAlign="center">
-                        <Button.Group>
-                            <Button icon="edit outline" />
-                            <Button icon="trash alternate outline" color="red" />
-                        </Button.Group>
-                    </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                    <Table.Cell>Erjon Januzi</Table.Cell>
-                    <Table.Cell>erjonjanuzi@gmail.com</Table.Cell>
-                    <Table.Cell>04/10/2022</Table.Cell>
-                    <Table.Cell>Admin</Table.Cell>
-                    <Table.Cell textAlign="center">
-                        <Button.Group>
-                            <Button icon="edit outline" />
-                            <Button icon="trash alternate outline" color="red" />
-                        </Button.Group>
-                    </Table.Cell>
-                </Table.Row>
+                    </Table.Row>
+                ))}
             </Table.Body>
 
             <Table.Footer>
