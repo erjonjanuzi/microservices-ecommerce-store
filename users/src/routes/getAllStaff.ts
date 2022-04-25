@@ -5,22 +5,27 @@ import { Admin } from '../models/admin';
 const router = express.Router();
 
 router.get('/api/users/allstaff', requireAuth, async (req, res) => {
-    // @ts-ignore
-    const { page = 1 } = parseInt(req.query);
-    const limit = 8;
+    const { pageNumber = 1, pageSize = 2 } = req.query;
+
+    console.log(pageNumber, pageSize);
 
     const users = await Admin.find()
-        .limit(limit * 1)
-        .skip((page - 1) * limit);
+        .limit(parseInt(pageSize as string) * 1)
+        .skip((parseInt(pageNumber as string) - 1) * parseInt(pageSize as string));
 
     const count = await Admin.countDocuments();
-    const result: any = {};
 
-    result.users = users;
-    result.totalPages = Math.ceil(count / limit);
-    result.currentPage = page;
+    res.set(
+        'Pagination',
+        JSON.stringify({
+            currentPage: pageNumber,
+            itemsPerPage: pageSize,
+            totalItems: count,
+            totalPages: Math.ceil(count / parseInt(pageSize as string)),
+        })
+    );
 
-    res.send(result);
+    res.send(users);
 });
 
 export { router as allStaffRoute };

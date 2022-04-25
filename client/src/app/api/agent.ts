@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { request } from 'http';
 import { toast } from 'react-toastify';
 import { history } from '../..';
+import { PaginatedResult } from '../models/pagination';
 import { Staff as StaffModel, StaffFormValues } from '../models/staff';
 import { store } from '../stores/store';
 
@@ -20,17 +21,18 @@ const sleep = (delay: number) => {
 axios.interceptors.response.use(
     async (response) => {
         // if (process.env.NODE_ENV === 'development') await sleep(1000);
-
+        const pagination = response.headers['pagination'];
+        if (pagination) {
+            response.data = new PaginatedResult(response.data, JSON.parse(pagination));
+            return response as AxiosResponse<PaginatedResult<any>>;
+        }
         return response;
     },
     (error: AxiosError) => {
         const { data, status, config, headers } = error.response!;
         switch (status) {
             case 400:
-                if (
-                    config.method === 'get' &&
-                    data.errors.hasOwnProperty('id')
-                ) {
+                if (config.method === 'get' && data.errors.hasOwnProperty('id')) {
                     history.push('/not-found');
                 }
                 if (data.errors) {
@@ -48,9 +50,7 @@ axios.interceptors.response.use(
             case 401:
                 if (
                     status === 401 &&
-                    headers['www-authenticate']?.startsWith(
-                        'Bearer error="invalid_token"'
-                    )
+                    headers['www-authenticate']?.startsWith('Bearer error="invalid_token"')
                 ) {
                     store.userStore.logout();
                     toast.error('Session expired - please login again');
@@ -72,10 +72,8 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
     get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-    post: <T>(url: string, body: {}) =>
-        axios.post<T>(url, body).then(responseBody),
-    put: <T>(url: string, body: {}) =>
-        axios.put<T>(url, body).then(responseBody),
+    post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
+    put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
     del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
@@ -90,15 +88,17 @@ const Auth = {
 
 const Users = {
     details: (id: string) => requests.get(`/api/users/${id}`),
-    delete: (id: string) => requests.del(`/api/users/${id}`)
+    delete: (id: string) => requests.del(`/api/users/${id}`),
 };
 
 const Staff = {
-    all: () => requests.get('/api/users/allstaff'),
+    all: (params: URLSearchParams) =>
+        axios.get<PaginatedResult<StaffModel[]>>('/api/users/allstaff', { params }).then(responseBody),
     details: (id: string) => requests.get(`/api/users/staff/${id}`),
     create: (staff: StaffFormValues) => requests.post<StaffModel>('/api/users/createadmin', staff),
-    update: (id: string, staff: StaffFormValues) => requests.put<StaffModel>(`/api/users/updateadmin/${id}`, staff)
-}
+    update: (id: string, staff: StaffFormValues) =>
+        requests.put<StaffModel>(`/api/users/updateadmin/${id}`, staff),
+};
 
 const Products = {
     all: () => requests.get('/api/products'),
@@ -106,11 +106,9 @@ const Products = {
 };
 
 const Cart = {
-    addToCart: (body: { productId: string; quantity: number }) =>
-        requests.post('/api/cart', body),
+    addToCart: (body: { productId: string; quantity: number }) => requests.post('/api/cart', body),
     getCart: () => requests.get('/api/cart'),
-    removeFromCart: (body: { productId: string }) =>
-        requests.put('/api/cart', body),
+    removeFromCart: (body: { productId: string }) => requests.put('/api/cart', body),
 };
 
 const agent = {
@@ -118,7 +116,7 @@ const agent = {
     Users,
     Products,
     Cart,
-    Staff
+    Staff,
 };
 
 export default agent;

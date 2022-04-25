@@ -1,15 +1,16 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { Button, Icon, Menu, Table } from 'semantic-ui-react';
+import { Button, Icon, Menu, Pagination, Table } from 'semantic-ui-react';
 import { Staff } from '../../../app/models/staff';
 import { useStore } from '../../../app/stores/store';
 import EditStaffForm from './EditStaffForm';
 
 interface Props {
     staff: Staff[];
+    next: any
 }
 
-export default observer(function StaffTable({ staff }: Props) {
+export default observer(function StaffTable({ staff, next }: Props) {
     const {drawerStore, staffStore: {deleteStaff}} = useStore();
 
     return (
@@ -44,15 +45,7 @@ export default observer(function StaffTable({ staff }: Props) {
             <Table.Footer>
                 <Table.Row>
                     <Table.HeaderCell colSpan="5">
-                        <Menu floated="right" pagination>
-                            <Menu.Item as="a" icon>
-                                <Icon name="chevron left" />
-                            </Menu.Item>
-                            <Menu.Item as="a">1</Menu.Item>
-                            <Menu.Item as="a" icon>
-                                <Icon name="chevron right" />
-                            </Menu.Item>
-                        </Menu>
+                       <Button positive content='next' onClick={next}/>
                     </Table.HeaderCell>
                 </Table.Row>
             </Table.Footer>

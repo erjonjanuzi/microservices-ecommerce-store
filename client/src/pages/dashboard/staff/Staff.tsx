@@ -5,9 +5,17 @@ import { useEffect, useState } from 'react';
 import { Drawer } from '@mui/material';
 import AddStaffForm from './AddStaffForm';
 import { useStore } from '../../../app/stores/store';
+import { PagingParams } from '../../../app/models/pagination';
 
 export default observer(function Staff() {
-    const {staffStore: {staffRegistry, loadAllStaff, staff}, drawerStore} = useStore()
+    const {staffStore: {staffRegistry, loadAllStaff, staff, setPagingParams, pagination}, drawerStore} = useStore()
+    const [loadingNext, setLoadingNext] = useState(false);
+
+    function handleGetNext() {
+        setLoadingNext(true);
+        setPagingParams(new PagingParams(pagination!.currentPage + 1))
+        loadAllStaff().then(() => setLoadingNext(false));
+    }
 
     useEffect(() => {
         loadAllStaff();
@@ -25,7 +33,7 @@ export default observer(function Staff() {
                     onClick={() => drawerStore.openDrawer(<AddStaffForm />)}
                 />
             </Segment>
-            <StaffTable staff={staff} />
+            <StaffTable staff={staff} next={handleGetNext} />
             {/* <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)} anchor="right">
                 <div className="row-flex">
                     <h1>Add staff</h1>
