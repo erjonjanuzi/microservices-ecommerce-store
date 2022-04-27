@@ -46,6 +46,7 @@ export default observer(function StaffTable({ staff, next }: Props) {
                 <Table.Row>
                     <Table.HeaderCell colSpan="5">
                        <Button positive content='next' onClick={next}/>
+                       
                     </Table.HeaderCell>
                 </Table.Row>
             </Table.Footer>

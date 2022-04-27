@@ -22,7 +22,6 @@ export default class StaffStore {
 
     setPagingParams = (pagingParams: PagingParams) => {
         this.pagingParams = pagingParams;
-        console.log('pagingParams', this.pagingParams);
     };
 
     get axiosParams() {
