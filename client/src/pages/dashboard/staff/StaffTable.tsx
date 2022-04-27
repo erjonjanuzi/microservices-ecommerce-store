@@ -1,17 +1,37 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { Button, Icon, Menu, Pagination, Table } from 'semantic-ui-react';
-import { Staff } from '../../../app/models/staff';
+import { Button, Loader, Pagination, PaginationProps, Table } from 'semantic-ui-react';
+import { PagingParams } from '../../../app/models/pagination';
 import { useStore } from '../../../app/stores/store';
 import EditStaffForm from './EditStaffForm';
 
-interface Props {
-    staff: Staff[];
-    next: any
-}
+export default observer(function StaffTable() {
+    const {
+        drawerStore,
+        staffStore: {
+            loadAllStaff,
+            setPagingParams,
+            deleteStaff,
+            staffRegistry,
+            staff,
+            pagination,
+            loadingInitial,
+        },
+        confirmStore,
+    } = useStore();
 
-export default observer(function StaffTable({ staff, next }: Props) {
-    const {drawerStore, staffStore: {deleteStaff}} = useStore();
+    const onChange = (_: React.MouseEvent<HTMLAnchorElement>, pageInfo: PaginationProps) => {
+        if (typeof pageInfo.activePage === 'string') return;
+
+        setPagingParams(new PagingParams(pageInfo.activePage));
+        loadAllStaff();
+    };
+
+    useEffect(() => {
+        loadAllStaff();
+    }, [staffRegistry]);
+
+    if (loadingInitial || !pagination) return <Loader active />;
 
     return (
         <Table style={{ backgroundColor: '#1a1c23' }} inverted singleLine>
@@ -30,12 +50,29 @@ export default observer(function StaffTable({ staff, next }: Props) {
                     <Table.Row key={staff.id}>
                         <Table.Cell>{staff.firstName + ' ' + staff.lastName}</Table.Cell>
                         <Table.Cell>{staff.email}</Table.Cell>
-                        <Table.Cell>{staff.createdAt}</Table.Cell>
+                        <Table.Cell>{new Date(staff.createdAt).toDateString()}</Table.Cell>
                         <Table.Cell>{staff.role}</Table.Cell>
                         <Table.Cell textAlign="center">
                             <Button.Group>
-                                <Button icon="edit outline" onClick={() => drawerStore.openDrawer(<EditStaffForm id={staff.id}/>)}/>
-                                <Button icon="trash alternate outline" color="red" onClick={() => deleteStaff(staff.id)}/>
+                                <Button
+                                    icon="edit outline"
+                                    onClick={() =>
+                                        drawerStore.openDrawer(<EditStaffForm id={staff.id} />)
+                                    }
+                                    content="Edit"
+                                />
+                                <Button
+                                    icon="trash alternate outline"
+                                    color="red"
+                                    onClick={() =>
+                                        confirmStore.openConfirm(
+                                            'This action is irreversible',
+                                            'Are you sure you want to delete this user?',
+                                            deleteStaff,
+                                            staff.id
+                                        )
+                                    }
+                                />
                             </Button.Group>
                         </Table.Cell>
                     </Table.Row>
@@ -45,8 +82,14 @@ export default observer(function StaffTable({ staff, next }: Props) {
             <Table.Footer>
                 <Table.Row>
                     <Table.HeaderCell colSpan="5">
-                       <Button positive content='next' onClick={next}/>
-                       
+                        <Pagination
+                            totalPages={pagination.totalPages}
+                            onPageChange={onChange}
+                            activePage={pagination.currentPage}
+                            ellipsisItem={null}
+                            firstItem={null}
+                            lastItem={null}
+                        />
                     </Table.HeaderCell>
                 </Table.Row>
             </Table.Footer>

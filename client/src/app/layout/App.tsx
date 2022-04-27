@@ -19,14 +19,11 @@ import WishlistPage from '../../pages/wishlist/WishlistPage';
 import Products from '../../pages/products/Products';
 import LoginPage from '../../pages/login/LoginPage';
 import ProductPage from '../../pages/products/ProductPage';
-import Dashboard from '../../pages/dashboard/dashboardoverview/Dashboard';
-import Sidebar from '../../pages/dashboard/layout/Sidebar';
 import Main from '../../pages/dashboard/layout/Main';
-import { Drawer } from 'rsuite';
 import DrawerContainer from '../common/drawer/DrawerContainer';
+import ConfirmContainer from '../common/confirm/ConfirmContainer';
 
 function App() {
-    const location = useLocation();
     const { commonStore, userStore } = useStore();
 
     useEffect(() => {
@@ -39,7 +36,7 @@ function App() {
         <>
             <ToastContainer position="top-right" hideProgressBar />
             <DrawerContainer />
-            
+            <ConfirmContainer />
             {userStore.user?.role === 'admin' ? (
                 <Main />
             ) : (
