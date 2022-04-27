@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { makeAutoObservable, reaction, runInAction } from 'mobx';
+import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { Pagination, PagingParams } from '../models/pagination';
 import { StaffFormValues, Staff } from '../models/staff';
+import { store } from './store';
 
 export default class StaffStore {
     staffRegistry = new Map<string, Staff>();
@@ -34,8 +36,9 @@ export default class StaffStore {
     loadAllStaff = async () => {
         this.loadingInitial = true;
         try {
-            const result = await agent.Staff.all(this.axiosParams);
             this.staffRegistry.clear();
+
+            const result = await agent.Staff.all(this.axiosParams);
             result.data.forEach((staff) => {
                 this.setStaff(staff);
             });
@@ -80,9 +83,13 @@ export default class StaffStore {
             const newStaff = await agent.Staff.create(staff);
 
             runInAction(() => {
-                this.setStaff(newStaff);
+                if (this.staff.length < this.pagination!.itemsPerPage)
+                    this.setStaff(newStaff);
+                store.drawerStore.closeDrawer();
+                toast.success('Admin created successfully');
             });
         } catch (error) {
+            toast.error('Something went wrong');
             console.log(error);
         }
     };
@@ -118,8 +125,10 @@ export default class StaffStore {
         try {
             await agent.Users.delete(id);
             runInAction(() => {
-                this.staffRegistry.delete(id);
+                this.loadAllStaff();
                 this.loading = false;
+                store.confirmStore.closeConfirm();
+                toast.success('User deleted successfully');
             });
         } catch (error) {
             console.log(error);

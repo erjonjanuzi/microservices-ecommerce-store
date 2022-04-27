@@ -4,7 +4,7 @@ import React from 'react';
 import { Button, Divider, Modal } from 'semantic-ui-react';
 import { useStore } from '../../stores/store';
 
-export default observer(function ModalContainer() {
+export default observer(function DrawerContainer() {
     const { drawerStore } = useStore();
 
     return (

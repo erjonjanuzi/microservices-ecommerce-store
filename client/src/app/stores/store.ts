@@ -1,10 +1,11 @@
-import { createContext, useContext } from "react";
-import CartStore from "./cartStore";
-import CommonStore from "./commonStore";
-import DrawerStore from "./drawerStore";
-import ProductStore from "./productStore";
-import StaffStore from "./staffStore";
-import UserStore from "./userStore";
+import { createContext, useContext } from 'react';
+import CartStore from './cartStore';
+import CommonStore from './commonStore';
+import ConfirmStore from './confirmStore';
+import DrawerStore from './drawerStore';
+import ProductStore from './productStore';
+import StaffStore from './staffStore';
+import UserStore from './userStore';
 
 interface Store {
     userStore: UserStore;
@@ -12,7 +13,8 @@ interface Store {
     productStore: ProductStore;
     cartStore: CartStore;
     staffStore: StaffStore;
-    drawerStore: DrawerStore
+    drawerStore: DrawerStore;
+    confirmStore: ConfirmStore;
 }
 
 export const store: Store = {
@@ -21,8 +23,9 @@ export const store: Store = {
     productStore: new ProductStore(),
     cartStore: new CartStore(),
     staffStore: new StaffStore(),
-    drawerStore: new DrawerStore()
-}
+    drawerStore: new DrawerStore(),
+    confirmStore: new ConfirmStore(),
+};
 
 export const StoreContext = createContext(store);
 
