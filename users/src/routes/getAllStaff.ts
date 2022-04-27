@@ -5,7 +5,7 @@ import { Admin } from '../models/admin';
 const router = express.Router();
 
 router.get('/api/users/allstaff', requireAuth, async (req, res) => {
-    const { pageNumber = 1, pageSize = 2 } = req.query;
+    const { pageNumber = 1, pageSize = 8 } = req.query;
 
     const users = await Admin.find()
         .limit(parseInt(pageSize as string) * 1)
