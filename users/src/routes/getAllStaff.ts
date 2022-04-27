@@ -7,8 +7,6 @@ const router = express.Router();
 router.get('/api/users/allstaff', requireAuth, async (req, res) => {
     const { pageNumber = 1, pageSize = 2 } = req.query;
 
-    console.log(pageNumber, pageSize);
-
     const users = await Admin.find()
         .limit(parseInt(pageSize as string) * 1)
         .skip((parseInt(pageNumber as string) - 1) * parseInt(pageSize as string));
