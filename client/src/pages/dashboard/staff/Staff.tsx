@@ -1,8 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import { Button, Divider, Search, Segment } from 'semantic-ui-react';
+import { Button, Search, Segment } from 'semantic-ui-react';
 import StaffTable from './StaffTable';
 import { useEffect, useState } from 'react';
-import { Drawer } from '@mui/material';
 import AddStaffForm from './AddStaffForm';
 import { useStore } from '../../../app/stores/store';
 import { PagingParams } from '../../../app/models/pagination';
@@ -13,13 +12,14 @@ export default observer(function Staff() {
 
     function handleGetNext() {
         setLoadingNext(true);
-        setPagingParams(new PagingParams(pagination!.currentPage + 1))
+        // @ts-ignore
+        setPagingParams(new PagingParams(parseInt(pagination!.currentPage) + 1))
         loadAllStaff().then(() => setLoadingNext(false));
     }
 
     useEffect(() => {
         loadAllStaff();
-    }, [staffRegistry])
+    }, [staffRegistry, loadAllStaff])
 
     return (
         <>

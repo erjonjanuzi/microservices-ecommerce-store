@@ -12,8 +12,8 @@ export default class StaffStore {
     pagination: Pagination | null = null;
     pagingParams = new PagingParams();
 
-    constructor(){
-        makeAutoObservable(this)
+    constructor() {
+        makeAutoObservable(this);
     }
 
     get staff() {
@@ -22,7 +22,7 @@ export default class StaffStore {
 
     setPagingParams = (pagingParams: PagingParams) => {
         this.pagingParams = pagingParams;
-        console.log('pagingParams', this.pagingParams)
+        console.log('pagingParams', this.pagingParams);
     };
 
     get axiosParams() {
@@ -36,6 +36,7 @@ export default class StaffStore {
         this.loadingInitial = true;
         try {
             const result = await agent.Staff.all(this.axiosParams);
+            this.staffRegistry.clear();
             result.data.forEach((staff) => {
                 this.setStaff(staff);
             });
