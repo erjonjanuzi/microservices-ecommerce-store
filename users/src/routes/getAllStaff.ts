@@ -5,20 +5,51 @@ import { Admin } from '../models/admin';
 const router = express.Router();
 
 router.get('/api/users/allstaff', requireAuth, async (req, res) => {
-    const { pageNumber = 1, pageSize = 8, search } = req.query;
+    const { pageNumber = 1, pageSize = 8, search, sort = 'oldest' } = req.query;
 
-    // @ts-ignore
-    const tokens = search.toLowerCase().split('+').join(' ')
+    let tokens = '';
+    if (search != undefined) {
+        // @ts-ignore
+        tokens = search.toLowerCase().split('+').join(' ');
+    }
 
-    const users = await Admin.find({
-        $text: { $search: tokens },
-        _id: { $nin: [req.currentUser!.id] },
-        role: Roles.ADMIN,
-    })
-        .limit(parseInt(pageSize as string) * 1)
-        .skip((parseInt(pageNumber as string) - 1) * parseInt(pageSize as string));
+    let users;
 
-    const count = await Admin.countDocuments();
+    let sortObj: any = {
+        createdAt: 1
+    }
+
+    if (sort === 'a-z') {
+        sortObj = {
+            firstName: 1
+        }
+    } else if (sort === 'z-a'){
+        sortObj = {
+            firstName: -1
+        }
+    } else if (sort === 'newest') {
+        sortObj = {
+            createdAt: -1
+        }
+    }
+
+    if (tokens == '') {
+        users = await Admin.find({
+            _id: { $nin: [req.currentUser!.id] },
+            role: Roles.ADMIN,
+        })
+            .limit(parseInt(pageSize as string) * 1)
+            .skip((parseInt(pageNumber as string) - 1) * parseInt(pageSize as string))
+            .sort(sortObj);
+    } else {
+        users = await Admin.find({
+            $text: { $search: tokens },
+            _id: { $nin: [req.currentUser!.id] },
+            role: Roles.ADMIN,
+        });
+    }
+
+    const count = (await Admin.countDocuments()) - 1; // remove one element that represents the current admin making the request
 
     res.set(
         'Pagination',
