@@ -13,6 +13,8 @@ export default class StaffStore {
     loadingInitial = false;
     pagination: Pagination | null = null;
     pagingParams = new PagingParams();
+    searchString: string = '';
+    sortingParams: string = '';
 
     constructor() {
         makeAutoObservable(this);
@@ -26,11 +28,27 @@ export default class StaffStore {
         this.pagingParams = pagingParams;
     };
 
+    setSearchString = (searchString: string) => {
+        this.searchString = searchString
+    }
+
+    setSortingParams = (sortingParams: string) => {
+        this.sortingParams = sortingParams;
+    }
+
     get axiosParams() {
         const params = new URLSearchParams();
         params.append('pageNumber', this.pagingParams.pageNumber.toString());
         params.append('pageSize', this.pagingParams.pageSize.toString());
-        params.append('search', 'test erjon')
+
+        if (this.searchString != '') {
+            params.append('search', this.searchString)
+        }
+
+        if (this.sortingParams != '') {
+            params.append('sort', this.sortingParams)
+        }
+
         return params;
     }
 

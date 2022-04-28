@@ -1,6 +1,15 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { Button, Loader, Pagination, PaginationProps, Table } from 'semantic-ui-react';
+import {
+    Button,
+    Header,
+    Icon,
+    Loader,
+    Pagination,
+    PaginationProps,
+    Segment,
+    Table,
+} from 'semantic-ui-react';
 import { PagingParams } from '../../../app/models/pagination';
 import { useStore } from '../../../app/stores/store';
 import EditStaffForm from './EditStaffForm';
@@ -32,6 +41,17 @@ export default observer(function StaffTable() {
     }, [staffRegistry]);
 
     if (loadingInitial || !pagination) return <Loader active />;
+
+    if (staff.length === 0)
+        return (
+            <Segment placeholder>
+                <Header icon>
+                    <Icon name="close" />
+                    No staff members registered yet.
+                </Header>
+                <Button primary>Add staff</Button>
+            </Segment>
+        );
 
     return (
         <Table style={{ backgroundColor: '#1a1c23' }} inverted singleLine>
