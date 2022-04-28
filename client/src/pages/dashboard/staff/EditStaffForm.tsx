@@ -1,26 +1,31 @@
 import { ErrorMessage, Form, Formik } from 'formik';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Button, Divider } from 'semantic-ui-react';
+import { useEffect } from 'react';
+import { Button, Divider, Loader } from 'semantic-ui-react';
 import MyTextInput from '../../../app/common/form/MyTextInput';
-import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { useStore } from '../../../app/stores/store';
 import ValidationErrors from '../../login/ValidationErrors';
+import * as Yup from 'yup';
 
 interface Props {
     id: string;
 }
 
-export default observer(function EditStaffForm({id}: Props) {
-    const { staffStore } = useStore();
+export default observer(function EditStaffForm({ id }: Props) {
+    const { staffStore, drawerStore } = useStore();
 
     useEffect(() => {
         if (id) staffStore.getStaffById(id);
         return () => staffStore.clearSelectedStaff();
     }, [staffStore.getStaffById]);
 
-    if (!staffStore.selectedStaff) return <LoadingComponent content="Loading app..." />;
+    if (!staffStore.selectedStaff) return <Loader active />;
+
+    const editStaffValidationSchema = Yup.object({
+        firstName: Yup.string().required('Please fill out this field'),
+        lastName: Yup.string().required('Please fill out this field'),
+        email: Yup.string().email('Email must be valid').required('Please fill out this field'),
+    });
 
     return (
         <Formik
@@ -35,6 +40,7 @@ export default observer(function EditStaffForm({id}: Props) {
                     setErrors({ error });
                 })
             }
+            validationSchema={editStaffValidationSchema}
         >
             {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
                 <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
@@ -58,8 +64,20 @@ export default observer(function EditStaffForm({id}: Props) {
                         render={() => <ValidationErrors errors={errors.error} />}
                     />
                     <div className="row-flex">
-                        <Button content="Confirm" fluid positive />
-                        <Button content="Cancel" fluid basic />
+                        <Button
+                            loading={isSubmitting}
+                            positive
+                            type="submit"
+                            fluid
+                            content="Update"
+                            disabled={!dirty || !isValid}
+                        />
+                        <Button
+                            content="Cancel"
+                            fluid
+                            basic
+                            onClick={() => drawerStore.closeDrawer()}
+                        />
                     </div>
                 </Form>
             )}

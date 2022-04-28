@@ -83,8 +83,7 @@ export default class StaffStore {
             const newStaff = await agent.Staff.create(staff);
 
             runInAction(() => {
-                if (this.staff.length < this.pagination!.itemsPerPage)
-                    this.setStaff(newStaff);
+                if (this.staff.length < this.pagination!.itemsPerPage) this.setStaff(newStaff);
                 store.drawerStore.closeDrawer();
                 toast.success('Admin created successfully');
             });
@@ -114,6 +113,8 @@ export default class StaffStore {
                     this.staffRegistry.set(result.id, updatedStaff as Staff);
                     this.selectedStaff = updatedStaff as Staff;
                 }
+                store.drawerStore.closeDrawer();
+                toast.success('User updated successfully');
             });
         } catch (error) {
             console.log(error);
