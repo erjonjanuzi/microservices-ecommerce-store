@@ -63,6 +63,8 @@ adminSchema.set('versionKey', 'version');
 
 adminSchema.plugin(updateIfCurrentPlugin);
 
+adminSchema.index({firstName: 'text', lastName: 'text'})
+
 adminSchema.pre('save', async function (done) {
     if (this.isModified('password')) {
         const hashed = await Password.toHash(this.get('password'));

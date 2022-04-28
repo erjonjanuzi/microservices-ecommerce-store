@@ -5,9 +5,16 @@ import { Admin } from '../models/admin';
 const router = express.Router();
 
 router.get('/api/users/allstaff', requireAuth, async (req, res) => {
-    const { pageNumber = 1, pageSize = 8 } = req.query;
+    const { pageNumber = 1, pageSize = 8, search } = req.query;
 
-    const users = await Admin.find({ _id: { $nin: [req.currentUser!.id] }, role: Roles.ADMIN })
+    // @ts-ignore
+    const tokens = search.toLowerCase().split('+').join(' ')
+
+    const users = await Admin.find({
+        $text: { $search: tokens },
+        _id: { $nin: [req.currentUser!.id] },
+        role: Roles.ADMIN,
+    })
         .limit(parseInt(pageSize as string) * 1)
         .skip((parseInt(pageNumber as string) - 1) * parseInt(pageSize as string));
 
