@@ -1,4 +1,4 @@
-import { requireAuth } from '@labcourseapp/common';
+import { requireAuth, Roles } from '@labcourseapp/common';
 import express from 'express';
 import { Admin } from '../models/admin';
 
@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/api/users/allstaff', requireAuth, async (req, res) => {
     const { pageNumber = 1, pageSize = 8 } = req.query;
 
-    const users = await Admin.find()
+    const users = await Admin.find({ _id: { $nin: [req.currentUser!.id] }, role: Roles.ADMIN })
         .limit(parseInt(pageSize as string) * 1)
         .skip((parseInt(pageNumber as string) - 1) * parseInt(pageSize as string));
 
