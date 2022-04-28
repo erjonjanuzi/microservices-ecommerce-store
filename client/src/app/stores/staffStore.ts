@@ -30,6 +30,7 @@ export default class StaffStore {
         const params = new URLSearchParams();
         params.append('pageNumber', this.pagingParams.pageNumber.toString());
         params.append('pageSize', this.pagingParams.pageSize.toString());
+        params.append('search', 'test erjon')
         return params;
     }
 

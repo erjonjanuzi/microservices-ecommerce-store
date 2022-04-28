@@ -7,11 +7,16 @@ import { useStore } from '../../../app/stores/store';
 export default observer(function Staff() {
     const { drawerStore } = useStore();
 
+    const handleSearch = () => {
+        console.log('search has happened')
+    }
+
     return (
         <>
             <h1>All staff</h1>
             <Segment style={{ backgroundColor: '#1a1c23', display: 'flex', flexDirection: 'row' }}>
-                <Search />
+                <Search onSearchChange={() => handleSearch()}/>
+                
                 <Button
                     positive
                     icon="plus"
