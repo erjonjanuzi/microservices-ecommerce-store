@@ -5,13 +5,26 @@ import AddStaffForm from './AddStaffForm';
 import { useStore } from '../../../app/stores/store';
 import { Form, Formik } from 'formik';
 import StaffSorter from './StaffSorter';
+import { useEffect, useState } from 'react';
 
 export default observer(function Staff() {
     const { drawerStore, staffStore } = useStore();
+    const [searchString, setSearchString] = useState('');
 
-    const handleSearchChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, data: SearchProps) => {
-        staffStore.setSearchString(data.value!)
+    const handleSearchChange = (
+        _: React.MouseEvent<HTMLElement, MouseEvent>,
+        data: SearchProps
+    ) => {
+        setSearchString(data.value!);
     };
+
+    const handleSearchSubmit = () => {
+        setSearchString('');
+        staffStore.setSearchString(searchString);
+        staffStore.loadAllStaff();
+    };
+
+    useEffect(() => {}, [handleSearchSubmit]);
 
     return (
         <>
@@ -19,15 +32,11 @@ export default observer(function Staff() {
             <Segment style={{ backgroundColor: '#1a1c23', display: 'flex', flexDirection: 'row' }}>
                 <Formik
                     initialValues={{ searchString: '', error: null }}
-                    onSubmit={(values, { setErrors }) => staffStore.loadAllStaff()}
+                    onSubmit={handleSearchSubmit}
                 >
-                    {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
+                    {({ handleSubmit }) => (
                         <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
-                            <Search onSearchChange={handleSearchChange} />
-                            <Button
-                                content="search"
-                                type="submit"
-                            />
+                            <Search onSearchChange={handleSearchChange} value={searchString} />
                         </Form>
                     )}
                 </Formik>

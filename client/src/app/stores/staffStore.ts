@@ -24,33 +24,34 @@ export default class StaffStore {
         return Array.from(this.staffRegistry.values());
     }
 
-    setPagingParams = (pagingParams: PagingParams) => {
-        this.pagingParams = pagingParams;
-    };
-
-    setSearchString = (searchString: string) => {
-        this.searchString = searchString
-    }
-
-    setSortingParams = (sortingParams: string) => {
-        this.sortingParams = sortingParams;
-    }
-
     get axiosParams() {
         const params = new URLSearchParams();
         params.append('pageNumber', this.pagingParams.pageNumber.toString());
         params.append('pageSize', this.pagingParams.pageSize.toString());
 
         if (this.searchString != '') {
-            params.append('search', this.searchString)
+            console.log('po ngjitet string', this.searchString);
+            params.append('search', this.searchString);
         }
 
-        if (this.sortingParams != '') {
-            params.append('sort', this.sortingParams)
+        if (this.sortingParams != '' && this.searchString == '') {
+            params.append('sort', this.sortingParams);
         }
 
         return params;
     }
+
+    setPagingParams = (pagingParams: PagingParams) => {
+        this.pagingParams = pagingParams;
+    };
+
+    setSearchString = (searchString: string) => {
+        this.searchString = searchString;
+    };
+
+    setSortingParams = (sortingParams: string) => {
+        this.sortingParams = sortingParams;
+    };
 
     loadAllStaff = async () => {
         this.loadingInitial = true;
@@ -58,9 +59,11 @@ export default class StaffStore {
             this.staffRegistry.clear();
 
             const result = await agent.Staff.all(this.axiosParams);
+
             result.data.forEach((staff) => {
                 this.setStaff(staff);
             });
+
             this.setPagination(result.pagination);
             this.setLoadingInitial(false);
         } catch (error) {
