@@ -70,7 +70,7 @@ export default observer(function StaffTable() {
                         <Table.HeaderCell>Email</Table.HeaderCell>
                         <Table.HeaderCell>Joining date</Table.HeaderCell>
                         <Table.HeaderCell>Role</Table.HeaderCell>
-                        <Table.HeaderCell textAlign="center">Actions</Table.HeaderCell>
+                        <Table.HeaderCell textAlign="right">Actions</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
@@ -81,7 +81,7 @@ export default observer(function StaffTable() {
                             <Table.Cell>{staff.email}</Table.Cell>
                             <Table.Cell>{new Date(staff.createdAt).toDateString()}</Table.Cell>
                             <Table.Cell>{staff.role}</Table.Cell>
-                            <Table.Cell textAlign="center">
+                            <Table.Cell textAlign="right">
                                 <Button.Group>
                                     <Button
                                         icon="edit outline"
@@ -110,7 +110,16 @@ export default observer(function StaffTable() {
 
                 <Table.Footer>
                     <Table.Row>
-                        <Table.HeaderCell colSpan="5">
+                        <Table.HeaderCell colSpan="2" textAlign="left">
+                            <p>{`Showing ${
+                                pagination.currentPage * pagination.itemsPerPage -
+                                pagination.itemsPerPage +
+                                1
+                            }-${pagination.currentPage * pagination.itemsPerPage} of ${
+                                pagination.totalItems
+                            }`}</p>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell colSpan="3" textAlign="right">
                             <Pagination
                                 totalPages={pagination.totalPages}
                                 onPageChange={onChange}

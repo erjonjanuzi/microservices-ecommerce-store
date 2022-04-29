@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Button, Search, SearchProps, Segment } from 'semantic-ui-react';
+import { Button, Grid, Search, SearchProps, Segment } from 'semantic-ui-react';
 import StaffTable from './StaffTable';
 import AddStaffForm from './AddStaffForm';
 import { useStore } from '../../../app/stores/store';
@@ -29,26 +29,43 @@ export default observer(function Staff() {
     return (
         <>
             <h1>All staff</h1>
-            <Segment style={{ backgroundColor: '#1a1c23', display: 'flex', flexDirection: 'row' }}>
-                <Formik
-                    initialValues={{ searchString: '', error: null }}
-                    onSubmit={handleSearchSubmit}
-                >
-                    {({ handleSubmit }) => (
-                        <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
-                            <Search onSearchChange={handleSearchChange} value={searchString} />
-                        </Form>
-                    )}
-                </Formik>
-
-                <Button
-                    positive
-                    icon="plus"
-                    content="Add new staff"
-                    onClick={() => drawerStore.openDrawer(<AddStaffForm />)}
-                />
+            <Segment style={{ backgroundColor: '#1a1c23' }}>
+                <Grid>
+                    <Grid.Column width={10}>
+                        <Formik
+                            initialValues={{ searchString: '', error: null }}
+                            onSubmit={handleSearchSubmit}
+                        >
+                            {({ handleSubmit }) => (
+                                <Form
+                                    className="ui form"
+                                    onSubmit={handleSubmit}
+                                    autoComplete="off"
+                                    style={{ minWidth: '100%' }}
+                                >
+                                    <Search
+                                        onSearchChange={handleSearchChange}
+                                        value={searchString}
+                                        placeholder="Search staff by name"
+                                        showNoResults={false}
+                                        fluid
+                                    />
+                                </Form>
+                            )}
+                        </Formik>
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+                        <Button
+                            positive
+                            icon="plus"
+                            content="Add new staff"
+                            onClick={() => drawerStore.openDrawer(<AddStaffForm />)}
+                            fluid
+                        />
+                    </Grid.Column>
+                </Grid>
             </Segment>
-            <StaffSorter />
+            {searchString === '' && staffStore.staff.length > 0 && <StaffSorter />}
             <StaffTable />
         </>
     );

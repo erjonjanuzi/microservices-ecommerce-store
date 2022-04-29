@@ -70,3 +70,7 @@ input,
   flex-direction: row;
   justify-content: space-between;
 }
+
+.ui.input {
+  min-width: 100%;
+}
