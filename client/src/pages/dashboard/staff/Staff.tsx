@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Button, Grid, Search, SearchProps, Segment } from 'semantic-ui-react';
+import { Button, Grid, Icon, Search, SearchProps, Segment } from 'semantic-ui-react';
 import StaffTable from './StaffTable';
 import AddStaffForm from './AddStaffForm';
 import { useStore } from '../../../app/stores/store';
@@ -49,6 +49,7 @@ export default observer(function Staff() {
                                         placeholder="Search staff by name"
                                         showNoResults={false}
                                         fluid
+                                        className="dark-button"
                                     />
                                 </Form>
                             )}
@@ -58,7 +59,7 @@ export default observer(function Staff() {
                         <Button
                             positive
                             icon="plus"
-                            content="Add new staff"
+                            content="New staff"
                             onClick={() => drawerStore.openDrawer(<AddStaffForm />)}
                             fluid
                         />

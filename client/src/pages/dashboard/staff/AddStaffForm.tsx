@@ -32,7 +32,7 @@ export default observer(function AddStaffForm() {
             validationSchema={addStaffValidationSchema}
         >
             {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
-                <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
+                <Form className="ui form dark-button" onSubmit={handleSubmit} autoComplete="off">
                     <MyTextInput name="firstName" placeholder="John" label="First name" required />
                     <MyTextInput
                         name="lastName"
@@ -83,7 +83,7 @@ export default observer(function AddStaffForm() {
                         <Button
                             content="Cancel"
                             fluid
-                            basic
+                            className='dark-basic-button'
                             onClick={() => drawerStore.closeDrawer()}
                         />
                     </div>

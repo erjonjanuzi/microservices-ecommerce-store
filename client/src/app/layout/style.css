@@ -104,3 +104,28 @@ input,
 .sidebar-button button {
   width: 90%;
 }
+
+.dark-button input{
+  background-color: #24262d !important;
+  border: 1px solid #4d4f52 !important;
+  color: #cfcfcf !important;
+}
+
+.dark-button label {
+  color: #cfcfcf !important;
+}
+
+.search.icon {
+  color: #cfcfcf;
+}
+
+.dark-basic-button {
+  color: #4d4f52 !important;
+  border: 1px solid #4d4f52 !important;
+  background-color: transparent !important;
+}
+
+.dark-basic-button:hover {
+  background-color: #4d4f52 !important;
+  color: #cfcfcf !important;
+}

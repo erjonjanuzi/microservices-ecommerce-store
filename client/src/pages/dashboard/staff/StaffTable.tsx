@@ -12,6 +12,7 @@ import {
 } from 'semantic-ui-react';
 import { PagingParams } from '../../../app/models/pagination';
 import { useStore } from '../../../app/stores/store';
+import AddStaffForm from './AddStaffForm';
 import EditStaffForm from './EditStaffForm';
 
 export default observer(function StaffTable() {
@@ -49,12 +50,12 @@ export default observer(function StaffTable() {
             return <h1>{`No results found for "${searchString}"`}</h1>;
         } else {
             return (
-                <Segment placeholder>
+                <Segment placeholder inverted style={{backgroundColor: '#1a1c23'}}>
                     <Header icon>
                         <Icon name="close" />
                         No staff members registered yet.
                     </Header>
-                    <Button primary>Add staff</Button>
+                    <Button primary onClick={() => drawerStore.openDrawer(<AddStaffForm />)}>Add staff</Button>
                 </Segment>
             );
         }
