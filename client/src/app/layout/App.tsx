@@ -26,18 +26,19 @@ import ConfirmContainer from '../common/confirm/ConfirmContainer';
 function App() {
     const { commonStore, userStore } = useStore();
 
-    useEffect(() => {
-        userStore.getUser().finally(() => commonStore.setAppLoaded());
-    }, [commonStore, userStore]);
+    // useEffect(() => {
+    //     userStore.getUser().finally(() => commonStore.setAppLoaded());
+    // }, [commonStore, userStore]);
 
-    if (!commonStore.appLoaded) return <LoadingComponent content="Loading app..." />;
+    // if (!commonStore.appLoaded) return <LoadingComponent content="Loading app..." />;
 
     return (
         <>
             <ToastContainer position="top-right" hideProgressBar />
             <DrawerContainer />
             <ConfirmContainer />
-            {userStore.user?.role === 'admin' ? (
+            <Main />
+            {/* {userStore.user?.role === 'admin' ? (
                 <Main />
             ) : (
                 <>
@@ -56,7 +57,7 @@ function App() {
                         </Switch>
                     </Container>
                 </>
-            )}
+            )} */}
         </>
     );
 }

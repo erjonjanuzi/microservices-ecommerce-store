@@ -74,3 +74,33 @@ input,
 .ui.input {
   min-width: 100%;
 }
+
+.ui.vertical.menu .item {
+  color: rgb(174 172 172 / 87%);
+  font-size: 14px;
+  font-weight: bold;
+  padding: 20px 30px;
+}
+
+.ui.vertical.menu>.active {
+  color: white;
+  border-left: 3px solid green;
+  padding: 20px 27px;
+}
+
+.ui.vertical.menu .item:hover,
+.ui.vertical.menu>.active:hover {
+  color: white !important;
+}
+
+.sidebar-button {
+  position: fixed !important;
+  bottom: 20px !important;
+  width: 20vw !important;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-button button {
+  width: 90%;
+}
