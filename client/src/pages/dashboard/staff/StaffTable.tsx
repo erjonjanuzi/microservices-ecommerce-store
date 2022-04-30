@@ -115,9 +115,14 @@ export default observer(function StaffTable() {
                                 pagination.currentPage * pagination.itemsPerPage -
                                 pagination.itemsPerPage +
                                 1
-                            }-${pagination.currentPage * pagination.itemsPerPage} of ${
+                            }-${
+                                pagination.currentPage * pagination.itemsPerPage <
                                 pagination.totalItems
-                            }`}</p>
+                                    ? pagination.currentPage * pagination.itemsPerPage
+                                    : pagination.currentPage * pagination.itemsPerPage -
+                                      (pagination.currentPage * pagination.itemsPerPage -
+                                          pagination.totalItems)
+                            } of ${pagination.totalItems}`}</p>
                         </Table.HeaderCell>
                         <Table.HeaderCell colSpan="3" textAlign="right">
                             <Pagination
