@@ -30,7 +30,6 @@ export default class StaffStore {
         params.append('pageSize', this.pagingParams.pageSize.toString());
 
         if (this.searchString != '') {
-            console.log('po ngjitet string', this.searchString);
             params.append('search', this.searchString);
         }
 
@@ -47,6 +46,7 @@ export default class StaffStore {
 
     setSearchString = (searchString: string) => {
         this.searchString = searchString;
+        this.setPagingParams(new PagingParams(1))
     };
 
     setSortingParams = (sortingParams: string) => {
