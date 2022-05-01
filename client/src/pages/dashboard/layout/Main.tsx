@@ -1,11 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import { Route, Switch } from 'react-router-dom';
 import { Container, Dropdown, Label } from 'semantic-ui-react';
+import { useStore } from '../../../app/stores/store';
 import Dashboard from '../dashboardoverview/Dashboard';
 import Staff from '../staff/Staff';
 import Sidebar from './Sidebar';
 
 export default observer(function Main() {
+    const { userStore: {user}} = useStore()
+
     return (
         <>
             <div
@@ -22,8 +25,8 @@ export default observer(function Main() {
                     <h1>Zebra51</h1>
                 </div>
                 <div>
-                    <Label circular content="EJ" size="big"  style={{marginRight: '10px'}}/>
-                    <Dropdown pointing="top right" text='Erjon Januzi'>
+                    <Label circular content={user.firstName[0] + user.lastName[0]} size="big"  style={{marginRight: '10px'}}/>
+                    <Dropdown pointing="top right" text={`${user.firstName} ${user.lastName}`}>
                         <Dropdown.Menu>
                             <Dropdown.Item text="Edit Profile" icon="user" />
                             <Dropdown.Item text="Logout" icon="power" />
