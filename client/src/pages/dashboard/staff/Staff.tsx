@@ -66,7 +66,7 @@ export default observer(function Staff() {
                     </Grid.Column>
                 </Grid>
             </Segment>
-            {searchString === '' && staffStore.staff.length > 0 && <StaffSorter />}
+            <div style={{ float: 'right', marginBottom: '20px' }}>{staffStore.staff.length > 0 && <StaffSorter />}</div>
             <StaffTable />
         </>
     );

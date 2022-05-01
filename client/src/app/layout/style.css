@@ -111,6 +111,10 @@ input,
   color: #cfcfcf !important;
 }
 
+.dark-button input::placeholder {
+  color: #4d4f52 !important
+}
+
 .dark-button label {
   color: #cfcfcf !important;
 }

@@ -71,7 +71,7 @@ export default observer(function StaffTable() {
                         <Table.HeaderCell>Email</Table.HeaderCell>
                         <Table.HeaderCell>Joining date</Table.HeaderCell>
                         <Table.HeaderCell>Role</Table.HeaderCell>
-                        <Table.HeaderCell textAlign="right">Actions</Table.HeaderCell>
+                        <Table.HeaderCell textAlign="center">Actions</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
@@ -133,6 +133,7 @@ export default observer(function StaffTable() {
                                 ellipsisItem={null}
                                 firstItem={null}
                                 lastItem={null}
+                                size='mini'
                             />
                         </Table.HeaderCell>
                     </Table.Row>
