@@ -16,6 +16,7 @@ import { changePasswordRoute } from './routes/changePassword';
 import { allStaffRoute } from './routes/getAllStaff';
 import { updateAdminRoute } from './routes/updateAdmin';
 import { deleteUserRoute } from './routes/deleteUser';
+import { allCustomersRoute } from './routes/getAllCustomers';
 
 const app = express();
 app.set('trust proxy', true);
@@ -29,15 +30,16 @@ app.use(
 );
 app.use(currentUser);
 
-app.use(updateAdminRoute)
+app.use(updateAdminRoute);
 app.use(currentUserRoute);
-app.use(allStaffRoute)
+app.use(allStaffRoute);
+app.use(allCustomersRoute);
 app.use(signInRoute);
-app.use(verifyEmail)
-app.use(changePasswordRoute)
+app.use(verifyEmail);
+app.use(changePasswordRoute);
 app.use(signOutRoute);
 app.use(signUpRoute);
-app.use(createAdminRoute)
+app.use(createAdminRoute);
 app.use(allUsersRoute);
 app.use(getUserByIdRoute);
 app.use(deleteUserRoute);

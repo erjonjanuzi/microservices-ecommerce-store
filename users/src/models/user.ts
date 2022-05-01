@@ -105,6 +105,8 @@ const userSchema = new mongoose.Schema(
 userSchema.set('versionKey', 'version');
 userSchema.plugin(updateIfCurrentPlugin);
 
+userSchema.index({firstName: 'text', lastName: 'text', email: 'text'})
+
 userSchema.pre('save', async function (done) {
     if (this.isModified('password')) {
         const hashed = await Password.toHash(this.get('password'));
