@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { request } from 'http';
 import { toast } from 'react-toastify';
 import { history } from '../..';
+import { Customer } from '../models/customer';
 import { PaginatedResult } from '../models/pagination';
 import { Staff as StaffModel, StaffFormValues } from '../models/staff';
 import { store } from '../stores/store';
@@ -100,6 +101,12 @@ const Staff = {
         requests.put<StaffModel>(`/api/users/updateadmin/${id}`, staff),
 };
 
+const Customers = {
+    all: (params: URLSearchParams) =>
+        axios.get<PaginatedResult<Customer[]>>('/api/users/customers', { params }).then(responseBody),
+    details: (id: string) => requests.get<Customer>(`/api/users/${id}`)
+}
+
 const Products = {
     all: () => requests.get('/api/products'),
     details: (id: string) => requests.get(`/api/products/${id}`),
@@ -117,6 +124,7 @@ const agent = {
     Products,
     Cart,
     Staff,
+    Customers
 };
 
 export default agent;

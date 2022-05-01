@@ -1,0 +1,17 @@
+export interface Customer {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    createdAt: Date;
+    emailConfirmed: boolean;
+    address: {
+        country: string;
+        city: string;
+        postalCode: string;
+        street: string;
+    },
+    personalDetails: {
+        phoneNumber: string;
+    }
+}
