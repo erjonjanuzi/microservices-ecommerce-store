@@ -22,6 +22,7 @@ import ProductPage from '../../pages/products/ProductPage';
 import Main from '../../pages/dashboard/layout/Main';
 import DrawerContainer from '../common/drawer/DrawerContainer';
 import ConfirmContainer from '../common/confirm/ConfirmContainer';
+import ModalContainer from '../common/modal/ModalContainer';
 
 function App() {
     const { commonStore, userStore } = useStore();
@@ -35,6 +36,7 @@ function App() {
     return (
         <>
             <ToastContainer position="top-right" hideProgressBar />
+            <ModalContainer />
             <DrawerContainer />
             <ConfirmContainer />
             {userStore.user?.role === 'admin' ? (

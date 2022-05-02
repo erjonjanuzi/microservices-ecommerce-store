@@ -9,9 +9,11 @@ import {
     PaginationProps,
     Segment,
     Table,
+    SemanticSIZES,
 } from 'semantic-ui-react';
 import { PagingParams } from '../../../app/models/pagination';
 import { useStore } from '../../../app/stores/store';
+import ViewCustomer from './ViewCustomer';
 
 export default observer(function CustomersTable() {
     const {
@@ -28,6 +30,7 @@ export default observer(function CustomersTable() {
             setSearchString,
         },
         confirmStore,
+        modalStore
     } = useStore();
 
     const onChange = (_: React.MouseEvent<HTMLAnchorElement>, pageInfo: PaginationProps) => {
@@ -84,7 +87,7 @@ export default observer(function CustomersTable() {
                                     <Button
                                         icon="eye"
                                         onClick={() =>
-                                            console.log(customer)
+                                            modalStore.openModal(<ViewCustomer id={customer.id} />, 'large')
                                         }
                                     />
                                     <Button

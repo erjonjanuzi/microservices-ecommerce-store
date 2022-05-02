@@ -4,6 +4,7 @@ import CommonStore from './commonStore';
 import ConfirmStore from './confirmStore';
 import CustomerStore from './customerStore';
 import DrawerStore from './drawerStore';
+import ModalStore from './modalStore';
 import ProductStore from './productStore';
 import StaffStore from './staffStore';
 import UserStore from './userStore';
@@ -17,6 +18,7 @@ interface Store {
     drawerStore: DrawerStore;
     confirmStore: ConfirmStore;
     customerStore: CustomerStore;
+    modalStore: ModalStore;
 }
 
 export const store: Store = {
@@ -28,6 +30,7 @@ export const store: Store = {
     drawerStore: new DrawerStore(),
     confirmStore: new ConfirmStore(),
     customerStore: new CustomerStore(),
+    modalStore: new ModalStore(),
 };
 
 export const StoreContext = createContext(store);

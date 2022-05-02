@@ -133,3 +133,12 @@ input,
   background-color: #4d4f52 !important;
   color: #cfcfcf !important;
 }
+
+.dark-modal>.content {
+  background-color: #24262d !important;
+  color: #cfcfcf !important;
+}
+
+.ui.massive.label {
+  padding: 1.5em !important;
+}
