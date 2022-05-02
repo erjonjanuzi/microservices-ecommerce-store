@@ -10,6 +10,7 @@ import { Form as SemanticForm } from 'semantic-ui-react';
 import MySelectInput from '../../app/common/form/MySelectInput';
 import { countryOptions } from '../../app/common/options/countryOptions';
 import ValidationErrors from './ValidationErrors';
+import { history } from '../..';
 
 export default observer(function RegisterForm() {
     const { userStore } = useStore();
@@ -28,7 +29,7 @@ export default observer(function RegisterForm() {
         password: Yup.string()
             .required('Please fill out this field')
             .min(8, 'Minimum 8 characters'),
-        confirmPassword: Yup.string().oneOf(
+        confirmPassword: Yup.string().required('Please fill out this field').oneOf(
             [Yup.ref('password'), null],
             'Passwords must match'
         ),
@@ -95,20 +96,6 @@ export default observer(function RegisterForm() {
                                     type="text"
                                     required
                                 />
-                                <SemanticForm.Group inline>
-                                    <SemanticForm.Radio
-                                        label="Male"
-                                        value="male"
-                                        checked={value === 'male'}
-                                        onChange={() => setValue('male')}
-                                    />
-                                    <SemanticForm.Radio
-                                        label="Female"
-                                        value="female"
-                                        checked={value === 'female'}
-                                        onChange={() => setValue('female')}
-                                    />
-                                </SemanticForm.Group>
                                 <MyTextInput
                                     name="phoneNumber"
                                     placeholder="e.g. 043922777"
@@ -161,6 +148,11 @@ export default observer(function RegisterForm() {
                                         <Icon name="arrow right" />
                                     </Button.Content>
                                 </Button>
+                                <br />
+                                <a href="" onClick={(e: any) => {
+                                    e.preventDefault();
+                                    history.push('/login#tab=login')
+                                }}>Already have an account? Login instead</a>
                             </Form>
                         </>
                     )}
@@ -209,6 +201,12 @@ export default observer(function RegisterForm() {
                                     type="text"
                                     required
                                 />
+                                <MySelectInput
+                                    placeholder="City"
+                                    label="City"
+                                    name="city"
+                                    options={countryOptions[0].cities}
+                                />
                                 <MyTextInput
                                     name="postalCode"
                                     placeholder="Postcode"
@@ -216,12 +214,6 @@ export default observer(function RegisterForm() {
                                     type="text"
                                     required
                                     width={8}
-                                />
-                                <MySelectInput
-                                    placeholder="City"
-                                    label="City"
-                                    name="city"
-                                    options={countryOptions[0].cities}
                                 />
                                 <ErrorMessage
                                     name="error"

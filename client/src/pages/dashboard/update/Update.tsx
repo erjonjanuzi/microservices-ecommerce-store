@@ -11,7 +11,7 @@ export default observer(function Update() {
 
     useEffect(() => {
         if (!userStore.user.firstTimeAccess) {
-            history.push('/dashboard/overview')
+            history.push('/dashboard/overview?loginSuccessful')
         }
     }, [passwordUpdated]);
 

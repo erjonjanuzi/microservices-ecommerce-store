@@ -51,7 +51,6 @@ export default class UserStore {
             };
             if (result.currentUser) {
                 const user = await agent.Users.details(result.currentUser.id);
-                // store.commonStore.setToken(user.token);
                 runInAction(() => (this.user = user));
             }
         } catch (error) {
@@ -59,9 +58,9 @@ export default class UserStore {
         }
     };
 
-    checkPersonalDetails = async ({ email, password }: { email: string; password: string }) => {
+    checkPersonalDetails = async ({ email }: { email: string }) => {
         try {
-            await agent.Auth.checkPersonalDetails({ email, password });
+            await agent.Auth.checkUser({ email });
         } catch (error) {
             throw error;
         }

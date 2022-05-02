@@ -82,9 +82,9 @@ const Auth = {
     current: () => requests.get('/api/users/currentuser'),
     login: (user: any) => requests.post('/api/users/signin', user),
     logout: () => requests.get('/api/users/signout'),
-    register: (user: any) => requests.post('/api/users/signup', user),
-    checkPersonalDetails: (personalDetails: any) =>
-        requests.post('/api/auth/checkuser', personalDetails),
+    register: (user: any) => requests.post('/api/users/register', user),
+    checkUser: (body: {email: string}) =>
+        requests.post('/api/users/checkuser', body),
 };
 
 const Users = {

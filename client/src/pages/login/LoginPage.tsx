@@ -31,12 +31,8 @@ export default observer(function LoginPage() {
                 <Image src='/assets/undraw_secure_login.svg' />
             </Grid.Column>
             <Grid.Column width={7}>
-                <h3
-                    style={{
-                        textDecoration: 'underline',
-                    }}
-                >
-                    Login with account
+                <h3>
+                    {loginTab ? 'Login with account' : 'Create account'}
                 </h3>
                 {loginTab ? (
                     <>
