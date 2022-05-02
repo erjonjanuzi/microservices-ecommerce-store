@@ -30,13 +30,13 @@ app.use(
 );
 app.use(currentUser);
 
+app.use(changePasswordRoute);
 app.use(updateAdminRoute);
 app.use(currentUserRoute);
 app.use(allStaffRoute);
 app.use(allCustomersRoute);
 app.use(signInRoute);
 app.use(verifyEmail);
-app.use(changePasswordRoute);
 app.use(signOutRoute);
 app.use(signUpRoute);
 app.use(createAdminRoute);

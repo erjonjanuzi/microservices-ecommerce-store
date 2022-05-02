@@ -1,6 +1,6 @@
 import { BadRequestError, NotFoundError, requireAuth } from '@labcourseapp/common'
 import express, {Request, Response} from 'express'
-import { User } from '../models/user'
+import { Admin } from '../models/admin'
 import { Password } from '../services/Password'
 
 const router = express.Router()
@@ -12,7 +12,7 @@ router.post('/api/users/updatepassword', requireAuth, async (req: Request, res: 
         throw new BadRequestError('New password cannot be the same as your old password')
     }
 
-    const user = await User.findById(req.currentUser!.id)
+    const user = await Admin.findById(req.currentUser!.id)
 
     if (!user){
         throw new NotFoundError()
@@ -30,7 +30,7 @@ router.post('/api/users/updatepassword', requireAuth, async (req: Request, res: 
     user.set({
         password: newPassword
     })
-    await user.save()
+    await user.save();
     
     res.send(user)
 })
