@@ -90,11 +90,15 @@ const Auth = {
 const Users = {
     details: (id: string) => requests.get(`/api/users/${id}`),
     delete: (id: string) => requests.del(`/api/users/${id}`),
+    changePassword: (values: { currentPassword: string; newPassword: string }) =>
+        requests.post('/api/users/updatepassword', values),
 };
 
 const Staff = {
     all: (params: URLSearchParams) =>
-        axios.get<PaginatedResult<StaffModel[]>>('/api/users/allstaff', { params }).then(responseBody),
+        axios
+            .get<PaginatedResult<StaffModel[]>>('/api/users/allstaff', { params })
+            .then(responseBody),
     details: (id: string) => requests.get(`/api/users/staff/${id}`),
     create: (staff: StaffFormValues) => requests.post<StaffModel>('/api/users/createadmin', staff),
     update: (id: string, staff: StaffFormValues) =>
@@ -103,9 +107,11 @@ const Staff = {
 
 const Customers = {
     all: (params: URLSearchParams) =>
-        axios.get<PaginatedResult<Customer[]>>('/api/users/customers', { params }).then(responseBody),
-    details: (id: string) => requests.get<Customer>(`/api/users/${id}`)
-}
+        axios
+            .get<PaginatedResult<Customer[]>>('/api/users/customers', { params })
+            .then(responseBody),
+    details: (id: string) => requests.get<Customer>(`/api/users/${id}`),
+};
 
 const Products = {
     all: () => requests.get('/api/products'),
@@ -124,7 +130,7 @@ const agent = {
     Products,
     Cart,
     Staff,
-    Customers
+    Customers,
 };
 
 export default agent;
