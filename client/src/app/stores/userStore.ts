@@ -23,7 +23,12 @@ export default class UserStore {
             const user = (await agent.Users.details(result.id)) as any;
             runInAction(() => (this.user = user));
 
-            user.role === 'admin' ? history.push('/dashboard') : history.push('/');
+            if (user.role === 'admin' && user.firstTimeAccess === true) {
+                history.push('/updatepassword');
+                return;
+            }
+
+            user.role === 'admin' ? history.push('/dashboard/overview') : history.push('/');
         } catch (error) {
             throw error;
         }

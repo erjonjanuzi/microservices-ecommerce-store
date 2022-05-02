@@ -5,7 +5,7 @@ interface Props extends RouteProps {
     component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
 }
 
-export default function PrivateRoute({ component: Component, ...rest }: Props) {
+export default function OneTimeRoute({ component: Component, ...rest }: Props) {
     const {
         userStore: { isLoggedIn, user },
     } = useStore();
@@ -13,15 +13,7 @@ export default function PrivateRoute({ component: Component, ...rest }: Props) {
         <Route
             {...rest}
             render={(props) =>
-                isLoggedIn && user.role === 'admin' ? (
-                    user.firstTimeAccess ? (
-                        <Redirect to="/updatepassword" />
-                    ) : (
-                        <Component {...props} />
-                    )
-                ) : (
-                    <Redirect to="/" />
-                )
+                isLoggedIn && user.role === 'admin' ? <Component {...props} /> : <Redirect to="/" />
             }
         />
     );

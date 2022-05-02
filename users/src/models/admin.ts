@@ -17,6 +17,7 @@ interface AdminDoc extends mongoose.Document {
     password: string;
     role: Roles;
     version: number;
+    firstTimeAccess: boolean;
 }
 
 interface AdminModel extends mongoose.Model<AdminDoc> {
@@ -45,6 +46,10 @@ const adminSchema = new mongoose.Schema(
             type: String,
             default: Roles.ADMIN,
         },
+        firstTimeAccess: {
+            type: Boolean,
+            default: true,
+        },
     },
     {
         toJSON: {
@@ -63,7 +68,7 @@ adminSchema.set('versionKey', 'version');
 
 adminSchema.plugin(updateIfCurrentPlugin);
 
-adminSchema.index({firstName: 'text', lastName: 'text'})
+adminSchema.index({ firstName: 'text', lastName: 'text' });
 
 adminSchema.pre('save', async function (done) {
     if (this.isModified('password')) {

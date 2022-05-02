@@ -7,6 +7,7 @@ import Customers from '../customers/Customers';
 import Dashboard from '../dashboardoverview/Dashboard';
 import Profile from '../settings/Profile';
 import Staff from '../staff/Staff';
+import Update from '../update/Update';
 import Sidebar from './Sidebar';
 
 export default observer(function Main() {
@@ -41,10 +42,10 @@ export default observer(function Main() {
             <div className="myScrollableDiv" style={{ padding: '30px' }}>
                 <Container>
                     <Switch>
-                        <PrivateRoute exact path="/dashboard/overview" component={Dashboard} />
                         <PrivateRoute exact path="/dashboard/staff" component={Staff} />
                         <PrivateRoute exact path="/dashboard/customers" component={Customers} />
                         <PrivateRoute exact path="/dashboard/settings" component={Profile} />
+                        <PrivateRoute path="/dashboard" component={Dashboard} />
                     </Switch>
                 </Container>
             </div>

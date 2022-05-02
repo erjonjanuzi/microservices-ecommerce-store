@@ -23,6 +23,8 @@ import Main from '../../pages/dashboard/layout/Main';
 import DrawerContainer from '../common/drawer/DrawerContainer';
 import ConfirmContainer from '../common/confirm/ConfirmContainer';
 import ModalContainer from '../common/modal/ModalContainer';
+import Update from '../../pages/dashboard/update/Update';
+import OneTimeRoute from './OneTimeRoute';
 
 function App() {
     const { commonStore, userStore } = useStore();
@@ -39,26 +41,29 @@ function App() {
             <ModalContainer />
             <DrawerContainer />
             <ConfirmContainer />
-            {userStore.user?.role === 'admin' ? (
-                <Main />
-            ) : (
-                <>
-                    <NavBar />
-                    <Container>
-                        <Switch>
-                            <Route exact path="/" component={HomePage} />
-                            <Route exact path="/products" component={Products} />
-                            <Route exact path="/products/:id" component={ProductPage} />
-                            <Route exact path="/cart" component={CartPage} />
-                            <Route exact path="/wishlist" component={WishlistPage} />
-                            <Route exact path="/login" component={LoginPage} />
+            <Switch>
+                <OneTimeRoute exact path="/updatepassword" component={Update} />
+                {userStore.user?.role === 'admin' ? (
+                    <Main />
+                ) : (
+                    <>
+                        <NavBar />
+                        <Container>
+                            <Switch>
+                                <Route exact path="/" component={HomePage} />
+                                <Route exact path="/products" component={Products} />
+                                <Route exact path="/products/:id" component={ProductPage} />
+                                <Route exact path="/cart" component={CartPage} />
+                                <Route exact path="/wishlist" component={WishlistPage} />
+                                <Route exact path="/login" component={LoginPage} />
 
-                            <Route exact path="/server-error" component={ServerError} />
-                            <Route component={NotFound} />
-                        </Switch>
-                    </Container>
-                </>
-            )}
+                                <Route exact path="/server-error" component={ServerError} />
+                                <Route component={NotFound} />
+                            </Switch>
+                        </Container>
+                    </>
+                )}
+            </Switch>
         </>
     );
 }
