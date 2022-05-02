@@ -1,7 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { history } from '../..';
 import agent from '../api/agent';
-import { store } from './store';
 
 export default class UserStore {
     user: any = undefined;
