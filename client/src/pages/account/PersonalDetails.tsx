@@ -4,11 +4,14 @@ import { useStore } from '../../app/stores/store';
 import EditPersonalInformationForm from './EditPersonalInformationForm';
 import UpdateAddress from './UpdateAddress';
 import UpdatePassword from './UpdatePassword';
+import { faTruck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default observer(function PersonalDetails() {
     const {
-        userStore: { user },
+        userStore: { user, deleteAccount },
         drawerStore,
+        confirmStore,
     } = useStore();
 
     return (
@@ -70,6 +73,37 @@ export default observer(function PersonalDetails() {
                         )
                     }
                 />
+                <h3>
+                    <FontAwesomeIcon icon={faTruck} />
+                    Preferred delivery address
+                </h3>
+                {!user.deliveryAddress && (
+                    <a
+                        href=""
+                        onClick={(e: any) => {
+                            e.preventDefault();
+                        }}
+                    >
+                        Add delivery address
+                    </a>
+                )}
+                <Divider />
+                <Button
+                    negative
+                    icon="trash outline"
+                    content="Delete account"
+                    size="small"
+                    style={{ margin: '10px 0 5px 0' }}
+                    onClick={() => confirmStore.openConfirm(
+                        'Delete account',
+                        'Are you sure you want to PERMANENTLY delete your account? Once this is done you can no longer undo this action!',
+                        deleteAccount
+                    )}
+                />
+                <p>
+                    Permanently delete your account in case you no longer want to use it. <br />
+                    Beware that this action is irreversible
+                </p>
             </Grid.Column>
         </Grid>
     );

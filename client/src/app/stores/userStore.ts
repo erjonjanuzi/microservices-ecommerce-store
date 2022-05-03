@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import { history } from '../..';
 import agent from '../api/agent';
 import { UpdateCustomerFormValues } from '../models/customer';
+import { store } from './store';
 
 export default class UserStore {
     user: any = undefined;
@@ -87,6 +88,18 @@ export default class UserStore {
             runInAction(() => {
                 this.user = user;
             })
+        } catch(error){
+            throw error;
+        }
+    }
+
+    deleteAccount = async () => {
+        try {
+            const result = await agent.Users.deleteAccount() as {delete: string};
+            store.confirmStore.closeConfirm();
+            if (result.delete === 'success'){
+                this.logout();
+            }
         } catch(error){
             throw error;
         }

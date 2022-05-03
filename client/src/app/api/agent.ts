@@ -91,6 +91,7 @@ const Users = {
     delete: (id: string) => requests.del(`/api/users/${id}`),
     changePassword: (values: { currentPassword: string; newPassword: string }) =>
         requests.post('/api/users/updatepassword', values),
+    deleteAccount: () => requests.del('/api/users/deleteaccount'),
 };
 
 const Staff = {

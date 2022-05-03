@@ -19,6 +19,7 @@ import { deleteUserRoute } from './routes/deleteUser';
 import { allCustomersRoute } from './routes/getAllCustomers';
 import { checkUserRoute } from './routes/checkUser';
 import { updateCustomerRoute } from './routes/updateCustomer';
+import { deleteAccountRoute } from './routes/deleteAccount';
 
 const app = express();
 app.set('trust proxy', true);
@@ -32,6 +33,7 @@ app.use(
 );
 app.use(currentUser);
 
+app.use(deleteAccountRoute)
 app.use(updateCustomerRoute);
 app.use(changePasswordRoute);
 app.use(checkUserRoute);
