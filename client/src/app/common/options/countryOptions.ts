@@ -1,10 +1,10 @@
 export const countryOptions = [
     {
         text: 'Kosovo',
-        value: 'kosovo',
+        value: 'Kosovo',
         cities: [
-            { text: 'Prishtina', value: 'prishtina' },
-            { text: 'Gjilan', value: 'gjilan' },
+            { text: 'Prishtina', value: 'Prishtina' },
+            { text: 'Gjilan', value: 'Gjilan' },
         ],
     },
 ];
