@@ -1,5 +1,7 @@
 import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Button, Container, Dropdown, Icon, Menu, Segment } from 'semantic-ui-react';
 import { useStore } from '../stores/store';
 
@@ -7,6 +9,11 @@ export default observer(function NavBar() {
     const {
         userStore: { user, logout, isLoggedIn },
     } = useStore();
+
+    if (user && location.search.split('?')[1] === 'registerSuccess'){
+        toast.success(`Welcome, ${user.firstName}`)
+    }
+
     return (
         <Menu stackable secondary style={{ margin: '0px', padding: '30px 0' }}>
             <Container>
@@ -29,8 +36,10 @@ export default observer(function NavBar() {
                             >
                                 <Dropdown.Menu>
                                     <Dropdown.Item
-                                        text="My Profile"
+                                        text="My Account"
                                         icon="user"
+                                        as={NavLink}
+                                        to='/account'
                                     />
                                     <Dropdown.Item
                                         onClick={logout}

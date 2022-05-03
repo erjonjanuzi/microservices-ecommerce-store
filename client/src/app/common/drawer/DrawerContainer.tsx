@@ -8,10 +8,10 @@ export default observer(function DrawerContainer() {
     const { drawerStore } = useStore();
 
     return (
-        <Drawer open={drawerStore.drawer.open} onClose={drawerStore.closeDrawer} anchor="right">
+        <Drawer open={drawerStore.drawer.open} onClose={drawerStore.closeDrawer} anchor="right" className={drawerStore.drawer.theme === 'dark' ? 'darkmode-drawer' : 'whitemode-drawer'}>
             <div className="row-flex">
-                <h1>Add staff</h1>
-                <Button icon="close" color="red" secondary onClick={drawerStore.closeDrawer} />
+                <h2>{drawerStore.drawer.header}</h2>
+                <Button icon="close" basic circular onClick={drawerStore.closeDrawer} size='mini'/>
             </div>
             <Divider />
             <div className="scrollable">{drawerStore.drawer.body}</div>

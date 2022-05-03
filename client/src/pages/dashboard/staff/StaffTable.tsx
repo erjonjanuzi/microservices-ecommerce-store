@@ -55,7 +55,7 @@ export default observer(function StaffTable() {
                         <Icon name="close" />
                         No staff members registered yet.
                     </Header>
-                    <Button primary onClick={() => drawerStore.openDrawer(<AddStaffForm />)}>Add staff</Button>
+                    <Button primary onClick={() => drawerStore.openDrawer(<AddStaffForm />, 'Add staff')}>Add staff</Button>
                 </Segment>
             );
         }
@@ -87,7 +87,7 @@ export default observer(function StaffTable() {
                                     <Button
                                         icon="edit outline"
                                         onClick={() =>
-                                            drawerStore.openDrawer(<EditStaffForm id={staff.id} />)
+                                            drawerStore.openDrawer(<EditStaffForm id={staff.id} />, 'Edit staff')
                                         }
                                         content="Edit"
                                     />

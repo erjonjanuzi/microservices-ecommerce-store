@@ -25,6 +25,8 @@ import ConfirmContainer from '../common/confirm/ConfirmContainer';
 import ModalContainer from '../common/modal/ModalContainer';
 import Update from '../../pages/dashboard/update/Update';
 import OneTimeRoute from './OneTimeRoute';
+import CustomerRoute from './CustomerRoute';
+import Account from '../../pages/account/Account';
 
 function App() {
     const { commonStore, userStore } = useStore();
@@ -57,6 +59,7 @@ function App() {
                                 <Route exact path="/wishlist" component={WishlistPage} />
                                 <Route exact path="/login" component={LoginPage} />
 
+                                <CustomerRoute path='/account' component={Account} />
                                 <Route exact path="/server-error" component={ServerError} />
                                 <Route component={NotFound} />
                             </Switch>

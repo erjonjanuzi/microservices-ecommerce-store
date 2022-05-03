@@ -60,7 +60,7 @@ export default observer(function Staff() {
                             positive
                             icon="plus"
                             content="New staff"
-                            onClick={() => drawerStore.openDrawer(<AddStaffForm />)}
+                            onClick={() => drawerStore.openDrawer(<AddStaffForm />, 'Add staff')}
                             fluid
                         />
                     </Grid.Column>

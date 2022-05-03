@@ -1,5 +1,4 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import { toast } from 'react-toastify';
 import { history } from '../..';
 import agent from '../api/agent';
 
@@ -69,8 +68,13 @@ export default class UserStore {
     register = async (personal: any, address: any) => {
         try {
             const registerObj = { ...personal, ...address };
-            await agent.Auth.register(registerObj);
-            history.push(`/login/registerSuccess?email=${personal.email}`);
+            const user = await agent.Auth.register(registerObj);
+            if (user) {
+                runInAction(() => {
+                    this.user = user;
+                    history.push('/?registerSuccess');
+                });
+            }
         } catch (error) {
             throw error;
         }

@@ -41,7 +41,7 @@ export default observer(function Profile() {
                         <Button
                             content="Edit personal information"
                             size="small"
-                            onClick={() => drawerStore.openDrawer(<EditPersonalDetailsForm />)}
+                            onClick={() => drawerStore.openDrawer(<EditPersonalDetailsForm />, 'Edit personal information')}
                         />
                         <Divider />
                         <h3>Login details</h3>
@@ -53,7 +53,7 @@ export default observer(function Profile() {
                             href=""
                             onClick={(e: any) => {
                                 e.preventDefault();
-                                drawerStore.openDrawer(<ChangePassword />);
+                                drawerStore.openDrawer(<ChangePassword />, 'Update password');
                             }}
                         >
                             Change password

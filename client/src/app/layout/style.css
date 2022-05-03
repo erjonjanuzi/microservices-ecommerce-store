@@ -58,11 +58,18 @@ input,
   background-color: #1a1c23;
 }
 
-.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+.darkmode-drawer>.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
   background-color: #1a1c23 !important;
-  min-width: 40vw !important;
+  min-width: 35vw !important;
   padding: 30px;
   color: white !important;
+}
+
+.whitemode-drawer>.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+  background-color: white !important;
+  min-width: 35vw !important;
+  padding: 30px;
+  color: black !important;
 }
 
 .row-flex {
@@ -141,4 +148,9 @@ input,
 
 .ui.massive.label {
   padding: 1.5em !important;
+}
+
+.ui.segment {
+  padding: 0 !important;
+  border: none !important;
 }
