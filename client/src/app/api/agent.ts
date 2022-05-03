@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { request } from 'http';
 import { toast } from 'react-toastify';
 import { history } from '../..';
-import { Customer } from '../models/customer';
+import { Customer, UpdateCustomerFormValues } from '../models/customer';
 import { PaginatedResult } from '../models/pagination';
 import { Staff as StaffModel, StaffFormValues } from '../models/staff';
 import { store } from '../stores/store';
@@ -83,8 +83,7 @@ const Auth = {
     login: (user: any) => requests.post('/api/users/signin', user),
     logout: () => requests.get('/api/users/signout'),
     register: (user: any) => requests.post('/api/users/register', user),
-    checkUser: (body: {email: string}) =>
-        requests.post('/api/users/checkuser', body),
+    checkUser: (body: { email: string }) => requests.post('/api/users/checkuser', body),
 };
 
 const Users = {
@@ -111,6 +110,8 @@ const Customers = {
             .get<PaginatedResult<Customer[]>>('/api/users/customers', { params })
             .then(responseBody),
     details: (id: string) => requests.get<Customer>(`/api/users/${id}`),
+    update: (id: string, body: UpdateCustomerFormValues) =>
+        requests.put<Customer>(`/api/users/update/${id}`, body),
 };
 
 const Products = {

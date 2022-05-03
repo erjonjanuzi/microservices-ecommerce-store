@@ -10,8 +10,18 @@ export interface Customer {
         city: string;
         postalCode: string;
         street: string;
-    },
+    };
     personalDetails: {
         phoneNumber: string;
-    }
+    };
+}
+
+export interface UpdateCustomerFormValues {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    country: string;
+    city: string;
+    postalCode: string;
+    street: string;
 }

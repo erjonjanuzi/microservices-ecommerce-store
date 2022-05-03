@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { history } from '../..';
 import agent from '../api/agent';
+import { UpdateCustomerFormValues } from '../models/customer';
 
 export default class UserStore {
     user: any = undefined;
@@ -79,6 +80,17 @@ export default class UserStore {
             throw error;
         }
     };
+
+    updateCustomer = async(id: string, values: UpdateCustomerFormValues) => {
+        try {
+            const user = await agent.Customers.update(id, values);
+            runInAction(() => {
+                this.user = user;
+            })
+        } catch(error){
+            throw error;
+        }
+    }
 
     updatePassword = async (values: { currentPassword: string; newPassword: string }) => {
         try {
