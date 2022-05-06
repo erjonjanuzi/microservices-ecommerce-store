@@ -38,9 +38,15 @@ router.post('/api/users/forgotpassword/reset', async (req: Request, res: Respons
         throw new BadRequestError('New password cannot be the same as the old password');
     }
 
-    const hashed = await Password.toHash(newPassword);
-    user.set({ password: hashed });
+    user.set({ password: newPassword });
     await user.save();
+
+    const subject = 'Your password has been reset'
+    await new MailService(process.env.SENDER_EMAIL!).send(
+        email,
+        subject,
+        `You are receiving this email based on your activity you recently reset your password`
+    );
 
     res.send();
 });

@@ -6,17 +6,14 @@ import * as Yup from 'yup';
 import MyTextInput from '../../app/common/form/MyTextInput';
 import ValidationErrors from './ValidationErrors';
 import { Button } from 'semantic-ui-react';
+import { history } from '../..';
 
 export default observer(function ResetPassword() {
     const { userStore } = useStore();
+    const [passwordReset, setPasswordReset] = useState(false);
 
-    const [token, setToken] = useState('');
-    const [email, setEmail] = useState('');
-
-    useEffect(() => {
-        setToken(new URLSearchParams(location.search).get('token')!);
-        setEmail(new URLSearchParams(location.search).get('email')!);
-    });
+    const token = new URLSearchParams(location.search).get('token')!;
+    const email = new URLSearchParams(location.search).get('email')!;
 
     const validationSchema = Yup.object({
         newPassword: Yup.string()
@@ -27,13 +24,20 @@ export default observer(function ResetPassword() {
             .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
     });
 
-    return (
+    useEffect(() => {}, [passwordReset]);
+
+    return passwordReset ? (
+        <>
+            <h1>Your password has been successfully reset.</h1>
+            <Button secondary content='Login' basic onClick={() => history.push('/login#tab=login')} icon='lock' />
+        </>
+    ) : (
         <>
             <h1>Reset password</h1>
             <Formik
-                initialValues={{ email, token, newPassword: '', error: null }}
+                initialValues={{ email: email, token: token, newPassword: '', error: null }}
                 onSubmit={(values, { setErrors }) =>
-                    userStore.forgotPassword(values).catch((error) => {
+                    userStore.resetPassword(values).then(() => setPasswordReset(true)).catch((error) => {
                         setErrors({ error });
                     })
                 }
