@@ -20,6 +20,8 @@ import { allCustomersRoute } from './routes/getAllCustomers';
 import { checkUserRoute } from './routes/checkUser';
 import { updateCustomerRoute } from './routes/updateCustomer';
 import { deleteAccountRoute } from './routes/deleteAccount';
+import { forgotPasswordRoute } from './routes/forgotPassword';
+import { resetPasswordRoute } from './routes/resetPassword';
 
 const app = express();
 app.set('trust proxy', true);
@@ -33,6 +35,8 @@ app.use(
 );
 app.use(currentUser);
 
+app.use(resetPasswordRoute)
+app.use(forgotPasswordRoute)
 app.use(deleteAccountRoute)
 app.use(updateCustomerRoute);
 app.use(changePasswordRoute);

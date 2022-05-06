@@ -5,6 +5,7 @@ import MyTextInput from '../../app/common/form/MyTextInput';
 import { useStore } from '../../app/stores/store';
 import * as Yup from 'yup';
 import ValidationErrors from './ValidationErrors';
+import { history } from '../..';
 
 export default observer(function LoginForm() {
     const { userStore } = useStore();
@@ -46,7 +47,10 @@ export default observer(function LoginForm() {
                         label="Password"
                         required
                     />
-                    <a>Forgot password? Implement later</a>
+                    <a href="" onClick={(e: any) => {
+                        e.preventDefault();
+                        history.push('/forgotpassword')
+                    }}>Forgot password</a>
                     <ErrorMessage
                         name="error"
                         render={() => (

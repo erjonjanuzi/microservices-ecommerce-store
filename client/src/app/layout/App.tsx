@@ -27,6 +27,8 @@ import Update from '../../pages/dashboard/update/Update';
 import OneTimeRoute from './OneTimeRoute';
 import CustomerRoute from './CustomerRoute';
 import Account from '../../pages/account/Account';
+import ForgotPassword from '../../pages/login/ForgotPassword';
+import ResetPassword from '../../pages/login/ResetPassword';
 
 function App() {
     const { commonStore, userStore } = useStore();
@@ -58,8 +60,10 @@ function App() {
                                 <Route exact path="/cart" component={CartPage} />
                                 <Route exact path="/wishlist" component={WishlistPage} />
                                 <Route exact path="/login" component={LoginPage} />
+                                <Route exact path="/forgotpassword" component={ForgotPassword} />
+                                <Route exact path='/forgotpassword/reset' component={ResetPassword} />
 
-                                <CustomerRoute path='/account' component={Account} />
+                                <CustomerRoute path="/account" component={Account} />
                                 <Route exact path="/server-error" component={ServerError} />
                                 <Route component={NotFound} />
                             </Switch>

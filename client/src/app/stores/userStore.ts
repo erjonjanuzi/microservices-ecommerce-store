@@ -112,4 +112,20 @@ export default class UserStore {
             throw error;
         }
     };
+
+    forgotPassword = async (values: { email: string}) => {
+        try {
+            await agent.Users.forgotPassword(values)
+        } catch (error){
+            throw error
+        }
+    }
+
+    resetPassword = async (values: {email: string, token: string, newPassword: string}) => {
+        try {
+            await agent.Users.resetPassword(values);
+        } catch (error) {
+            throw error
+        }
+    }
 }

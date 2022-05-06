@@ -92,6 +92,10 @@ const Users = {
     changePassword: (values: { currentPassword: string; newPassword: string }) =>
         requests.post('/api/users/updatepassword', values),
     deleteAccount: () => requests.del('/api/users/deleteaccount'),
+    forgotPassword: (body: { email: string }) =>
+        requests.post('/api/users/forgotpassword/request', body),
+    resetPassword: (body: {email: string, token: string, newPassword: string}) => 
+        requests.post('/api/users/forgotpassword/reset', body)
 };
 
 const Staff = {
