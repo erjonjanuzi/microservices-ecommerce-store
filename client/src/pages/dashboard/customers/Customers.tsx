@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import { Button, Grid, Search, SearchProps, Segment } from "semantic-ui-react";
+import { Grid, Search, SearchProps, Segment } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import CustomerSorter from "./CustomerSorter";
 import CustomersTable from "./CustomersTable";

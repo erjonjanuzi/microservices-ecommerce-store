@@ -1,16 +1,11 @@
 import {
-    adminRoute,
-    BadRequestError,
     NotAuthorizedError,
     NotFoundError,
     requireAuth,
-    Roles,
     validateRequest,
 } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
 import { sendAccountDeletedEmail } from '../controllers/sendAccountDeletedEmail';
-import { Admin } from '../models/admin';
 import { User } from '../models/user';
 
 const router = express.Router();

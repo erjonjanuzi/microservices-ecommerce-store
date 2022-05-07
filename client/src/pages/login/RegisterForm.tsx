@@ -1,12 +1,11 @@
 import { ErrorMessage, Form, Formik } from 'formik';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useStore } from '../../app/stores/store';
 import * as Yup from 'yup';
 import MyTextInput from '../../app/common/form/MyTextInput';
-import { Button, Icon, Label, Message } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import RegisterSteps from './RegisterSteps';
-import { Form as SemanticForm } from 'semantic-ui-react';
 import MySelectInput from '../../app/common/form/MySelectInput';
 import { countryOptions } from '../../app/common/options/countryOptions';
 import ValidationErrors from './ValidationErrors';
@@ -16,7 +15,6 @@ export default observer(function RegisterForm() {
     const { userStore } = useStore();
 
     const [step, setStep] = useState(1);
-    const [value, setValue] = useState('male');
     const [registerObject, setRegisterObject] = useState<any>(undefined);
 
     const personalDetailsValidationSchema = Yup.object({
@@ -50,7 +48,6 @@ export default observer(function RegisterForm() {
                     initialValues={{
                         firstName: '',
                         lastName: '',
-                        gender: value,
                         phoneNumber: '',
                         email: '',
                         password: '',

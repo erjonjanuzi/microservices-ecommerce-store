@@ -1,14 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
-    Button,
     Card,
-    Divider,
     Icon,
     Image,
-    Label,
     Rating,
 } from 'semantic-ui-react';
 import { Product } from '../../app/models/product';

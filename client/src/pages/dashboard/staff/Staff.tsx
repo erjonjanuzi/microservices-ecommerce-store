@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Button, Grid, Icon, Search, SearchProps, Segment } from 'semantic-ui-react';
+import { Button, Grid, Search, SearchProps, Segment } from 'semantic-ui-react';
 import StaffTable from './StaffTable';
 import AddStaffForm from './AddStaffForm';
 import { useStore } from '../../../app/stores/store';

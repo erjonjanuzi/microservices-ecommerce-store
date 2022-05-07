@@ -1,4 +1,4 @@
-import { BadRequestError, NotFoundError } from '@labcourseapp/common';
+import { BadRequestError } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { User } from '../models/user';
 import randomstring from 'randomstring';

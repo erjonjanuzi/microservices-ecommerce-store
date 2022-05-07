@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Divider, Grid, Header, Image, Segment } from 'semantic-ui-react';
+import { Button, Divider, Grid, Image } from 'semantic-ui-react';
 import { history } from '../..';
 import { useStore } from '../../app/stores/store';
 import LoginForm from './LoginForm';

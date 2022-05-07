@@ -1,6 +1,5 @@
 import { useField } from 'formik';
-import React from 'react';
-import { Form, Label } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import { SemanticWIDTHSNUMBER } from 'semantic-ui-react/dist/commonjs/generic';
 
 interface Props {

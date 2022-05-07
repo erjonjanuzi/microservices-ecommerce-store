@@ -1,6 +1,5 @@
 import { Drawer } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import { Button, Divider, Modal } from 'semantic-ui-react';
 import { useStore } from '../../stores/store';
 

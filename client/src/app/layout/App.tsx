@@ -1,12 +1,10 @@
 import { useEffect } from 'react';
-// import 'rsuite/dist/rsuite.min.css';
 import './style.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import 'react-toastify/dist/ReactToastify.css';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { useStore } from '../stores/store';
 import { ToastContainer } from 'react-toastify';
-import PrivateRoute from './PrivateRoute';
 import { observer } from 'mobx-react-lite';
 import ServerError from '../../pages/errors/ServerError';
 import NotFound from '../../pages/errors/NotFoundError';

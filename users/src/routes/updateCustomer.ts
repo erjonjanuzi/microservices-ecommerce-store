@@ -1,9 +1,7 @@
-import { BadRequestError, NotFoundError, validateRequest } from '@labcourseapp/common';
+import { NotFoundError, validateRequest } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { User } from '../models/user';
-import { TokenService } from '../services/TokenService';
-import { sendConfirmationEmail } from '../controllers/sendConfirmationEmail';
 
 const router = express.Router();
 

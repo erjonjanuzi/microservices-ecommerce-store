@@ -1,9 +1,6 @@
 import { useField } from 'formik';
-import React from 'react';
 import {
-    DropdownProps,
     Form,
-    Label,
     Select,
     SemanticWIDTHSNUMBER,
 } from 'semantic-ui-react';

@@ -1,8 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Button, Container, Dropdown, Icon, Menu, Segment } from 'semantic-ui-react';
+import { Container, Dropdown, Icon, Menu } from 'semantic-ui-react';
 import { useStore } from '../stores/store';
 
 export default observer(function NavBar() {

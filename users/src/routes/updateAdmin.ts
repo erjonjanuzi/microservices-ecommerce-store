@@ -1,6 +1,5 @@
 import {
     adminRoute,
-    BadRequestError,
     NotFoundError,
     requireAuth,
     validateRequest,

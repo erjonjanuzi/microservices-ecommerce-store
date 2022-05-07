@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { makeAutoObservable, reaction, runInAction } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { Pagination, PagingParams } from '../models/pagination';

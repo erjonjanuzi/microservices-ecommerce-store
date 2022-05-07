@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { request } from 'http';
 import { toast } from 'react-toastify';
 import { history } from '../..';
 import { Customer, UpdateCustomerFormValues } from '../models/customer';
@@ -12,12 +11,6 @@ const sleep = (delay: number) => {
         setTimeout(resolve, delay);
     });
 };
-
-// axios.interceptors.request.use((config: any) => {
-//     const token = store.commonStore.token;
-//     if (token) config.headers.Authorization = `Bearer ${token}`;
-//     return config;
-// });
 
 axios.interceptors.response.use(
     async (response) => {

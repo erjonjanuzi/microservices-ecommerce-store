@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Switch, useLocation } from 'react-router-dom';
 import { Container, Dropdown, Label } from 'semantic-ui-react';
 import PrivateRoute from '../../../app/layout/PrivateRoute';
 import { useStore } from '../../../app/stores/store';
