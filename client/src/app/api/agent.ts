@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { history } from '../..';
 import { Customer, UpdateCustomerFormValues } from '../models/customer';
 import { PaginatedResult } from '../models/pagination';
+import { Product, ProductFormValues } from '../models/product';
 import { Staff as StaffModel, StaffFormValues } from '../models/staff';
 import { store } from '../stores/store';
 
@@ -87,8 +88,8 @@ const Users = {
     deleteAccount: () => requests.del('/api/users/deleteaccount'),
     forgotPassword: (body: { email: string }) =>
         requests.post('/api/users/forgotpassword/request', body),
-    resetPassword: (body: {email: string, token: string, newPassword: string}) => 
-        requests.post('/api/users/forgotpassword/reset', body)
+    resetPassword: (body: { email: string; token: string; newPassword: string }) =>
+        requests.post('/api/users/forgotpassword/reset', body),
 };
 
 const Staff = {
@@ -115,6 +116,7 @@ const Customers = {
 const Products = {
     all: () => requests.get('/api/products'),
     details: (id: string) => requests.get(`/api/products/${id}`),
+    create: (product: ProductFormValues) => requests.post<Product>('/api/products/', product),
 };
 
 const Cart = {

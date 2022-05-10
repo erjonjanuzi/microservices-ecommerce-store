@@ -5,6 +5,7 @@ import PrivateRoute from '../../../app/layout/PrivateRoute';
 import { useStore } from '../../../app/stores/store';
 import Customers from '../customers/Customers';
 import Dashboard from '../dashboardoverview/Dashboard';
+import Products from '../products/Products';
 import Profile from '../settings/Profile';
 import Staff from '../staff/Staff';
 import Sidebar from './Sidebar';
@@ -58,6 +59,7 @@ export default observer(function Main() {
                         <PrivateRoute exact path="/dashboard/staff" component={Staff} />
                         <PrivateRoute exact path="/dashboard/customers" component={Customers} />
                         <PrivateRoute exact path="/dashboard/settings" component={Profile} />
+                        <PrivateRoute exact path='/dashboard/products' component={Products} />
                         <PrivateRoute path="/dashboard" component={Dashboard} />
                     </Switch>
                 </Container>

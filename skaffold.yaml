@@ -33,14 +33,14 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    # - image: erjonjanuzi/products
-    #   context: products
-    #   docker:
-    #     dockerfile: Dockerfile
-    #   sync:
-    #     manual:
-    #       - src: 'src/**/*.ts'
-    #         dest: .
+    - image: erjonjanuzi/products
+      context: products
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
     # - image: erjonjanuzi/cart
     #   context: cart
     #   docker:

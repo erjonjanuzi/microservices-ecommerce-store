@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
-import { Product } from "../models/product";
+import { Product, ProductFormValues } from "../models/product";
+import { store } from "./store";
 
 export default class ProductStore {
     productRegistry = new Map<string, Product>();
@@ -51,6 +52,19 @@ export default class ProductStore {
             }
         }
     }
+
+    createProduct = async (product: ProductFormValues) => {
+        try {
+            console.log('produkti qe po vjen prej formes', product)
+            await agent.Products.create(product);
+
+            runInAction(() => {
+                store.drawerStore.closeDrawer();
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     private setProduct = (product: Product) => {
         this.productRegistry.set(product.id, product);

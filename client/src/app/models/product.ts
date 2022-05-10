@@ -17,3 +17,12 @@ export interface Product {
         comment: string;
     }];
 }
+
+export interface ProductFormValues {
+    title: string;
+    price: number;
+    quantity: number;
+    description: string;
+    category: string;
+    images?: any;
+}
