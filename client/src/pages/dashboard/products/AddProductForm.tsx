@@ -9,14 +9,11 @@ import MyTextArea from '../../../app/common/form/MyTextArea';
 import { useState } from 'react';
 
 export default observer(function AddProductForm() {
-    const { drawerStore, productStore: {createProduct} } = useStore();
-    const [selectedFile, setSelectedFile] = useState();
-	const [isFilePicked, setIsFilePicked] = useState(false);
-
-	const changeHandler = (event: any) => {
-		setSelectedFile(event.target.files[0]);
-		setIsFilePicked(true);
-	};
+    const {
+        drawerStore,
+        productStore: { createProduct },
+    } = useStore();
+    const [selectedFile, setSelectedFile] = useState<File>();
 
     const validationSchema = Yup.object({
         title: Yup.string().required('Please fill out this field'),
@@ -24,12 +21,26 @@ export default observer(function AddProductForm() {
 
     return (
         <Formik
-            initialValues={{ title: '', price: 0, quantity: 0, description: '', category: '', images: selectedFile, error: null }}
-            onSubmit={(values, { setErrors }) => createProduct(values)}
+            initialValues={{
+                title: '',
+                price: 0,
+                quantity: 0,
+                description: '',
+                category: '',
+                images: [] as File[],
+                error: null,
+            }}
+            onSubmit={(values, { setErrors }) => {
+                if (selectedFile){
+                    values.images.push(selectedFile);
+                }
+                console.log(selectedFile);
+                createProduct(values);
+            }}
             validationSchema={validationSchema}
         >
             {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
-                <Form className="ui form dark-button" onSubmit={handleSubmit} autoComplete="off">
+                <Form className="ui form dark-button" onSubmit={handleSubmit} autoComplete="off" encType='multipart/form-data'>
                     <MyTextInput name="title" placeholder="iPhone" label="Title" required />
                     <MyTextInput
                         name="price"
@@ -52,7 +63,10 @@ export default observer(function AddProductForm() {
                         rows={3}
                     />
                     <MyTextInput name='category' placeholder='Phone' label='Category' required />
-                    <input type="file" name="images" onChange={changeHandler} />
+                    <input type="file" name="images" onChange={(event: any) => {
+                        console.log('event target files[0]', event.target.files[0])
+                        setSelectedFile(event.target.files[0])
+                    }} />
 
                     <ErrorMessage
                         name="error"
@@ -80,6 +94,7 @@ export default observer(function AddProductForm() {
                         />
                     </div>
                 </Form>
+                
             )}
         </Formik>
     );

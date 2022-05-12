@@ -56,13 +56,22 @@ export default class ProductStore {
     createProduct = async (product: ProductFormValues) => {
         try {
             console.log('produkti qe po vjen prej formes', product)
-            await agent.Products.create(product);
+            let formData = new FormData();
+
+            formData.append('title', product.title)
+            formData.append('price', product.price.toString())
+            formData.append('quantity', product.quantity.toString())
+            formData.append('description', product.description);
+            formData.append('category', product.category)
+            formData.append('images', product.images![0]);
+
+            await agent.Products.create(formData);
 
             runInAction(() => {
                 store.drawerStore.closeDrawer();
             });
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     };
 

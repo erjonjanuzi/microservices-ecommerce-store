@@ -116,7 +116,11 @@ const Customers = {
 const Products = {
     all: () => requests.get('/api/products'),
     details: (id: string) => requests.get(`/api/products/${id}`),
-    create: (product: ProductFormValues) => requests.post<Product>('/api/products/', product),
+    create: (formData: FormData) => axios.post<Product>('/api/products/', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }),
 };
 
 const Cart = {
