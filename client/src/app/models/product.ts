@@ -24,5 +24,5 @@ export interface ProductFormValues {
     quantity: number;
     description: string;
     category: string;
-    images?: File[];
+    images: FileList;
 }

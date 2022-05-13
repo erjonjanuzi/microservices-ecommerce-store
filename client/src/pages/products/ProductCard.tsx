@@ -17,7 +17,7 @@ export default observer(function ProductCard({ product }: Props) {
     return (
         <Card link as={Link} to={`/products/${product.id}`}>
             <Image
-                src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-13-pro-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1631220221000"
+                src={product.images[0].url}
                 wrapped
                 ui={false}
             />
