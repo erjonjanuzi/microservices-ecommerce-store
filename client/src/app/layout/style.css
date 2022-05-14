@@ -10,9 +10,14 @@
 }
 
 input,
-.ui.selection.dropdown  {
+.ui.selection.dropdown {
   border-radius: 0 !important;
   height: 40px !important;
+}
+
+textarea {
+  border-radius: 0 !important;
+  resize: auto !important;
 }
 
 .ui.card{
@@ -112,13 +117,13 @@ input,
   width: 90%;
 }
 
-.dark-button input{
+.dark-button input, .dark-button textarea,.dark-button .ui.selection.dropdown, .dark-button .item{
   background-color: #24262d !important;
   border: 1px solid #4d4f52 !important;
   color: #cfcfcf !important;
 }
 
-.dark-button input::placeholder {
+.dark-button input::placeholder, textarea::placeholder{
   color: #4d4f52 !important
 }
 
@@ -131,14 +136,14 @@ input,
 }
 
 .dark-basic-button {
-  color: #4d4f52 !important;
+  color: #cfcfcf !important;
   border: 1px solid #4d4f52 !important;
   background-color: transparent !important;
 }
 
 .dark-basic-button:hover {
-  background-color: #4d4f52 !important;
-  color: #cfcfcf !important;
+  background-color: #cfcfcf !important;
+  color: #4d4f52 !important;
 }
 
 .dark-modal>.content {

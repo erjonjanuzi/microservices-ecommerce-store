@@ -59,7 +59,11 @@ function App() {
                                 <Route exact path="/wishlist" component={WishlistPage} />
                                 <Route exact path="/login" component={LoginPage} />
                                 <Route exact path="/forgotpassword" component={ForgotPassword} />
-                                <Route exact path='/forgotpassword/reset' component={ResetPassword} />
+                                <Route
+                                    exact
+                                    path="/forgotpassword/reset"
+                                    component={ResetPassword}
+                                />
 
                                 <CustomerRoute path="/account" component={Account} />
                                 <Route exact path="/server-error" component={ServerError} />

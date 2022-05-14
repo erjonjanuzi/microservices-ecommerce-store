@@ -13,15 +13,15 @@ export default function PrivateRoute({ component: Component, ...rest }: Props) {
         <Route
             {...rest}
             render={(props) =>
-                isLoggedIn && user.role === 'admin' ? (
-                    user.firstTimeAccess ? (
-                        <Redirect to="/updatepassword" />
-                    ) : (
+                // isLoggedIn && user.role === 'admin' ? (
+                    // user.firstTimeAccess ? (
+                        // <Redirect to="/updatepassword" />
+                    // ) : (
                         <Component {...props} />
-                    )
-                ) : (
-                    <Redirect to="/" />
-                )
+                    // )
+                // ) : (
+                    // <Redirect to="/" />
+                // )
             }
         />
     );

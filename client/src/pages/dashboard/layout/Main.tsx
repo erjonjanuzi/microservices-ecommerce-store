@@ -37,7 +37,7 @@ export default observer(function Main() {
                 <div>
                     <h1>🛍 Zebra51</h1>
                 </div>
-                <div>
+                {/* <div>
                     <Label
                         circular
                         content={user.firstName[0] + user.lastName[0]}
@@ -50,7 +50,7 @@ export default observer(function Main() {
                             <Dropdown.Item text="Logout" icon="power" />
                         </Dropdown.Menu>
                     </Dropdown>
-                </div>
+                </div> */}
             </div>
             <Sidebar />
             <div className="myScrollableDiv" style={{ padding: '30px' }}>

@@ -7,6 +7,9 @@ import ValidationErrors from '../../login/ValidationErrors';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import { useEffect, useState } from 'react';
+import MySelectInput from '../../../app/common/form/MySelectInput';
+import { categoryOptions } from '../../../app/common/options/categoryOptions';
+import ImagesRenderer from './ImagesRenderer';
 
 export default observer(function AddProductForm() {
     const {
@@ -14,6 +17,19 @@ export default observer(function AddProductForm() {
         productStore: { createProduct },
     } = useStore();
     const [selectedFiles, setSelectedFiles] = useState<FileList>();
+
+    const handleRemoveImages = (index: number) => {
+        const dt = new DataTransfer();
+        let files = selectedFiles;
+
+        for (let i = 0; i < files!.length; i++) {
+            const file = files![i];
+            if (index !== i) dt.items.add(file);
+        }
+
+        files = dt.files;
+        setSelectedFiles(files);
+    };
 
     const validationSchema = Yup.object({
         title: Yup.string().required('Please fill out the title'),
@@ -48,28 +64,21 @@ export default observer(function AddProductForm() {
         >
             {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
                 <Form className="ui form dark-button" onSubmit={handleSubmit} autoComplete="off">
-                    <MyTextInput name="title" placeholder="iPhone" label="Title" required />
-                    <MyTextInput
-                        name="price"
-                        placeholder="39.90$"
-                        label="Price"
-                        type="number"
-                        required
-                    />
-                    <MyTextInput
-                        name="quantity"
-                        placeholder="10"
-                        label="Quantity"
-                        type="number"
-                        required
-                    />
+                    <MyTextInput name="title" placeholder="iPhone" label="Title" />
+                    <MyTextInput name="price" placeholder="39.90€" label="Price" type="number" />
+                    <MyTextInput name="quantity" placeholder="5" label="Quantity" type="number" />
                     <MyTextArea
                         name="description"
                         placeholder="This is a description"
                         label="Description"
-                        rows={3}
+                        rows={15}
                     />
-                    <MyTextInput name="category" placeholder="Phone" label="Category" required />
+                    <MySelectInput
+                        name="category"
+                        placeholder="Phone"
+                        label="Category"
+                        options={categoryOptions}
+                    />
                     <input
                         type="file"
                         name="images"
@@ -77,6 +86,12 @@ export default observer(function AddProductForm() {
                         onChange={(event: any) => {
                             setSelectedFiles(event.target.files);
                         }}
+                    />
+                    <br />
+                    <br />
+                    <ImagesRenderer
+                        images={selectedFiles}
+                        handleRemoveImages={handleRemoveImages}
                     />
 
                     <ErrorMessage
