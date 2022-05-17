@@ -1,7 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
-import { Product, ProductFormValues } from '../models/product';
-import { store } from './store';
+import { Product } from '../models/product';
 
 export default class ProductStore {
     productRegistry = new Map<string, Product>();
@@ -50,26 +49,6 @@ export default class ProductStore {
                 console.log(error);
                 this.setLoadingInitial(false);
             }
-        }
-    };
-
-    createProduct = async (product: ProductFormValues) => {
-        try {
-            let formData = new FormData();
-
-            formData.append('title', product.title);
-            formData.append('price', product.price.toString());
-            formData.append('quantity', product.quantity.toString());
-            formData.append('description', product.description);
-            formData.append('category', product.category);
-
-            for (let i = 0; i < product.images.length; i++){
-                formData.append('images', product.images[i])
-            }
-
-            await agent.Products.create(formData);
-        } catch (error) {
-            throw error;
         }
     };
 

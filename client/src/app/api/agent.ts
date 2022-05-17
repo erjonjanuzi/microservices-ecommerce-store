@@ -116,12 +116,19 @@ const Customers = {
 const Products = {
     all: () => requests.get('/api/products'),
     details: (id: string) => requests.get(`/api/products/${id}`),
+};
+
+const Inventory = {
+    all: (params: URLSearchParams) =>
+        axios
+            .get<PaginatedResult<Product[]>>('/api/products/inventory', { params })
+            .then(responseBody),
     create: (formData: FormData) => axios.post<Product>('/api/products/', formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     }),
-};
+}
 
 const Cart = {
     addToCart: (body: { productId: string; quantity: number }) => requests.post('/api/cart', body),
@@ -136,6 +143,7 @@ const agent = {
     Cart,
     Staff,
     Customers,
+    Inventory
 };
 
 export default agent;

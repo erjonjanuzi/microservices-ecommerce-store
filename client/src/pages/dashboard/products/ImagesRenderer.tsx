@@ -34,13 +34,12 @@ export default observer(function ImageRenderer({ images, handleRemoveImages }: P
     }, [images]);
 
     return (
-        // preview.map((view: any) => <img style={{maxWidth: '200px'}} src={view} />)
         <>
             <div
                 style={{
                     display: 'flex',
                     flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    justifyContent: 'space-evenly',
                     flexWrap: 'wrap',
                 }}
             >

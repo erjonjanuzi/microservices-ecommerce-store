@@ -36,11 +36,11 @@ export default observer(function ProductCard({ product }: Props) {
                     >
                         <div>
                             <h5>
-                                <s>$1450</s>
+                                <s>{`${product.price}€`}</s>
                             </h5>
                         </div>
                         <div style={{ margin: '0 5px 0 5px' }}>
-                            <h2>{`${product.price}€`}</h2>
+                            <h2>{`${(product.price-(product.price * (product.sale / 100))).toFixed(2)}€`}</h2>
                         </div>
                         <label
                             style={{
@@ -49,7 +49,7 @@ export default observer(function ProductCard({ product }: Props) {
                                 padding: '3px',
                             }}
                         >
-                            -15%
+                            {`-${product.sale}%`}
                         </label>
                         {/* <Button style={{marginLeft: 'auto'}} basic icon> */}
                         <Icon

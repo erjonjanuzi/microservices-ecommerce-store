@@ -6,7 +6,7 @@ import { Button, Icon } from 'semantic-ui-react';
 import ValidationErrors from '../../login/ValidationErrors';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryOptions } from '../../../app/common/options/categoryOptions';
 import ImagesRenderer from './ImagesRenderer';
@@ -14,7 +14,7 @@ import ImagesRenderer from './ImagesRenderer';
 export default observer(function AddProductForm() {
     const {
         drawerStore,
-        productStore: { createProduct },
+        inventoryStore: { createProduct },
     } = useStore();
     const [selectedFiles, setSelectedFiles] = useState<FileList>();
 
@@ -34,6 +34,7 @@ export default observer(function AddProductForm() {
     const validationSchema = Yup.object({
         title: Yup.string().required('Please fill out the title'),
         price: Yup.number().min(1).required('Please set a price greater than 0'),
+        sale: Yup.number(),
         quantity: Yup.number().integer().required('Quantity is required'),
         description: Yup.string().required('Please provide a description'),
         category: Yup.string().required('Please provide a category'),
@@ -44,6 +45,7 @@ export default observer(function AddProductForm() {
             initialValues={{
                 title: '',
                 price: '' as unknown as number,
+                sale: '' as unknown as number,
                 quantity: '' as unknown as number,
                 description: '',
                 category: '',
@@ -66,6 +68,7 @@ export default observer(function AddProductForm() {
                 <Form className="ui form dark-button" onSubmit={handleSubmit} autoComplete="off">
                     <MyTextInput name="title" placeholder="iPhone" label="Title" />
                     <MyTextInput name="price" placeholder="39.90€" label="Price" type="number" />
+                    <MyTextInput name="sale" placeholder="15%" label="Sale percentage (Optional)" type="number" />
                     <MyTextInput name="quantity" placeholder="5" label="Quantity" type="number" />
                     <MyTextArea
                         name="description"

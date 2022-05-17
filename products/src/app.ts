@@ -6,7 +6,7 @@ import { currentUser, errorHandler, NotFoundError } from '@labcourseapp/common';
 import { createProductRoute } from './routes/createProduct';
 import { editProductRoute } from './routes/editProduct';
 import { getProductRoute } from './routes/getProduct';
-import { getAllProductsRoute } from './routes/getAllProducts';
+import { getInventoryRoute } from './routes/getInventory';
 import { deleteProductRoute } from './routes/deleteProduct';
 
 const app = express();
@@ -21,10 +21,10 @@ app.use(
 );
 app.use(currentUser);
 
+app.use(getInventoryRoute);
 app.use(createProductRoute);
 app.use(editProductRoute);
 app.use(getProductRoute);
-app.use(getAllProductsRoute);
 app.use(deleteProductRoute);
 
 app.all('*', async (req, res) => {

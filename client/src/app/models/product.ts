@@ -10,7 +10,7 @@ export interface Product {
         isMain?: boolean | undefined;
     }];
     rating?: number;
-    sale?: number;
+    sale: number;
     reviews?: [{
         firstName: string;
         lastName: string;
@@ -25,4 +25,5 @@ export interface ProductFormValues {
     description: string;
     category: string;
     images: FileList;
+    sale: number;
 }

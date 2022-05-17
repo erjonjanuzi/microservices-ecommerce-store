@@ -8,6 +8,7 @@ export interface Image {
 interface ProductAttrs {
     title: string;
     price: number;
+    sale?: number;
     quantity: number;
     description: string;
     category: string;
@@ -91,6 +92,8 @@ const productSchema = new mongoose.Schema({
 });
 
 productSchema.set('versionKey', 'version');
+productSchema.index({title: 'text', description: 'text', category: 'text'})
+
 productSchema.plugin(updateIfCurrentPlugin);
 
 productSchema.statics.build = (attrs: ProductAttrs) => {

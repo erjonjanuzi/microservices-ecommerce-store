@@ -1,13 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { Dropdown, DropdownProps, Menu } from 'semantic-ui-react';
+import { sortOptions } from '../../../app/common/options/sortOptions';
 import { useStore } from '../../../app/stores/store';
-
-const options = [
-    { key: 1, text: 'A-Z', value: 'a-z' },
-    { key: 2, text: 'Z-A', value: 'z-a' },
-    { key: 3, text: 'Newest', value: 'newest' },
-    { key: 4, text: 'Oldest', value: 'oldest' },
-];
 
 export default observer(function StaffSorter() {
     const { staffStore } = useStore();
@@ -20,7 +14,7 @@ export default observer(function StaffSorter() {
     return (
         <>
             <Menu compact>
-                <Dropdown text="Sort" options={options} simple item onChange={handleSort} />
+                <Dropdown text="Sort" options={sortOptions} simple item onChange={handleSort} />
             </Menu>
         </>
     );
