@@ -127,7 +127,7 @@ const Inventory = {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
-    }),
+    }).then(responseBody),
 }
 
 const Cart = {

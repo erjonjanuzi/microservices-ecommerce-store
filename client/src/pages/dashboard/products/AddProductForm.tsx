@@ -10,6 +10,7 @@ import { useState } from 'react';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryOptions } from '../../../app/common/options/categoryOptions';
 import ImagesRenderer from './ImagesRenderer';
+import { toast } from 'react-toastify';
 
 export default observer(function AddProductForm() {
     const {
@@ -45,7 +46,7 @@ export default observer(function AddProductForm() {
             initialValues={{
                 title: '',
                 price: '' as unknown as number,
-                sale: '' as unknown as number,
+                sale: '0' as unknown as number,
                 quantity: '' as unknown as number,
                 description: '',
                 category: '',
@@ -60,7 +61,8 @@ export default observer(function AddProductForm() {
                     .then(() => {
                         drawerStore.closeDrawer();
                     })
-                    .catch((error) => console.log(error));
+                    .then(() => toast.success('Product created'))
+                    .catch((error) => toast.error(error));
             }}
             validationSchema={validationSchema}
         >
@@ -68,7 +70,12 @@ export default observer(function AddProductForm() {
                 <Form className="ui form dark-button" onSubmit={handleSubmit} autoComplete="off">
                     <MyTextInput name="title" placeholder="iPhone" label="Title" />
                     <MyTextInput name="price" placeholder="39.90€" label="Price" type="number" />
-                    <MyTextInput name="sale" placeholder="15%" label="Sale percentage (Optional)" type="number" />
+                    <MyTextInput
+                        name="sale"
+                        placeholder="15%"
+                        label="Sale percentage (Optional)"
+                        type="number"
+                    />
                     <MyTextInput name="quantity" placeholder="5" label="Quantity" type="number" />
                     <MyTextArea
                         name="description"

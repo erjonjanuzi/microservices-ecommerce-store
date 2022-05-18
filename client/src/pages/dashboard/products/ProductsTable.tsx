@@ -5,6 +5,7 @@ import {
     Header,
     Icon,
     Image,
+    Label,
     Loader,
     Pagination,
     PaginationProps,
@@ -78,6 +79,7 @@ export default observer(function InventoryTable() {
                         <Table.HeaderCell>Sale Percentage</Table.HeaderCell>
                         <Table.HeaderCell>Discounted Price</Table.HeaderCell>
                         <Table.HeaderCell>Stock</Table.HeaderCell>
+                        <Table.HeaderCell>Status</Table.HeaderCell>
                         <Table.HeaderCell>Details</Table.HeaderCell>
                         <Table.HeaderCell textAlign="center">Actions</Table.HeaderCell>
                     </Table.Row>
@@ -109,13 +111,26 @@ export default observer(function InventoryTable() {
                             <Table.Cell>{product.title}</Table.Cell>
                             <Table.Cell>{product.category}</Table.Cell>
                             <Table.Cell>{`${product.price}€`}</Table.Cell>
-                            <Table.Cell>{product.sale > 0 && `${product.sale}%`}</Table.Cell>
-                            <Table.Cell>{product.sale > 0 && `${(
-                                product.price -
-                                product.price * (product.sale / 100)
-                            ).toFixed(2)}€`}</Table.Cell>
+                            <Table.Cell>{product.sale > 0 ? `${product.sale}%` : '-'}</Table.Cell>
+                            <Table.Cell>
+                                {product.sale > 0
+                                    ? `${(
+                                          product.price -
+                                          product.price * (product.sale / 100)
+                                      ).toFixed(2)}€`
+                                    : '-'}
+                            </Table.Cell>
                             <Table.Cell>{product.quantity}</Table.Cell>
-                            <Table.Cell></Table.Cell>
+                            <Table.Cell>
+                                <Label
+                                    content={product.quantity > 0 ? 'Selling' : 'Out of stock'}
+                                    color={product.quantity > 0 ? 'green' : 'red'}
+                                    circular
+                                />
+                            </Table.Cell>
+                            <Table.Cell textAlign="center">
+                                <Icon link onClick={() => console.log('view')} name="eye" />
+                            </Table.Cell>
                             <Table.Cell textAlign="right">
                                 <Button.Group>
                                     <Button

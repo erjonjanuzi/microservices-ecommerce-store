@@ -47,7 +47,7 @@ export default class InventoryStore {
 
     setSearchString = (searchString: string) => {
         this.searchString = searchString;
-        this.setPagingParams(new PagingParams(1))
+        this.setPagingParams(new PagingParams(1));
     };
 
     setSortingParams = (sortingParams: string) => {
@@ -106,11 +106,16 @@ export default class InventoryStore {
             formData.append('description', product.description);
             formData.append('category', product.category);
 
-            for (let i = 0; i < product.images.length; i++){
-                formData.append('images', product.images[i])
+            for (let i = 0; i < product.images.length; i++) {
+                formData.append('images', product.images[i]);
             }
 
-            await agent.Inventory.create(formData);
+            const newProduct = await agent.Inventory.create(formData);
+
+            runInAction(() => {
+                if (this.products.length < this.pagination!.itemsPerPage)
+                    this.setProduct(newProduct);
+            });
         } catch (error) {
             throw error;
         }
