@@ -28,7 +28,15 @@ router.get('/api/products/inventory', async (req: Request, res: Response) => {
         };
     } else if (sort === 'newest') {
         sortObj = {
-            title: -1,
+            createdAt: -1,
+        };
+    } else if (sort === 'price:high') {
+        sortObj = {
+            price: -1,
+        };
+    } else if (sort === 'price:low') {
+        sortObj = {
+            price: 1,
         };
     }
 
@@ -38,7 +46,7 @@ router.get('/api/products/inventory', async (req: Request, res: Response) => {
             .skip((parseInt(pageNumber as string) - 1) * parseInt(pageSize as string))
             .sort(sortObj);
 
-        const count = await Product.countDocuments()
+        const count = await Product.countDocuments();
 
         res.set(
             'Pagination',

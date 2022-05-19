@@ -97,20 +97,9 @@ export default class InventoryStore {
 
     createProduct = async (product: ProductFormValues) => {
         try {
-            let formData = new FormData();
+            const productFormData = this.productFormValuesToFormData(product);
 
-            formData.append('title', product.title);
-            formData.append('price', product.price.toString());
-            formData.append('sale', product.sale.toString());
-            formData.append('quantity', product.quantity.toString());
-            formData.append('description', product.description);
-            formData.append('category', product.category);
-
-            for (let i = 0; i < product.images.length; i++) {
-                formData.append('images', product.images[i]);
-            }
-
-            const newProduct = await agent.Inventory.create(formData);
+            const newProduct = await agent.Inventory.create(productFormData);
 
             runInAction(() => {
                 if (this.products.length < this.pagination!.itemsPerPage)
@@ -135,5 +124,22 @@ export default class InventoryStore {
 
     clearSelectedProduct = () => {
         this.selectedProduct = undefined;
+    };
+
+    private productFormValuesToFormData = (product: ProductFormValues) => {
+        let formData = new FormData();
+
+        formData.append('title', product.title);
+        formData.append('price', product.price.toString());
+        formData.append('sale', product.sale.toString() === '' ? '0' : product.sale.toString());
+        formData.append('quantity', product.quantity.toString());
+        formData.append('description', product.description);
+        formData.append('category', product.category);
+
+        for (let i = 0; i < product.images?.length; i++) {
+            formData.append('images', product.images[i]);
+        }
+
+        return formData;
     };
 }

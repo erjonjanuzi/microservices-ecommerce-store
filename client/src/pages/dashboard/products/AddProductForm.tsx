@@ -11,6 +11,7 @@ import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryOptions } from '../../../app/common/options/categoryOptions';
 import ImagesRenderer from './ImagesRenderer';
 import { toast } from 'react-toastify';
+import MyFileInput from '../../../app/common/form/MyFileInput';
 
 export default observer(function AddProductForm() {
     const {
@@ -36,7 +37,7 @@ export default observer(function AddProductForm() {
         title: Yup.string().required('Please fill out the title'),
         price: Yup.number().min(1).required('Please set a price greater than 0'),
         sale: Yup.number(),
-        quantity: Yup.number().integer().required('Quantity is required'),
+        quantity: Yup.number().integer().min(0).required('Quantity is required'),
         description: Yup.string().required('Please provide a description'),
         category: Yup.string().required('Please provide a category'),
     });
@@ -46,11 +47,11 @@ export default observer(function AddProductForm() {
             initialValues={{
                 title: '',
                 price: '' as unknown as number,
-                sale: '0' as unknown as number,
+                sale: '' as unknown as number,
                 quantity: '' as unknown as number,
                 description: '',
                 category: '',
-                images: selectedFiles as any,
+                images: '' as any,
                 error: null,
             }}
             onSubmit={(values, { setErrors }) => {
@@ -62,7 +63,7 @@ export default observer(function AddProductForm() {
                         drawerStore.closeDrawer();
                     })
                     .then(() => toast.success('Product created'))
-                    .catch((error) => toast.error(error));
+                    .catch((error) => setErrors({ error }));
             }}
             validationSchema={validationSchema}
         >
@@ -89,15 +90,23 @@ export default observer(function AddProductForm() {
                         label="Category"
                         options={categoryOptions}
                     />
-                    <input
+                    {/* <input
                         type="file"
                         name="images"
                         multiple
                         onChange={(event: any) => {
                             setSelectedFiles(event.target.files);
                         }}
+                    /> */}
+                    <MyFileInput
+                        type="file"
+                        label="Images"
+                        name="images"
+                        multiple
+                        onChange={(event: any) => {
+                            setSelectedFiles(event.target.files);
+                        }}
                     />
-                    <br />
                     <br />
                     <ImagesRenderer
                         images={selectedFiles}
@@ -112,16 +121,11 @@ export default observer(function AddProductForm() {
                         <Button
                             loading={isSubmitting}
                             positive
+                            content="Submit"
                             type="submit"
                             fluid
-                            animated
                             disabled={!dirty || !isValid}
-                        >
-                            <Button.Content visible>Submit</Button.Content>
-                            <Button.Content hidden>
-                                <Icon name="arrow right" />
-                            </Button.Content>
-                        </Button>
+                        />
                         <Button
                             content="Cancel"
                             fluid

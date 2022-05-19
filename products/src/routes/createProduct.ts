@@ -33,9 +33,8 @@ router.post(
         const { title, price, sale, quantity, description, category } = req.body;
         const images = [] as Image[];
         const files = req.files;
-
-        console.log(files);
-        if (!files) {
+        
+        if (files?.length === 0) {
             throw new BadRequestError('At least one image is required for the product');
         }
 

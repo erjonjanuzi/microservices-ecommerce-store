@@ -47,7 +47,7 @@ export default observer(function Products() {
                                     <Search
                                         onSearchChange={handleSearchChange}
                                         value={searchString}
-                                        placeholder="Search products"
+                                        placeholder="Search products or categories"
                                         showNoResults={false}
                                         fluid
                                         className="dark-button"

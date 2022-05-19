@@ -6,7 +6,7 @@ export class Seed {
             firstName: 'Erjon',
             lastName: 'Januzi',
             email: 'erjonjanuzi@gmail.com',
-            password: 'password',
+            password: 'Pa$$w0rd',
         };
 
         const { firstName, lastName, email, password } = adminObj;
