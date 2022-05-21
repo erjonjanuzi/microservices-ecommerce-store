@@ -154,3 +154,11 @@ textarea {
 .ui.massive.label {
   padding: 1.5em !important;
 }
+
+.underline-title:hover {
+  text-decoration: underline;
+}
+
+.product-card:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

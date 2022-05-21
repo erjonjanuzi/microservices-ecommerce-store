@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Container, Dropdown, Icon, Menu } from 'semantic-ui-react';
+import { Container, Dropdown, Icon, Image, Menu } from 'semantic-ui-react';
 import { useStore } from '../stores/store';
 
 export default observer(function NavBar() {
@@ -17,7 +17,7 @@ export default observer(function NavBar() {
         <Menu stackable secondary style={{ margin: '0px', padding: '30px 0' }}>
             <Container>
                 <Menu.Header as={NavLink} exact to="/">
-                    Store Logo
+                    <Image src='assets/logo-fit-transparent.png' style={{maxWidth: '200px'}} />
                 </Menu.Header>
                 <>
                     <Menu.Item as={NavLink} to="/products" name="Products" />

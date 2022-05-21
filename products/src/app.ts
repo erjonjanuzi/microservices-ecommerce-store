@@ -8,6 +8,7 @@ import { editProductRoute } from './routes/editProduct';
 import { getProductRoute } from './routes/getProduct';
 import { getInventoryRoute } from './routes/getInventory';
 import { deleteProductRoute } from './routes/deleteProduct';
+import { getProductsRoute } from './routes/getProducts';
 
 const app = express();
 app.set('trust proxy', true);
@@ -21,6 +22,7 @@ app.use(
 );
 app.use(currentUser);
 
+app.use(getProductsRoute);
 app.use(getInventoryRoute);
 app.use(createProductRoute);
 app.use(editProductRoute);

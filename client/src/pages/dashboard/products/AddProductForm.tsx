@@ -36,7 +36,7 @@ export default observer(function AddProductForm() {
     const validationSchema = Yup.object({
         title: Yup.string().required('Please fill out the title'),
         price: Yup.number().min(1).required('Please set a price greater than 0'),
-        sale: Yup.number(),
+        sale: Yup.number().max(100),
         quantity: Yup.number().integer().min(0).required('Quantity is required'),
         description: Yup.string().required('Please provide a description'),
         category: Yup.string().required('Please provide a category'),
@@ -90,14 +90,6 @@ export default observer(function AddProductForm() {
                         label="Category"
                         options={categoryOptions}
                     />
-                    {/* <input
-                        type="file"
-                        name="images"
-                        multiple
-                        onChange={(event: any) => {
-                            setSelectedFiles(event.target.files);
-                        }}
-                    /> */}
                     <MyFileInput
                         type="file"
                         label="Images"

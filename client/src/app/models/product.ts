@@ -16,6 +16,7 @@ export interface Product {
         lastName: string;
         comment: string;
     }];
+    createdAt: Date
 }
 
 export interface ProductFormValues {
