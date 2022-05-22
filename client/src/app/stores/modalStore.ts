@@ -4,6 +4,7 @@ interface Modal {
     open: boolean;
     body: JSX.Element | null;
     size: 'mini' | 'tiny' | 'small' | 'large' | 'fullscreen' | undefined;
+    theme: 'white' | 'dark';
 }
 
 export default class ModalStore {
@@ -11,6 +12,7 @@ export default class ModalStore {
         open: false,
         body: null,
         size: 'mini',
+        theme: 'dark'
     };
 
     constructor() {
@@ -19,11 +21,13 @@ export default class ModalStore {
 
     openModal = (
         content: JSX.Element,
-        size?: 'mini' | 'tiny' | 'small' | 'large' | 'fullscreen'
+        size?: 'mini' | 'tiny' | 'small' | 'large' | 'fullscreen',
+        theme: 'white' | 'dark' = 'dark'
     ) => {
         this.modal.open = true;
         this.modal.body = content;
         this.modal.size = size;
+        this.modal.theme = theme;
     };
 
     closeModal = () => {

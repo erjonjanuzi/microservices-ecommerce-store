@@ -51,7 +51,7 @@ export default observer(function AddProductForm() {
                 quantity: '' as unknown as number,
                 description: '',
                 category: '',
-                images: '' as any,
+                images: selectedFiles as any,
                 error: null,
             }}
             onSubmit={(values, { setErrors }) => {

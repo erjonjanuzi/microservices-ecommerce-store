@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Segment } from 'semantic-ui-react';
+import { Button, Grid, Image, Label, Segment } from 'semantic-ui-react';
 import LoadingComponent from '../../app/layout/LoadingComponent';
 import { useStore } from '../../app/stores/store';
+import ProductImage from './ProductImage';
 
 export default observer(function ProductPage() {
     const { productStore, cartStore } = useStore();
@@ -17,21 +18,23 @@ export default observer(function ProductPage() {
 
     useEffect(() => {
         if (id) loadProduct(id);
-        return () => clearSelectedProduct();
     }, [id, loadProduct, clearSelectedProduct]);
 
     if (loadingInitial || !product) return <LoadingComponent />;
 
     return (
-        <Segment placeholder>
-            <h1>{product.title}</h1>
-            <h1>{product.category}</h1>
-            <h1>{product.description}</h1>
-            <h1>{product.price}</h1>
-            <h1>{product.quantity}</h1>
-            <h1>{product.rating}</h1>
-            <h1>{product.sale}</h1>
-            <Button content="Add to cart" onClick={() => cartStore.addProductToCart(product.id, 1)}/>
+        <Segment>
+            <Grid>
+                <Grid.Column width={9}>
+                    <ProductImage product={product}/>
+                </Grid.Column>
+                <Grid.Column width={7}>
+                    <h1>{product.title}</h1>
+                    <h3>
+                        <Label basic content={`${product.quantity} available in stock`} />
+                    </h3>
+                </Grid.Column>
+            </Grid>
         </Segment>
     );
 });

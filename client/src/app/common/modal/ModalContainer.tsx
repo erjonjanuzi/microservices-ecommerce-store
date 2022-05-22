@@ -10,7 +10,7 @@ export default observer(function ModalContainer() {
             open={modalStore.modal.open}
             onClose={modalStore.closeModal}
             size={modalStore.modal.size}
-            className="dark-modal"
+            className={modalStore.modal.theme === 'dark' ? 'dark-modal' : 'white-modal'}
         >
             <Modal.Content>{modalStore.modal.body}</Modal.Content>
         </Modal>
