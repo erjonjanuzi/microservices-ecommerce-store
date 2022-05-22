@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { Grid, Loader } from 'semantic-ui-react';
+import { Divider, Grid, Header, Icon, Loader } from 'semantic-ui-react';
+import { useStore } from '../../app/stores/store';
 
 interface Props {
     images: [
@@ -11,6 +12,8 @@ interface Props {
 }
 
 export default observer(function ProductImageViewer({ images }: Props) {
+    const {productStore: {selectedProduct}} = useStore();
+
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const handleImageChange = (index: number) => {
@@ -25,13 +28,15 @@ export default observer(function ProductImageViewer({ images }: Props) {
 
     useEffect(() => {}, [currentIndex]);
 
-    if (!images) return <Loader active />;
+    if (!images || !selectedProduct) return <Loader active />;
 
     return (
         <>
+            <Header as='h1' content={selectedProduct?.title} textAlign='center' />
+            <Divider />
             <Grid>
-                <Grid.Column width={2}>
-                    <h1 onClick={() => handleImageChange(currentIndex - 1)}>{'<-'}</h1>
+                <Grid.Column width={2} verticalAlign='middle' textAlign='left'>
+                    <Icon name='arrow left' link onClick={() => handleImageChange(currentIndex - 1)} size='big' />
                 </Grid.Column>
                 <Grid.Column width={12}>
                     <div
@@ -52,10 +57,14 @@ export default observer(function ProductImageViewer({ images }: Props) {
                         />
                     </div>
                 </Grid.Column>
-                <Grid.Column width={2}>
-                    <h1 onClick={() => handleImageChange(currentIndex + 1)}>{'->'}</h1>
+                <Grid.Column width={2} verticalAlign='middle' textAlign='right'>
+                    <Icon name='arrow right' link onClick={() => handleImageChange(currentIndex + 1)} size='big' />
                 </Grid.Column>
             </Grid>
+            <Divider />
+            <div style={{textAlign: 'center'}}>
+                <p>Image {currentIndex + 1} of {images.length}</p>
+            </div>
         </>
     );
 });
