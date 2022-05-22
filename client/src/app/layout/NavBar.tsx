@@ -14,7 +14,7 @@ export default observer(function NavBar() {
     }
 
     return (
-        <Menu stackable secondary style={{ margin: '0px', padding: '30px 0' }}>
+        <Menu stackable secondary style={{ margin: '0px', padding: '30px 0', backgroundColor: 'white' }}>
             <Container>
                 <Menu.Header as={NavLink} exact to="/">
                     <Image src='assets/logo-fit-transparent.png' style={{maxWidth: '200px'}} />
