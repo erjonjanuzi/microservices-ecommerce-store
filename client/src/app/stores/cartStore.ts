@@ -1,8 +1,9 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
+import { Cart } from '../models/cart';
 
 export default class CartStore {
-    cart: any = undefined;
+    cart: Cart | undefined = undefined;
     loading = false;
     loadingInitial = false;
 

@@ -5,6 +5,7 @@ import { Button, Divider, Grid, Image, Label, Segment } from 'semantic-ui-react'
 import LoadingComponent from '../../app/layout/LoadingComponent';
 import { useStore } from '../../app/stores/store';
 import ProductImage from './ProductImage';
+import { history } from '../..';
 
 export default observer(function ProductPage() {
     const { productStore, cartStore } = useStore();
@@ -99,7 +100,7 @@ export default observer(function ProductPage() {
                             <Segment>{quantity}</Segment>
                         </Button.Group>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
-                            <Button icon="cart" secondary fluid content="Add to cart" />
+                            <Button icon="cart" secondary fluid content="Add to cart" onClick={() => cartStore.addProductToCart(product.id, quantity).then(() => history.push('/cart'))}/>
                             <Button fluid basic content="Buy now" />
                         </div>
                     </Grid.Column>

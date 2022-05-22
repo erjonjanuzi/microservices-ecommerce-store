@@ -17,14 +17,6 @@ build:
         manual:
           - src: '**/*.ts'
             dest: . 
-    # - image: erjonjanuzi/auth
-    #   context: auth
-    #   docker:
-    #     dockerfile: Dockerfile
-    #   sync:
-    #     manual:
-    #       - src: 'src/**/*.ts'
-    #         dest: .
     - image: erjonjanuzi/users
       context: users
       docker:
@@ -41,14 +33,14 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    # - image: erjonjanuzi/cart
-    #   context: cart
-    #   docker:
-    #     dockerfile: Dockerfile
-    #   sync:
-    #     manual:
-    #       - src: 'src/**/*.ts'
-    #         dest: .
+    - image: erjonjanuzi/cart
+      context: cart
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
     # - image: erjonjanuzi/orders
     #   context: orders
     #   docker:

@@ -66,6 +66,7 @@ router.post(
         await new ProductCreatedPublisher(natsWrapper.client).publish({
             id: product.id,
             title: product.title,
+            image: product.images[0].url,
             price: product.price,
             quantity: product.quantity,
             sale: product.sale,

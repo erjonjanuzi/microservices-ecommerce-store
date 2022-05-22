@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { history } from '../..';
+import { Cart as CartModel } from '../models/cart';
 import { Customer, UpdateCustomerFormValues } from '../models/customer';
 import { PaginatedResult } from '../models/pagination';
 import { Product, ProductFormValues } from '../models/product';
@@ -132,7 +133,7 @@ const Inventory = {
 
 const Cart = {
     addToCart: (body: { productId: string; quantity: number }) => requests.post('/api/cart', body),
-    getCart: () => requests.get('/api/cart'),
+    getCart: () => requests.get<CartModel>('/api/cart'),
     removeFromCart: (body: { productId: string }) => requests.put('/api/cart', body),
 };
 
