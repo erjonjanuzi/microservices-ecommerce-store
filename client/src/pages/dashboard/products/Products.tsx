@@ -24,7 +24,7 @@ export default observer(function Products() {
         inventoryStore.loadProducts();
     };
 
-    useEffect(() => {}, [handleSearchSubmit]);
+    useEffect(() => { }, [handleSearchSubmit]);
 
 
     return (
@@ -33,7 +33,7 @@ export default observer(function Products() {
             <Segment style={{ backgroundColor: '#1a1c23' }}>
                 <Grid>
                     <Grid.Column width={10}>
-                    <Formik
+                        <Formik
                             initialValues={{ searchString: '', error: null }}
                             onSubmit={handleSearchSubmit}
                         >

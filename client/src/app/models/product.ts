@@ -1,6 +1,7 @@
 export interface Product {
     id: string;
     title: string;
+    manufacturer: string;
     price: number;
     quantity: number;
     description: string;
@@ -9,18 +10,24 @@ export interface Product {
         url: string;
         isMain?: boolean | undefined;
     }];
-    rating?: number;
+    rating: number;
     sale: number;
-    reviews?: [{
-        firstName: string;
-        lastName: string;
-        comment: string;
+    reviews: [{
+        userId: string;
+        firstName?: string;
+        lastName?: string;
+        comment?: string;
+        rating: number;
+        _id: string;
+        createdAt: string;
     }];
+    isPromoted: boolean;
     createdAt: Date
 }
 
 export interface ProductFormValues {
     title: string;
+    manufacturer: string;
     price: number;
     quantity: number;
     description: string;

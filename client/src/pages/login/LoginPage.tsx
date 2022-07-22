@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Divider, Grid, Image } from 'semantic-ui-react';
+import { Button, Divider, Grid, Image, Segment } from 'semantic-ui-react';
 import { history } from '../..';
 import { useStore } from '../../app/stores/store';
 import LoginForm from './LoginForm';
@@ -26,29 +26,34 @@ export default observer(function LoginPage() {
     });
 
     return (
-        <Grid>
-            <Grid.Column width={9}>
-                <Image src='/assets/undraw_secure_login.svg' />
-            </Grid.Column>
-            <Grid.Column width={7}>
-                <h3>
-                    {loginTab ? 'Login with account' : 'Create account'}
-                </h3>
-                {loginTab ? (
-                    <>
-                        <LoginForm />
-                        <Divider horizontal>or</Divider>
-                        <Button
-                            basic
-                            content="Create account"
-                            fluid
-                            onClick={() => history.push('/login#tab=register')}
-                        />
-                    </>
-                ) : (
-                    <RegisterForm />
-                )}
-            </Grid.Column>
-        </Grid>
+        <div style={{ minHeight: '100vh', marginTop: '50px' }}>
+            <Grid>
+                <Grid.Column width={7} textAlign='center'>
+                    <Image src='/assets/illustrations/login.svg' />
+                </Grid.Column>
+                <Grid.Column width={1}>
+
+                </Grid.Column>
+                <Grid.Column width={8}>
+                    <h3>
+                        {loginTab ? 'Login with account' : 'Create account'}
+                    </h3>
+                    {loginTab ? (
+                        <>
+                            <LoginForm />
+                            <Divider horizontal>or</Divider>
+                            <Button
+                                basic
+                                content="Create account"
+                                fluid
+                                onClick={() => history.push('/login#tab=register')}
+                            />
+                        </>
+                    ) : (
+                        <RegisterForm />
+                    )}
+                </Grid.Column>
+            </Grid>
+        </div>
     );
 });

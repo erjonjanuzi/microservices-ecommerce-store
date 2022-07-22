@@ -24,56 +24,60 @@ export default observer(function ResetPassword() {
             .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
     });
 
-    useEffect(() => {}, [passwordReset]);
+    useEffect(() => { }, [passwordReset]);
 
     return passwordReset ? (
         <>
-            <h1>Your password has been successfully reset.</h1>
-            <Button secondary content='Login' basic onClick={() => history.push('/login#tab=login')} icon='lock' />
+            <div style={{ minHeight: '100vh', marginTop: '50px' }}>
+                <h1>Your password has been successfully reset.</h1>
+                <Button secondary content='Login' basic onClick={() => history.push('/login#tab=login')} icon='lock' />
+            </div>
         </>
     ) : (
         <>
-            <h1>Reset password</h1>
-            <Formik
-                initialValues={{ email: email, token: token, newPassword: '', error: null }}
-                onSubmit={(values, { setErrors }) =>
-                    userStore.resetPassword(values).then(() => setPasswordReset(true)).catch((error) => {
-                        setErrors({ error });
-                    })
-                }
-                validationSchema={validationSchema}
-            >
-                {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
-                    <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
-                        <MyTextInput
-                            name="newPassword"
-                            placeholder="*********"
-                            type="password"
-                            label="Password"
-                            required
-                        />
-                        <MyTextInput
-                            name="confirmPassword"
-                            placeholder="*********"
-                            type="password"
-                            label="Confirm password"
-                            required
-                        />
-                        <ErrorMessage
-                            name="error"
-                            render={() => <ValidationErrors errors={errors.error} />}
-                        />
-                        <Button
-                            loading={isSubmitting}
-                            secondary
-                            content="Reset"
-                            type="submit"
-                            fluid
-                            disabled={!dirty || !isValid}
-                        />
-                    </Form>
-                )}
-            </Formik>
+            <div style={{ minHeight: '100vh', marginTop: '50px' }}>
+                <h1>Reset password</h1>
+                <Formik
+                    initialValues={{ email: email, token: token, newPassword: '', error: null }}
+                    onSubmit={(values, { setErrors }) =>
+                        userStore.resetPassword(values).then(() => setPasswordReset(true)).catch((error) => {
+                            setErrors({ error });
+                        })
+                    }
+                    validationSchema={validationSchema}
+                >
+                    {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
+                        <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
+                            <MyTextInput
+                                name="newPassword"
+                                placeholder="*********"
+                                type="password"
+                                label="Password"
+                                required
+                            />
+                            <MyTextInput
+                                name="confirmPassword"
+                                placeholder="*********"
+                                type="password"
+                                label="Confirm password"
+                                required
+                            />
+                            <ErrorMessage
+                                name="error"
+                                render={() => <ValidationErrors errors={errors.error} />}
+                            />
+                            <Button
+                                loading={isSubmitting}
+                                secondary
+                                content="Reset"
+                                type="submit"
+                                fluid
+                                disabled={!dirty || !isValid}
+                            />
+                        </Form>
+                    )}
+                </Formik>
+            </div>
         </>
     );
 });

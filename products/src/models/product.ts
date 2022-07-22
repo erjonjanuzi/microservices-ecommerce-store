@@ -7,39 +7,38 @@ export interface Image {
 
 interface ProductAttrs {
     title: string;
+    manufacturer: string;
     price: number;
     sale?: number;
     quantity: number;
     description: string;
     category: string;
     images: Image[];
-    rating?: number;
-    reviews?: [
-        {
-            firstName: string;
-            lastName: string;
-            comment: string;
-        }
-    ];
 }
 
-interface ProductDoc extends mongoose.Document {
+export interface ProductDoc extends mongoose.Document {
     title: string;
+    manufacturer: string;
     price: number;
     quantity: number;
     description: string;
     category: string;
     images: Image[];
-    rating?: number;
     sale: number;
-    reviews?: [
+    rating: number;
+    reviews: [
         {
-            firstName: string;
-            lastName: string;
-            comment: string;
+            _id: string;
+            userId: string;
+            firstName?: string;
+            lastName?: string;
+            comment?: string;
+            rating: number;
         }
     ];
+    isPromoted: boolean;
     version: number;
+    getRating(): number;
 }
 
 interface ProductModel extends mongoose.Model<ProductDoc> {
@@ -51,6 +50,10 @@ const productSchema = new mongoose.Schema(
         title: {
             type: String,
             required: true,
+        },
+        manufacturer: {
+            type: String,
+            required: true
         },
         price: {
             type: Number,
@@ -83,9 +86,21 @@ const productSchema = new mongoose.Schema(
             default: 0,
             required: true,
         },
-        reviews: {
-            type: Array,
-        },
+        reviews: [{
+            userId: { type: String },
+            firstName: { type: String, required: false },
+            lastName: { type: String, required: false },
+            comment: { type: String, required: false },
+            rating: { type: Number },
+            createdAt: {
+                type: Date,
+                default: Date.now,
+            }
+        }],
+        isPromoted: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         toJSON: {
@@ -102,6 +117,29 @@ productSchema.set('versionKey', 'version');
 productSchema.index({ title: 'text', description: 'text', category: 'text' });
 
 productSchema.plugin(updateIfCurrentPlugin);
+
+productSchema.pre('save', async function (done) {
+    // @ts-ignore
+    this.set('rating', this.getRating());
+    // @ts-ignore
+    this.set('reviews', this.reviews.sort(function (a: any, b: any) {
+        return b.createdAt - a.createdAt;
+    }))
+    done();
+});
+
+productSchema.methods.getRating = function () {
+    let ratingSum = 0;
+    const ratingCount = this.reviews.length;
+
+    this.reviews.forEach((review: any) => {
+        ratingSum += review.rating;
+    })
+
+    const rating = ratingSum / ratingCount;
+
+    return rating;
+}
 
 productSchema.statics.build = (attrs: ProductAttrs) => {
     return new Product(attrs);

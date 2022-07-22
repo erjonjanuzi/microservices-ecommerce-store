@@ -10,13 +10,6 @@ spec:
     - host: labcourseapp.xyz
       http:
         paths:     
-          - path: /api/auth/?(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: auth-srv
-                port:
-                  number: 3000
           - path: /api/users/?(.*)
             pathType: Prefix
             backend:
@@ -31,7 +24,21 @@ spec:
                 name: products-srv
                 port:
                   number: 3000
+          - path: /api/category/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: products-srv
+                port:
+                  number: 3000
           - path: /api/cart/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: cart-srv
+                port:
+                  number: 3000
+          - path: /api/wishlist/?(.*)
             pathType: Prefix
             backend:
               service:
@@ -43,6 +50,13 @@ spec:
             backend:
               service:
                 name: orders-srv
+                port:
+                  number: 3000
+          - path: /api/payments/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: payments-srv
                 port:
                   number: 3000
           - path: /?(.*)

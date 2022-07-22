@@ -35,7 +35,9 @@ router.get('/api/users/verifyemail', async (req: Request, res: Response) => {
     });
     await user.save();
 
-    res.send('Email verified')
+    const redirectUrl = `http://${req.headers.host!}/emailConfirmed`;
+
+    res.redirect(redirectUrl);
 })
 
 export {router as verifyEmail}

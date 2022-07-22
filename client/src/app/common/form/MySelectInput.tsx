@@ -12,6 +12,7 @@ interface Props {
     label?: string;
     width?: SemanticWIDTHSNUMBER;
     required?: boolean;
+    disabled?: boolean;
 }
 
 export default function MySelectInput(props: Props) {

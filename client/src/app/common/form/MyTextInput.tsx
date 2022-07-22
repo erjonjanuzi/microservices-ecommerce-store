@@ -9,6 +9,7 @@ interface Props {
     label?: string;
     required?: boolean;
     width?: SemanticWIDTHSNUMBER
+    disabled?: boolean;
 }
 
 export default function MyTextInput(props: Props) {

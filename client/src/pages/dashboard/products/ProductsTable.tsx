@@ -1,7 +1,10 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import {
     Button,
+    Checkbox,
+    CheckboxProps,
     Header,
     Icon,
     Image,
@@ -14,7 +17,10 @@ import {
 } from 'semantic-ui-react';
 import { PagingParams } from '../../../app/models/pagination';
 import { useStore } from '../../../app/stores/store';
+import ProductCard from '../../products/ProductCard';
 import AddProductForm from './AddProductForm';
+import EditProductForm from './EditProductForm';
+import ViewDetails from './ViewDetails';
 
 export default observer(function InventoryTable() {
     const {
@@ -28,8 +34,11 @@ export default observer(function InventoryTable() {
             loadingInitial,
             searchString,
             setSearchString,
+            promoteProduct,
+            deleteProduct
         },
         confirmStore,
+        modalStore
     } = useStore();
 
     const onChange = (_: React.MouseEvent<HTMLAnchorElement>, pageInfo: PaginationProps) => {
@@ -38,6 +47,11 @@ export default observer(function InventoryTable() {
         setPagingParams(new PagingParams(pageInfo.activePage));
         loadProducts();
     };
+
+    const handlePromoteProduct = async (data: CheckboxProps, productId: string) => {
+        await promoteProduct(productId, data.checked!);
+        toast.info('Product promototion updated');
+    }
 
     useEffect(() => {
         loadProducts().then(() => setSearchString(''));
@@ -80,6 +94,7 @@ export default observer(function InventoryTable() {
                         <Table.HeaderCell>Discounted Price</Table.HeaderCell>
                         <Table.HeaderCell>Stock</Table.HeaderCell>
                         <Table.HeaderCell>Status</Table.HeaderCell>
+                        <Table.HeaderCell>Promoted</Table.HeaderCell>
                         <Table.HeaderCell>Details</Table.HeaderCell>
                         <Table.HeaderCell textAlign="center">Actions</Table.HeaderCell>
                     </Table.Row>
@@ -115,9 +130,9 @@ export default observer(function InventoryTable() {
                             <Table.Cell>
                                 {product.sale > 0
                                     ? `${(
-                                          product.price -
-                                          product.price * (product.sale / 100)
-                                      ).toFixed(2)}€`
+                                        product.price -
+                                        product.price * (product.sale / 100)
+                                    ).toFixed(2)}€`
                                     : '-'}
                             </Table.Cell>
                             <Table.Cell>{product.quantity}</Table.Cell>
@@ -128,16 +143,18 @@ export default observer(function InventoryTable() {
                                     circular
                                 />
                             </Table.Cell>
+                            <Table.Cell>
+                                <Checkbox toggle checked={product.isPromoted} onChange={(e, data) => handlePromoteProduct(data, product.id)} />
+                            </Table.Cell>
                             <Table.Cell textAlign="center">
-                                <Icon link onClick={() => console.log('view')} name="eye" />
+                                <Icon link onClick={() => modalStore.openModal(<ViewDetails product={product} />, 'large', 'white')} name="eye" />
                             </Table.Cell>
                             <Table.Cell textAlign="right">
                                 <Button.Group>
                                     <Button
                                         icon="edit outline"
                                         onClick={() =>
-                                            // TODO call edit product form here
-                                            console.log('edit product')
+                                            drawerStore.openDrawer(<EditProductForm id={product.id}/>, 'Edit product')
                                         }
                                         content="Edit"
                                     />
@@ -145,8 +162,11 @@ export default observer(function InventoryTable() {
                                         icon="trash alternate outline"
                                         color="red"
                                         onClick={() =>
-                                            // TODO call delete product here
-                                            console.log('Delete product')
+                                            confirmStore.openConfirm('Delete product',
+                                                'Are you sure you want to delete this product from inventory?',
+                                                deleteProduct,
+                                                product.id
+                                            )
                                         }
                                     />
                                 </Button.Group>
@@ -158,18 +178,16 @@ export default observer(function InventoryTable() {
                 <Table.Footer>
                     <Table.Row>
                         <Table.HeaderCell colSpan="3" textAlign="left">
-                            <p>{`Showing ${
-                                pagination.currentPage * pagination.itemsPerPage -
+                            <p>{`Showing ${pagination.currentPage * pagination.itemsPerPage -
                                 pagination.itemsPerPage +
                                 1
-                            }-${
-                                pagination.currentPage * pagination.itemsPerPage <
-                                pagination.totalItems
+                                }-${pagination.currentPage * pagination.itemsPerPage <
+                                    pagination.totalItems
                                     ? pagination.currentPage * pagination.itemsPerPage
                                     : pagination.currentPage * pagination.itemsPerPage -
-                                      (pagination.currentPage * pagination.itemsPerPage -
-                                          pagination.totalItems)
-                            } of ${pagination.totalItems}`}</p>
+                                    (pagination.currentPage * pagination.itemsPerPage -
+                                        pagination.totalItems)
+                                } of ${pagination.totalItems}`}</p>
                         </Table.HeaderCell>
                         <Table.HeaderCell colSpan="8" textAlign="right">
                             <Pagination

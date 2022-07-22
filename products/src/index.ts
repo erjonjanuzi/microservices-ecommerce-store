@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 import { app } from './app';
 import { natsWrapper } from './natsWrapper';
 import cloudinary from 'cloudinary'
+import { Seed } from './seed';
+import { OrderCreatedListener } from './events/listeners/OrderCreatedListener';
+import { OrderCancelledListener } from './events/listeners/OrderCancelledListener';
 
 const start = async () => {
     if (!process.env.JWT_KEY) {
@@ -37,6 +40,9 @@ const start = async () => {
         await mongoose.connect(process.env.MONGO_URI);
         console.log('Connected to MongoDb');
 
+        new OrderCreatedListener(natsWrapper.client).listen();
+        new OrderCancelledListener(natsWrapper.client).listen();
+
         cloudinary.v2.config({
             cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
             api_key: process.env.CLOUDINARY_API_KEY,
@@ -45,6 +51,8 @@ const start = async () => {
     } catch (err) {
         console.error(err);
     }
+
+    await Seed.init();
 
     app.listen(3000, () => {
         console.log('Listening on port 3000!');

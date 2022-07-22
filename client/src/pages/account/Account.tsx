@@ -17,7 +17,9 @@ const panes = [
 export default observer(function Account() {
     return (
         <>
-            <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+            <div style={{ minHeight: '100vh', marginTop: '50px' }}>
+                <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+            </div>
         </>
     );
 });

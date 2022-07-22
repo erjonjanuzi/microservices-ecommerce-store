@@ -10,6 +10,7 @@ import {
 import express, { Request, Response } from 'express';
 import { param } from 'express-validator';
 import { Product } from '../models/product';
+import { cloudinaryDestroyer } from '../utils/cloudinaryDestroyer';
 
 const router = express.Router();
 
@@ -34,8 +35,14 @@ router.delete(
 
         const result = await Product.deleteOne({ _id: productId });
 
+        if (result.deletedCount === 1) {
+            for (const image of product.images){
+                cloudinaryDestroyer(image.url);
+            }
+        }
+
         if (result.deletedCount == 1) {
-            res.status(200).send();
+            return res.status(200).send();
         }
 
         throw new BadRequestError(

@@ -6,11 +6,11 @@ import { Button, Icon } from 'semantic-ui-react';
 import ValidationErrors from '../../login/ValidationErrors';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MySelectInput from '../../../app/common/form/MySelectInput';
-import { categoryOptions } from '../../../app/common/options/categoryOptions';
 import ImagesRenderer from './ImagesRenderer';
 import { toast } from 'react-toastify';
+import agent from '../../../app/api/agent';
 import MyFileInput from '../../../app/common/form/MyFileInput';
 
 export default observer(function AddProductForm() {
@@ -19,6 +19,7 @@ export default observer(function AddProductForm() {
         inventoryStore: { createProduct },
     } = useStore();
     const [selectedFiles, setSelectedFiles] = useState<FileList>();
+    const [categories, setCategories] = useState<any[]>([]);
 
     const handleRemoveImages = (index: number) => {
         const dt = new DataTransfer();
@@ -35,6 +36,7 @@ export default observer(function AddProductForm() {
 
     const validationSchema = Yup.object({
         title: Yup.string().required('Please fill out the title'),
+        manufacturer: Yup.string().required('Please fill out this field'),
         price: Yup.number().min(1).required('Please set a price greater than 0'),
         sale: Yup.number().max(100),
         quantity: Yup.number().integer().min(0).required('Quantity is required'),
@@ -42,10 +44,21 @@ export default observer(function AddProductForm() {
         category: Yup.string().required('Please provide a category'),
     });
 
+    useEffect(() => {
+        agent.Categories.all().then((result) => {
+            let tempCategories: any[] = [];
+            result.forEach(category => {
+                tempCategories.push({text: category.categoryName, value: category.categoryName})
+            })
+            setCategories(tempCategories);
+        })
+    }, [])
+
     return (
         <Formik
             initialValues={{
                 title: '',
+                manufacturer: '',
                 price: '' as unknown as number,
                 sale: '' as unknown as number,
                 quantity: '' as unknown as number,
@@ -70,6 +83,7 @@ export default observer(function AddProductForm() {
             {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
                 <Form className="ui form dark-button" onSubmit={handleSubmit} autoComplete="off">
                     <MyTextInput name="title" placeholder="iPhone" label="Title" />
+                    <MyTextInput name="manufacturer" placeholder="Apple" label="Manufacturer" />
                     <MyTextInput name="price" placeholder="39.90€" label="Price" type="number" />
                     <MyTextInput
                         name="sale"
@@ -86,24 +100,27 @@ export default observer(function AddProductForm() {
                     />
                     <MySelectInput
                         name="category"
-                        placeholder="Phone"
+                        placeholder="Select a category"
                         label="Category"
-                        options={categoryOptions}
+                        options={categories}
                     />
-                    <MyFileInput
+                    <input
                         type="file"
-                        label="Images"
                         name="images"
+                        value={undefined}
                         multiple
                         onChange={(event: any) => {
+                            event.preventDefault();
                             setSelectedFiles(event.target.files);
                         }}
                     />
+                    <br />
                     <br />
                     <ImagesRenderer
                         images={selectedFiles}
                         handleRemoveImages={handleRemoveImages}
                     />
+                    <br />
 
                     <ErrorMessage
                         name="error"

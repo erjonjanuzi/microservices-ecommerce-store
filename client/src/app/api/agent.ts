@@ -2,10 +2,12 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { history } from '../..';
 import { Cart as CartModel } from '../models/cart';
+import { Category } from '../models/category';
 import { Customer, UpdateCustomerFormValues } from '../models/customer';
 import { PaginatedResult } from '../models/pagination';
 import { Product, ProductFormValues } from '../models/product';
 import { Staff as StaffModel, StaffFormValues } from '../models/staff';
+import { Wishlist as WishlistModel } from '../models/wishlist';
 import { store } from '../stores/store';
 
 const sleep = (delay: number) => {
@@ -16,7 +18,7 @@ const sleep = (delay: number) => {
 
 axios.interceptors.response.use(
     async (response) => {
-        // if (process.env.NODE_ENV === 'development') await sleep(500);
+        // if (process.env.NODE_ENV === 'development') await sleep(2000);
         const pagination = response.headers['pagination'];
         if (pagination) {
             response.data = new PaginatedResult(response.data, JSON.parse(pagination));
@@ -91,6 +93,8 @@ const Users = {
         requests.post('/api/users/forgotpassword/request', body),
     resetPassword: (body: { email: string; token: string; newPassword: string }) =>
         requests.post('/api/users/forgotpassword/reset', body),
+    addDeliveryAddress: (body: { deliveryAddress: { country: string; city: string; postCode: string; street: string; }; }) =>
+        requests.put('/api/users/account/addDeliveryAddress', body)
 };
 
 const Staff = {
@@ -115,9 +119,29 @@ const Customers = {
 };
 
 const Products = {
-    all: () => requests.get('/api/products'),
+    all: (params: URLSearchParams) =>
+        axios
+            .get<PaginatedResult<Product[]>>('/api/products', { params })
+            .then(responseBody),
     details: (id: string) => requests.get(`/api/products/${id}`),
+    postReview: (body: any) => requests.post<Product>('/api/products/addReview', body),
+    deleteReview: (body: any) => requests.put<Product>('/api/products/deleteReview', body),
+    getManufacturersByCategory: (categoryName: string) =>
+        requests.get<string[]>(`/api/products/getManufacturersByCategory/${categoryName}`),
+    getSimilarProducts: (productId: string) =>
+        requests.get<Product[]>(`/api/products/getSimilarProducts/${productId}`),
+    getPromotedProducts: () => requests.get<Product[]>('/api/products/getPromotedProducts'),
+    getProductsByRating: () => requests.get<Product[]>('/api/products/getProductsByRating'),
+    getProductsOnSale: () => requests.get<Product[]>('/api/products/getProductsOnSale'),
 };
+
+const Categories = {
+    all: () => requests.get<Category[]>('/api/category'),
+    details: (id: string) => requests.get<Category>(`/api/category/${id}`),
+    create: (body: { categoryName: string }) => requests.post<Category>('/api/category', body),
+    update: (id: string, body: { categoryName: string }) => requests.put<Category>(`/api/category/${id}`, body),
+    delete: (id: string) => requests.del(`/api/category/${id}`)
+}
 
 const Inventory = {
     all: (params: URLSearchParams) =>
@@ -129,13 +153,51 @@ const Inventory = {
             'Content-Type': 'multipart/form-data'
         }
     }).then(responseBody),
+    promote: (productId: string, body: { isPromoted: boolean }) =>
+        requests.put<Product>(`/api/products/promote/${productId}`, body),
+    delete: (productId: string) =>
+        requests.del(`/api/products/${productId}`),
+    update: (productId: string, body: any) =>
+        requests.put<Product>(`/api/products/update/${productId}`, body),
+    numberOfProducts: () => requests.get('/api/products/getNumberOfProducts')
 }
 
 const Cart = {
     addToCart: (body: { productId: string; quantity: number }) => requests.post('/api/cart', body),
     getCart: () => requests.get<CartModel>('/api/cart'),
-    removeFromCart: (body: { productId: string }) => requests.put('/api/cart', body),
+    removeFromCart: (body: { productId: string }) => requests.put('/api/cart/removeItem', body),
+    updateCartItemQuantity: (body: { productId: string, quantity: number }) => requests.put('/api/cart', body),
+    clear: () => requests.get<CartModel>('/api/cart/clear')
 };
+
+const Wishlist = {
+    getWishlist: () => requests.get<WishlistModel>('/api/wishlist'),
+    addItem: (body: { productId: string }) => requests.post<WishlistModel>('/api/wishlist', body),
+    removeItem: (body: { productId: string }) => requests.put<WishlistModel>('/api/wishlist/removeItem', body),
+    clear: () => requests.get<WishlistModel>('/api/wishlist/clear')
+}
+
+const Orders = {
+    createOrder: (body: { items: any[], contact: any }) => requests.post('/api/orders', body),
+    getOrder: (id: string) => requests.get(`/api/orders/${id}`),
+    getMyOrders: () => requests.get('/api/orders/my'),
+    getOrders: (params: URLSearchParams) =>
+        axios
+            .get<PaginatedResult<any[]>>('/api/orders', { params })
+            .then(responseBody),
+    updateOrderStatus: (orderId: string, body: { status: string }) => requests.put(`/api/orders/${orderId}`, body),
+    getOrdersByStatus: (params: URLSearchParams, status: string) =>
+        axios
+            .get<PaginatedResult<any[]>>(`/api/orders/${status}`, { params })
+            .then(responseBody),
+    numberOfOrders: () => requests.get('/api/orders/getNumberOfOrders'),
+    totalRevenue: () => requests.get('/api/orders/getRevenue'),
+    numberOfAwaitingOrders: () => requests.get('/api/orders/getNumberOfAwaitingOrders'),
+}
+
+const Payments = {
+    pay: (body: { orderId: string, token: string }) => requests.post('/api/payments', body),
+}
 
 const agent = {
     Auth,
@@ -144,7 +206,11 @@ const agent = {
     Cart,
     Staff,
     Customers,
-    Inventory
+    Inventory,
+    Orders,
+    Payments,
+    Wishlist,
+    Categories
 };
 
 export default agent;

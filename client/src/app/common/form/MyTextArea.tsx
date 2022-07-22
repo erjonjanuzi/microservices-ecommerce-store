@@ -6,6 +6,7 @@ interface Props {
     name: string;
     rows: number;
     label?: string;
+    disabled?: boolean;
 }
 
 export default function MyTextArea(props: Props) {

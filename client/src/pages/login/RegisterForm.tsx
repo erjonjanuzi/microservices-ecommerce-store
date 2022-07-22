@@ -43,118 +43,118 @@ export default observer(function RegisterForm() {
     return (
         <>
             <RegisterSteps step={step} />
-            {step === 1 ? (
-                <Formik
-                    initialValues={{
-                        firstName: '',
-                        lastName: '',
-                        phoneNumber: '',
-                        email: '',
-                        password: '',
-                        error: null,
-                    }}
-                    onSubmit={(values, { setErrors }) =>
-                        userStore
-                            .checkPersonalDetails(values)
-                            .then(() => {
-                                setRegisterObject(values);
-                                setStep(2);
-                            })
-                            .catch((error) => {
-                                setErrors({ error });
-                            })
-                    }
-                    validationSchema={personalDetailsValidationSchema}
-                >
-                    {({
-                        handleSubmit,
-                        isSubmitting,
-                        errors,
-                        isValid,
-                        dirty,
-                    }) => (
-                        <>
-                            <Form
-                                className="ui form"
-                                onSubmit={handleSubmit}
-                                autoComplete="off"
+            {step === 1 && <Formik
+                initialValues={{
+                    firstName: '',
+                    lastName: '',
+                    phoneNumber: '',
+                    email: '',
+                    password: '',
+                    error: null,
+                }}
+                onSubmit={(values, { setErrors }) =>
+                    userStore
+                        .checkPersonalDetails(values)
+                        .then(() => {
+                            setRegisterObject(values);
+                            setStep(2);
+                        })
+                        .catch((error) => {
+                            setErrors({ error });
+                        })
+                }
+                validationSchema={personalDetailsValidationSchema}
+            >
+                {({
+                    handleSubmit,
+                    isSubmitting,
+                    errors,
+                    isValid,
+                    dirty,
+                }) => (
+                    <>
+                        <Form
+                            className="ui form"
+                            onSubmit={handleSubmit}
+                            autoComplete="off"
+                        >
+                            <MyTextInput
+                                name="firstName"
+                                placeholder="e.g. Erjon"
+                                label="First name"
+                                type="text"
+                                required
+                            />
+                            <MyTextInput
+                                name="lastName"
+                                placeholder="e.g. Januzi"
+                                label="Last name"
+                                type="text"
+                                required
+                            />
+                            <MyTextInput
+                                name="phoneNumber"
+                                placeholder="e.g. 043922777"
+                                type="text"
+                                label="Phone number"
+                                required
+                                width={8}
+                            />
+                            <MyTextInput
+                                name="email"
+                                placeholder="e.g. john@applesed.com"
+                                label="Email"
+                                type="email"
+                                required
+                            />
+                            <MyTextInput
+                                name="password"
+                                placeholder="*********"
+                                type="password"
+                                label="Password"
+                                required
+                            />
+                            <MyTextInput
+                                name="confirmPassword"
+                                placeholder="*********"
+                                type="password"
+                                label="Confirm password"
+                                required
+                            />
+                            <ErrorMessage
+                                name="error"
+                                render={() => (
+                                    <ValidationErrors
+                                        errors={errors.error}
+                                    />
+                                )}
+                            />
+                            <Button
+                                loading={isSubmitting}
+                                secondary
+                                type="submit"
+                                fluid
+                                animated
+                                disabled={!dirty || !isValid}
                             >
-                                <MyTextInput
-                                    name="firstName"
-                                    placeholder="e.g. Erjon"
-                                    label="First name"
-                                    type="text"
-                                    required
-                                />
-                                <MyTextInput
-                                    name="lastName"
-                                    placeholder="e.g. Januzi"
-                                    label="Last name"
-                                    type="text"
-                                    required
-                                />
-                                <MyTextInput
-                                    name="phoneNumber"
-                                    placeholder="e.g. 043922777"
-                                    type="text"
-                                    label="Phone number"
-                                    required
-                                    width={8}
-                                />
-                                <MyTextInput
-                                    name="email"
-                                    placeholder="e.g. john@applesed.com"
-                                    label="Email"
-                                    type="email"
-                                    required
-                                />
-                                <MyTextInput
-                                    name="password"
-                                    placeholder="*********"
-                                    type="password"
-                                    label="Password"
-                                    required
-                                />
-                                <MyTextInput
-                                    name="confirmPassword"
-                                    placeholder="*********"
-                                    type="password"
-                                    label="Confirm password"
-                                    required
-                                />
-                                <ErrorMessage
-                                    name="error"
-                                    render={() => (
-                                        <ValidationErrors
-                                            errors={errors.error}
-                                        />
-                                    )}
-                                />
-                                <Button
-                                    loading={isSubmitting}
-                                    secondary
-                                    type="submit"
-                                    fluid
-                                    animated
-                                    disabled={!dirty || !isValid}
-                                >
-                                    <Button.Content visible>
-                                        Next
-                                    </Button.Content>
-                                    <Button.Content hidden>
-                                        <Icon name="arrow right" />
-                                    </Button.Content>
-                                </Button>
-                                <br />
-                                <a href="" onClick={(e: any) => {
-                                    e.preventDefault();
-                                    history.push('/login#tab=login')
-                                }}>Already have an account? Login instead</a>
-                            </Form>
-                        </>
-                    )}
-                </Formik>
-            ) : (
+                                <Button.Content visible>
+                                    Next
+                                </Button.Content>
+                                <Button.Content hidden>
+                                    <Icon name="arrow right" />
+                                </Button.Content>
+                            </Button>
+                            <br />
+                            <a href="" onClick={(e: any) => {
+                                e.preventDefault();
+                                history.push('/login#tab=login')
+                            }}>Already have an account? Login instead</a>
+                        </Form>
+                    </>
+                )}
+            </Formik>}
+
+            {step === 2 &&
                 <Formik
                     initialValues={{
                         country: '',
@@ -191,13 +191,6 @@ export default observer(function RegisterForm() {
                                     name="country"
                                     options={countryOptions}
                                 />
-                                <MyTextInput
-                                    name="street"
-                                    placeholder="Address (Number & Street name)"
-                                    label="Address"
-                                    type="text"
-                                    required
-                                />
                                 <MySelectInput
                                     placeholder="City"
                                     label="City"
@@ -211,6 +204,13 @@ export default observer(function RegisterForm() {
                                     type="text"
                                     required
                                     width={8}
+                                />
+                                <MyTextInput
+                                    name="street"
+                                    placeholder="Address (Number & Street name)"
+                                    label="Address"
+                                    type="text"
+                                    required
                                 />
                                 <ErrorMessage
                                     name="error"
@@ -238,8 +238,7 @@ export default observer(function RegisterForm() {
                             </Form>
                         </>
                     )}
-                </Formik>
-            )}
+                </Formik>}
         </>
     );
 });

@@ -27,15 +27,15 @@ router.post(
             .not()
             .isEmpty()
             .withMessage('Quantity is required')
-            .isInt()
-            .withMessage('An integer is required for quantity'),
+            .isInt({ min: 1 })
+            .withMessage('A number greater than 0 is required for quantity'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
         const { productId, quantity } = req.body;
 
         const product = await Product.findById(productId);
-
+    
         if (!product) {
             throw new BadRequestError('Product does not exist');
         }
@@ -46,7 +46,6 @@ router.post(
                 'The requested quantity for the product is not available'
             );
         }
-
         let cart = await Cart.findOne({ userId: req.currentUser!.id });
         cart?.products.forEach((cartItem) => {
             if (cartItem.product.toString() === productId) {
@@ -59,13 +58,12 @@ router.post(
             { $push: { products: { product: productId, quantity: quantity } } },
             { upsert: true, new: true }
         ).populate('products.product');
-        
 
-        if (!cart){
+        if (!cart) {
             throw new BadRequestError("Something went wrong")
         }
-        
-        const products = [] as {id: string, title: string}[]
+
+        const products = [] as { id: string, title: string }[]
         cart.products.forEach(cartItem => {
             const product = {
                 id: cartItem.product.id,
@@ -73,16 +71,9 @@ router.post(
             }
             products.push(product)
         })
+        await cart.save();
 
-        await new CartUpdatedPublisher(natsWrapper.client).publish({
-            id: cart.id,
-            userId: cart.userId,
-            products: products,
-            version: cart.version,
-            totalPrice: cart.calculateTotalPrice()
-        })
-
-        res.send(cart);
+        return res.send(cart);
     }
 );
 

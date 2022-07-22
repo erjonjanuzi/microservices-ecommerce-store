@@ -13,10 +13,11 @@ interface CartDoc extends mongoose.Document {
     }[];
     userId: string;
     version: number;
+    totalPrice: number;
     calculateTotalPrice(): number
 }
 
-interface CartModel extends mongoose.Model<CartDoc>{
+interface CartModel extends mongoose.Model<CartDoc> {
     build(attrs: CartAttrs): CartDoc;
 }
 
@@ -34,10 +35,13 @@ const cartSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: true
+    },
+    totalPrice: {
+        type: Number,
     }
-},{
+}, {
     toJSON: {
-        transform(doc, ret){
+        transform(doc, ret) {
             ret.id = ret._id;
             delete ret._id;
         }
@@ -47,19 +51,23 @@ const cartSchema = new mongoose.Schema({
 cartSchema.set('versionKey', 'version');
 cartSchema.plugin(updateIfCurrentPlugin);
 
-cartSchema.statics.build = (attrs: CartAttrs) => {
-    return new Cart(attrs);
-}
+cartSchema.pre('save', async function (done) {
+    this.set('totalPrice', this.calculateTotalPrice());
+    done();
+});
 
 cartSchema.methods.calculateTotalPrice = function () {
     let totalPrice = 0
 
-    this.products.forEach((item: {product: ProductDoc, quantity: number}) => {
-        totalPrice += item.product.price * item.quantity
+    this.products.forEach((item: { product: ProductDoc, quantity: number }) => {
+        totalPrice += ((item.product.price - (item.product.price * (item.product.sale / 100))) * item.quantity);
     })
 
-    console.log(totalPrice)
     return totalPrice;
+}
+
+cartSchema.statics.build = (attrs: CartAttrs) => {
+    return new Cart(attrs);
 }
 
 const Cart = mongoose.model<CartDoc, CartModel>('Cart', cartSchema);

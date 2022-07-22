@@ -30,7 +30,7 @@ router.post(
     validationMiddleware,
     validateRequest,
     async (req: Request, res: Response) => {
-        const { title, price, sale, quantity, description, category } = req.body;
+        const { title, price, sale, quantity, description, category, manufacturer } = req.body;
         const images = [] as Image[];
         const files = req.files;
         
@@ -53,6 +53,7 @@ router.post(
         // create the product
         const product = Product.build({
             title,
+            manufacturer,
             price,
             sale,
             quantity,

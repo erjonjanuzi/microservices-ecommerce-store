@@ -82,25 +82,37 @@ export default class UserStore {
         }
     };
 
-    updateCustomer = async(id: string, values: UpdateCustomerFormValues) => {
+    updateCustomer = async (id: string, values: UpdateCustomerFormValues) => {
         try {
             const user = await agent.Customers.update(id, values);
             runInAction(() => {
                 this.user = user;
             })
-        } catch(error){
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    addDeliveryAddress = async (values: { country: string, city: string, postCode: string, street: string }) => {
+        try {
+            const deliveryAddress = { deliveryAddress: { ...values } };
+            const user = await agent.Users.addDeliveryAddress(deliveryAddress);
+            runInAction(() => {
+                this.user = user;
+            })
+        } catch (error) {
             throw error;
         }
     }
 
     deleteAccount = async () => {
         try {
-            const result = await agent.Users.deleteAccount() as {delete: string};
+            const result = await agent.Users.deleteAccount() as { delete: string };
             store.confirmStore.closeConfirm();
-            if (result.delete === 'success'){
+            if (result.delete === 'success') {
                 this.logout();
             }
-        } catch(error){
+        } catch (error) {
             throw error;
         }
     }
@@ -113,15 +125,15 @@ export default class UserStore {
         }
     };
 
-    forgotPassword = async (values: { email: string}) => {
+    forgotPassword = async (values: { email: string }) => {
         try {
             await agent.Users.forgotPassword(values)
-        } catch (error){
+        } catch (error) {
             throw error
         }
     }
 
-    resetPassword = async (values: {email: string, token: string, newPassword: string}) => {
+    resetPassword = async (values: { email: string, token: string, newPassword: string }) => {
         try {
             await agent.Users.resetPassword(values);
         } catch (error) {

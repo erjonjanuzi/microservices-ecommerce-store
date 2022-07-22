@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { Pagination, PagingParams } from '../models/pagination';
 import { Product, ProductFormValues } from '../models/product';
+import { store } from './store';
 
 export default class InventoryStore {
     productRegistry = new Map<string, Product>();
@@ -110,6 +111,41 @@ export default class InventoryStore {
         }
     };
 
+    deleteProduct = async (productId: string) => {
+        try {
+            await agent.Inventory.delete(productId);
+            store.confirmStore.closeConfirm();
+            runInAction(() => {
+                // @ts-ignore
+                this.setProduct(undefined)
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    promoteProduct = async (productId: string, isPromoted: boolean) => {
+        try {
+            const product = await agent.Inventory.promote(productId, { isPromoted });
+            runInAction(() => {
+                this.setProduct(product);
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    updateProduct = async (productId: string, body: any) => {
+        try {
+            const product = await agent.Inventory.update(productId, body);
+            runInAction(() => {
+                this.setProduct(product);
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
+
     private setProduct = (product: Product) => {
         this.productRegistry.set(product.id, product);
     };
@@ -130,6 +166,7 @@ export default class InventoryStore {
         let formData = new FormData();
 
         formData.append('title', product.title);
+        formData.append('manufacturer', product.manufacturer);
         formData.append('price', product.price.toString());
         formData.append('sale', product.sale.toString() === '' ? '0' : product.sale.toString());
         formData.append('quantity', product.quantity.toString());

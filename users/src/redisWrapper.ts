@@ -1,4 +1,4 @@
-import { RedisClientType, RedisClusterType } from '@node-redis/client';
+import { RedisClientType, RedisClusterType } from '@redis/client';
 import { createClient } from 'redis';
 
 class RedisWrapper {

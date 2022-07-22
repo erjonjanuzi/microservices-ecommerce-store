@@ -6,6 +6,8 @@ import UpdateAddress from './UpdateAddress';
 import UpdatePassword from './UpdatePassword';
 import { faTruck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AddDeliveryAddress from './AddDeliveryAddress';
+import UpdateDeliveryAddress from './UpdateDeliveryAddress';
 
 export default observer(function PersonalDetails() {
     const {
@@ -77,16 +79,38 @@ export default observer(function PersonalDetails() {
                     <FontAwesomeIcon icon={faTruck} />
                     Preferred delivery address
                 </h3>
-                {!user.deliveryAddress && (
-                    <a
-                        href=""
-                        onClick={(e: any) => {
-                            e.preventDefault();
-                        }}
-                    >
-                        Add delivery address
-                    </a>
-                )}
+                {user.deliveryAddress ?
+                    <>
+                        <p>{user.deliveryAddress.country}</p>
+                        <p>{`${user.deliveryAddress.city}, ${user.deliveryAddress.postCode}`}</p>
+                        <p>{user.deliveryAddress.street}</p>
+                        <Button
+                            content="Update delivery address"
+                            size="small"
+                            basic
+                            onClick={() =>
+                                drawerStore.openDrawer(
+                                    <UpdateDeliveryAddress />,
+                                    'Update delivery address',
+                                    'white'
+                                )
+                            }
+                        />
+                    </> : (
+                        <a
+                            href=""
+                            onClick={(e: any) => {
+                                e.preventDefault();
+                                drawerStore.openDrawer(
+                                    <AddDeliveryAddress />,
+                                    'Add delivery address information',
+                                    'white'
+                                )
+                            }}
+                        >
+                            Add delivery address
+                        </a>
+                    )}
                 <Divider />
                 <Button
                     negative

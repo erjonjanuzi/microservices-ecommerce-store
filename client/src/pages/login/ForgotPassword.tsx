@@ -15,48 +15,52 @@ export default observer(function ForgotPassword() {
         email: Yup.string().email('Email must be valid').required('Please fill out this field'),
     });
 
-    useEffect(() => {}, [emailSent]);
+    useEffect(() => { }, [emailSent]);
 
     return emailSent ? (
         <>
-            <h1>check your email</h1>
+            <div style={{ minHeight: '100vh', marginTop: '50px' }}>
+                <h1>check your email</h1>
+            </div>
         </>
     ) : (
-        <Formik
-            initialValues={{ email: '', error: null }}
-            onSubmit={(values, { setErrors }) =>
-                userStore
-                    .forgotPassword(values)
-                    .then(() => setEmailSent(true))
-                    .catch((error) => {
-                        setErrors({ error });
-                    })
-            }
-            validationSchema={validationSchema}
-        >
-            {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
-                <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
-                    <MyTextInput
-                        name="email"
-                        placeholder="john@applesed.com"
-                        label="Email"
-                        type="email"
-                        required
-                    />
-                    <ErrorMessage
-                        name="error"
-                        render={() => <ValidationErrors errors={errors.error} />}
-                    />
-                    <Button
-                        loading={isSubmitting}
-                        secondary
-                        content="Send"
-                        type="submit"
-                        fluid
-                        disabled={!dirty || !isValid}
-                    />
-                </Form>
-            )}
-        </Formik>
+        <div style={{ minHeight: '100vh', marginTop: '50px' }}>
+            <Formik
+                initialValues={{ email: '', error: null }}
+                onSubmit={(values, { setErrors }) =>
+                    userStore
+                        .forgotPassword(values)
+                        .then(() => setEmailSent(true))
+                        .catch((error) => {
+                            setErrors({ error });
+                        })
+                }
+                validationSchema={validationSchema}
+            >
+                {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
+                    <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
+                        <MyTextInput
+                            name="email"
+                            placeholder="john@applesed.com"
+                            label="Email"
+                            type="email"
+                            required
+                        />
+                        <ErrorMessage
+                            name="error"
+                            render={() => <ValidationErrors errors={errors.error} />}
+                        />
+                        <Button
+                            loading={isSubmitting}
+                            secondary
+                            content="Send"
+                            type="submit"
+                            fluid
+                            disabled={!dirty || !isValid}
+                        />
+                    </Form>
+                )}
+            </Formik>
+        </div>
     );
 });

@@ -29,6 +29,12 @@ interface UserDoc extends mongoose.Document {
         postalCode: string;
         street: string;
     };
+    deliveryAddress: {
+        country: string;
+        city: string;
+        postCode: string;
+        street: string;
+    }
     role: Roles;
     emailConfirmed: boolean;
     version: number;
@@ -78,6 +84,20 @@ const userSchema = new mongoose.Schema(
             street: {
                 type: String,
                 required: true,
+            },
+        },
+        deliveryAddress: {
+            country: {
+                type: String,
+            },
+            city: {
+                type: String,
+            },
+            postCode: {
+                type: String,
+            },
+            street: {
+                type: String,
             },
         },
         role: {

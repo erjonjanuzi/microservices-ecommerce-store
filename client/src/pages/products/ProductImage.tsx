@@ -1,36 +1,43 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { Loader } from 'semantic-ui-react';
-import { Product } from '../../app/models/product';
 import { useStore } from '../../app/stores/store';
 import ProductImageViewer from './ProductImageViewer';
 
 interface Props {
-    product: Product;
+    images: [{
+        url: string;
+        isMain?: boolean | undefined;
+    }];
 }
 
-export default observer(function ProductImage({ product }: Props) {
-    const {modalStore} = useStore();
+export default observer(function ProductImage({ images }: Props) {
+    const { modalStore } = useStore();
 
-    const [selectedImage, setSelectedImage] = useState<string>(product.images[0].url);
+    const [selectedImage, setSelectedImage] = useState<string>();
+    const [loadingInitial, setLoadingInitial] = useState(true);
 
-    useEffect(() => {}, [selectedImage]);
+    useEffect(() => {
+        setSelectedImage(images[0].url);
+        setLoadingInitial(false);
+    }, [images]);
 
-    if (!product) return <Loader active />;
+    if (!images || loadingInitial) return <Loader active />;
 
     return (
         <>
             <div
                 style={{
                     width: '100%',
-                    height: '600px',
+                    height: '400px',
                     textAlign: 'center',
                     verticalAlign: 'center',
                     backgroundColor: 'white',
-                    border: '1px solid #4d4f52',
+                    border: '1px solid #cfcfcf',
+                    marginBottom: '10px',
                     cursor: 'pointer',
                 }}
-                onClick={() => modalStore.openModal(<ProductImageViewer images={product.images} />, 'large', 'white')}
+                onClick={() => modalStore.openModal(<ProductImageViewer images={images} />, 'large', 'white')}
             >
                 <img
                     src={selectedImage}
@@ -49,28 +56,31 @@ export default observer(function ProductImage({ product }: Props) {
                     flexWrap: 'wrap',
                 }}
             >
-                {product.images.slice(0, 3).map((image) => {
+                {images.slice(0, 6).map((image) => {
                     return (
-                        <div
-                            key={image.url}
-                            style={{
-                                width: '100px',
-                                height: '100px',
-                                textAlign: 'center',
-                                position: 'relative',
-                                border: '1px solid grey',
-                            }}
-                            onClick={() => setSelectedImage(image.url)}
-                        >
-                            <img
-                                src={image.url}
+                        <>
+                            <div
+                                key={image.url}
                                 style={{
-                                    maxWidth: '100%',
-                                    maxHeight: '100%',
-                                    verticalAlign: 'middle',
+                                    width: '70px',
+                                    margin: '0 3px 0 3px',
+                                    height: '70px',
+                                    textAlign: 'center',
+                                    position: 'relative',
+                                    border: '1px solid #cfcfcf',
                                 }}
-                            />
-                        </div>
+                                onClick={() => setSelectedImage(image.url)}
+                            >
+                                <img
+                                    src={image.url}
+                                    style={{
+                                        maxWidth: '100%',
+                                        maxHeight: '100%',
+                                        verticalAlign: 'middle',
+                                    }}
+                                />
+                            </div>
+                        </>
                     );
                 })}
             </div>

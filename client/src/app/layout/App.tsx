@@ -11,7 +11,7 @@ import NotFound from '../../pages/errors/NotFoundError';
 import HomePage from '../../pages/home/HomePage';
 import LoadingComponent from './LoadingComponent';
 import NavBar from './NavBar';
-import { Container } from 'semantic-ui-react';
+import { Container, Segment } from 'semantic-ui-react';
 import CartPage from '../../pages/cart/CartPage';
 import WishlistPage from '../../pages/wishlist/WishlistPage';
 import Products from '../../pages/products/Products';
@@ -27,12 +27,20 @@ import CustomerRoute from './CustomerRoute';
 import Account from '../../pages/account/Account';
 import ForgotPassword from '../../pages/login/ForgotPassword';
 import ResetPassword from '../../pages/login/ResetPassword';
+import CheckoutPage from '../../pages/order-checkout/CheckoutPage';
+import PayOrder from '../../pages/order-checkout/PayOrder';
+import OrderSuccess from '../../pages/order-checkout/OrderSuccess';
+import EmailConfirmedScreen from '../../pages/account/EmailConfirmedScreen';
+import ProductSearchScreen from '../../pages/products/ProductSearchScreen';
+import CategoriesBar from './CategoriesBar';
+import Footer from './Footer';
 
 function App() {
     const { commonStore, userStore } = useStore();
 
     useEffect(() => {
         userStore.getUser().finally(() => commonStore.setAppLoaded());
+        commonStore.setAppLoaded();
     }, [commonStore, userStore]);
 
     if (!commonStore.appLoaded) return <LoadingComponent content="Loading app..." />;
@@ -50,15 +58,20 @@ function App() {
                 ) : (
                     <>
                         <NavBar />
+                        <CategoriesBar />
                         <Container>
                             <Switch>
                                 <Route exact path="/" component={HomePage} />
-                                <Route exact path="/products" component={Products} />
                                 <Route exact path="/products/:id" component={ProductPage} />
+                                <Route path="/products" component={Products} />
                                 <Route exact path="/cart" component={CartPage} />
+                                <Route exact path="/checkout" component={CheckoutPage} />
+                                <Route exact path='/checkout/pay/:id' component={PayOrder} />
                                 <Route exact path="/wishlist" component={WishlistPage} />
                                 <Route exact path="/login" component={LoginPage} />
                                 <Route exact path="/forgotpassword" component={ForgotPassword} />
+                                <Route path='/orders' component={OrderSuccess} />
+                                <Route path='/emailConfirmed' component={EmailConfirmedScreen} />
                                 <Route
                                     exact
                                     path="/forgotpassword/reset"
@@ -70,6 +83,7 @@ function App() {
                                 <Route component={NotFound} />
                             </Switch>
                         </Container>
+                        <Footer />
                     </>
                 )}
             </Switch>

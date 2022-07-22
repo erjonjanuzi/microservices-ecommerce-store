@@ -15,11 +15,12 @@ import { natsWrapper } from '../natsWrapper';
 const router = express.Router();
 
 router.put(
-    '/api/products/:productId',
+    '/api/products/update/:productId',
     requireAuth,
     adminRoute,
     [
         body('title').not().isEmpty().withMessage('Title is required'),
+        body('manufacturer').not().isEmpty().withMessage('Manufacturer is required'),
         body('price')
             .isFloat({ gt: 0 })
             .withMessage('Price must be greater than zero'),
@@ -30,28 +31,28 @@ router.put(
             .isEmpty()
             .withMessage('Description is required'),
         body('category').not().isEmpty().withMessage('Category is required'),
-        body('images')
-            .isArray({ min: 1 })
-            .withMessage('At least one image is required'),
+        body('sale').not().isEmpty().withMessage('Sale is required'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-        const product = await Product.findById(req.params.productId);
+        const {productId} = req.params;
+
+        const product = await Product.findById(productId);
 
         if (!product) {
             throw new NotFoundError();
         }
 
-        const { title, price, quantity, description, category, images, sale } =
+        const { title, manufacturer, price, quantity, description, category, sale } =
             req.body;
 
         product.set({
             title,
+            manufacturer,
             price,
             quantity,
             description,
             category,
-            images,
             sale,
         });
         await product.save();

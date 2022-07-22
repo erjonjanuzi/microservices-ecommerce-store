@@ -1,12 +1,13 @@
-import { NotFoundError, requireAuth, validateRequest } from '@labcourseapp/common';
+import { BadRequestError, NotFoundError, requireAuth, validateRequest } from '@labcourseapp/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { Cart } from '../models/cart';
+import { Product } from '../models/product';
 
 const router = express.Router();
 
 router.put(
-    '/api/cart',
+    '/api/cart/removeItem',
     requireAuth,
     [
         body('productId')
@@ -20,10 +21,14 @@ router.put(
     async (req: Request, res: Response) => {
         const { productId } = req.body;
 
-        const cart = await Cart.findOne({ userId: req.currentUser!.id}).populate('products.product');
+        const product = await Product.findById(productId);
+        if (!product) {
+            throw new BadRequestError('Product requested for removal does not exist');
+        }
 
-        console.log('cart', cart);
-        if (!cart){
+        const cart = await Cart.findOne({ userId: req.currentUser!.id }).populate('products.product');
+
+        if (!cart) {
             throw new NotFoundError();
         }
 
@@ -39,4 +44,4 @@ router.put(
     }
 );
 
-export { router as removeFromCartRoute};
+export { router as removeFromCartRoute };

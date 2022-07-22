@@ -2,22 +2,38 @@ import { Admin } from './models/admin';
 
 export class Seed {
     static async init() {
-        const adminObj = {
-            firstName: 'Erjon',
-            lastName: 'Januzi',
-            email: 'erjonjanuzi@gmail.com',
-            password: 'Pa$$w0rd',
-        };
+        const adminUsers = [
+            {
+                firstName: 'Erjon',
+                lastName: 'Januzi',
+                email: 'erjonjanuzi@gmail.com',
+                password: 'Pa$$w0rd',
+            },
 
-        const { firstName, lastName, email, password } = adminObj;
+            {
+                firstName: 'Engjell',
+                lastName: 'Avdiu',
+                email: 'engjellavdiu@gmail.com',
+                password: 'Pa$$w0rd',
+            },
+        ];
 
-        const existingUser = await Admin.findOne({ email });
+        adminUsers.forEach(async (user) => {
+            const { firstName, lastName, email, password } = user;
 
-        if (existingUser) {
-            return;
-        }
+            const existingUser = await Admin.findOne({ email });
 
-        const admin = Admin.build({ firstName, lastName, email, password });
-        await admin.save();
+            if (existingUser) {
+                return;
+            }
+
+            const admin = Admin.build({
+                firstName,
+                lastName,
+                email,
+                password,
+            });
+            await admin.save();
+        });
     }
 }

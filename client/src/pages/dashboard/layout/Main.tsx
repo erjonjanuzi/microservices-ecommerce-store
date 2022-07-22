@@ -3,8 +3,10 @@ import { Switch, useLocation } from 'react-router-dom';
 import { Container, Dropdown, Label } from 'semantic-ui-react';
 import PrivateRoute from '../../../app/layout/PrivateRoute';
 import { useStore } from '../../../app/stores/store';
+import Categories from '../categories/Categories';
 import Customers from '../customers/Customers';
 import Dashboard from '../dashboardoverview/Dashboard';
+import Orders from '../orders/Orders';
 import Products from '../products/Products';
 import Profile from '../settings/Profile';
 import Staff from '../staff/Staff';
@@ -35,9 +37,9 @@ export default observer(function Main() {
                 }}
             >
                 <div>
-                    <h1>🛍 Zebra51</h1>
+                    <h1>🛍️Zebra51</h1>
                 </div>
-                {/* <div>
+                <div>
                     <Label
                         circular
                         content={user.firstName[0] + user.lastName[0]}
@@ -50,7 +52,7 @@ export default observer(function Main() {
                             <Dropdown.Item text="Logout" icon="power" />
                         </Dropdown.Menu>
                     </Dropdown>
-                </div> */}
+                </div>
             </div>
             <Sidebar />
             <div className="myScrollableDiv" style={{ padding: '30px' }}>
@@ -58,8 +60,10 @@ export default observer(function Main() {
                     <Switch>
                         <PrivateRoute exact path="/dashboard/staff" component={Staff} />
                         <PrivateRoute exact path="/dashboard/customers" component={Customers} />
+                        <PrivateRoute exact path="/dashboard/categories" component={Categories} />
                         <PrivateRoute exact path="/dashboard/settings" component={Profile} />
                         <PrivateRoute exact path='/dashboard/products' component={Products} />
+                        <PrivateRoute exact path='/dashboard/orders' component={Orders} />
                         <PrivateRoute path="/dashboard" component={Dashboard} />
                     </Switch>
                 </Container>
